@@ -55,9 +55,30 @@ public class AdminStrategy implements UserStrategy {
     @Override
     public List<UserDto> findAll() {
 
-        userRepository.findByType();
+        List<Admin> results = userRepository.findAllUserAdmin();
 
-        return List.of();
+        return results.stream()
+                .map(this::convertAdminToUserDto)
+                .toList();
+    }
+
+    @Override
+    public UserDto findByOid(String oid) {
+        return userRepository.findAdminByOid(oid)
+                .map(this::convertAdminToUserDto)
+                .orElse(null);
+    }
+
+    private UserDto convertAdminToUserDto(Admin admin) {
+        User user = admin.getUser();
+        UserDto dto = new UserDto();
+
+        dto.setOid(user.getOid());
+        dto.setEmail(user.getEmail());
+        dto.setName(admin.getName());
+        dto.setUserType(UserDto.Type.ADMIN);
+
+        return dto;
     }
 
     public Boolean isUserDtoValid(UserDto userDto) {

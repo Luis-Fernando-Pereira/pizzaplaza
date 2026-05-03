@@ -1,6 +1,7 @@
 package br.com.pizzaplaza.userservice.strategies;
 
 import br.com.pizzaplaza.entity.enums.UserType;
+import br.com.pizzaplaza.entity.systemactor.Admin;
 import br.com.pizzaplaza.userservice.interfaces.UserStrategy;
 import br.com.pizzaplaza.userservice.repository.ClientRepository;
 import br.com.pizzaplaza.userservice.repository.UserRepository;
@@ -73,9 +74,34 @@ public class ClientStrategy implements UserStrategy {
         return UserType.CLIENT.equals(userType);
     }
 
+
     @Override
     public List<UserDto> findAll() {
-        return List.of();
+
+        List<Client> results = userRepository.findAllUserClient();
+
+        return results.stream()
+                .map(this::convertClientToUserDto)
+                .toList();
+    }
+
+    @Override
+    public UserDto findByOid(String oid) {
+        return userRepository.findClientByOid(oid)
+                .map(this::convertClientToUserDto)
+                .orElse(null);
+    }
+
+    private UserDto convertClientToUserDto(Client client) {
+        User user = client.getUser();
+        UserDto dto = new UserDto();
+
+        dto.setOid(user.getOid());
+        dto.setEmail(user.getEmail());
+        dto.setName(client.getName());
+        dto.setUserType(UserDto.Type.ADMIN);
+
+        return dto;
     }
 
     @Transactional

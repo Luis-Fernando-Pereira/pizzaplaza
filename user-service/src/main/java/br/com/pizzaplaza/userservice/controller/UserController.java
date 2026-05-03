@@ -15,6 +15,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.net.URI;
+import java.util.List;
 
 @ApplicationScoped
 @Path("/users")
@@ -104,17 +105,15 @@ public class UserController {
 
     @GET
     @Path("/admin")
-    @RolesAllowed({"admin", "seller"})
+    @RolesAllowed("admin")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAllAdmin() {
 
         try {
 
-            userDto = userService.findAll(adminStrategy);
+            List<UserDto> users = userService.findAll(adminStrategy);
 
-            URI uri = URI.create("/users/" + userDto.getOid());
-
-            return Response.created(uri).entity(userDto).build();
+            return Response.ok(users).build();
 
         } catch (Exception e) {
 
@@ -127,7 +126,7 @@ public class UserController {
 
     @GET
     @Path("/admin/{oid}")
-    @RolesAllowed({"admin", "seller"})
+    @RolesAllowed("admin")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAdmin(@PathParam("oid") String oid) {
 

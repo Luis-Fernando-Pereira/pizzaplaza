@@ -6,6 +6,8 @@ import io.quarkus.security.UnauthorizedException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
+import java.util.List;
+
 @ApplicationScoped
 public class UserService {
 
@@ -25,15 +27,16 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto findAll(UserStrategy strategy) throws Exception {
+    public List<UserDto> findAll(UserStrategy strategy) throws Exception {
 
-        strategy = strategy;
+        return strategy.findAll();
 
-        if (userTypeNotSupported(userDto)) {
-            throw new UnauthorizedException();
-        }
+    }
 
-        return strategy.save(userDto);
+    @Transactional
+    public UserDto findByOid(UserStrategy strategy, String oid) throws Exception {
+
+        return strategy.findByOid(oid);
 
     }
 
