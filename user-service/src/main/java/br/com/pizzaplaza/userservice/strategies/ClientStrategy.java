@@ -1,12 +1,11 @@
 package br.com.pizzaplaza.userservice.strategies;
 
-import br.com.pizzaplaza.entity.dto.UserDto;
+import br.com.pizzaplaza.entity.dtos.UserDto;
 import br.com.pizzaplaza.entity.enums.UserType;
-import br.com.pizzaplaza.entity.systemactor.Client;
-import br.com.pizzaplaza.entity.systemactor.User;
-import br.com.pizzaplaza.userservice.interfaces.UserStrategy;
+import br.com.pizzaplaza.entity.actors.Client;
+import br.com.pizzaplaza.entity.actors.User;
+import br.com.pizzaplaza.userservice.interfaces.ActorStrategy;
 import br.com.pizzaplaza.userservice.repository.ClientRepository;
-import br.com.pizzaplaza.userservice.repository.UserRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -14,7 +13,7 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 
 @ApplicationScoped
-public class ClientStrategy implements UserStrategy {
+public class ClientStrategy implements ActorStrategy {
 
     @Inject
     ClientRepository clientRepository;

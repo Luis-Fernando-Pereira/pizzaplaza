@@ -1,10 +1,9 @@
 package br.com.pizzaplaza.authservice.repository;
 
-import br.com.pizzaplaza.entity.systemactor.User;
+import br.com.pizzaplaza.entity.actors.User;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 
 @ApplicationScoped
 public class UserRepository {

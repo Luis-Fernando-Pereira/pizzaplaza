@@ -1,4 +1,4 @@
-package br.com.pizzaplaza.entity.dto;
+package br.com.pizzaplaza.entity.dtos;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;

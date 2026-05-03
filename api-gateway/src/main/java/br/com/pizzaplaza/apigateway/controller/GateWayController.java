@@ -1,6 +1,6 @@
 package br.com.pizzaplaza.apigateway.controller;
 
-import br.com.pizzaplaza.entity.dto.LoginDto;
+import br.com.pizzaplaza.entity.dtos.LoginDto;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;

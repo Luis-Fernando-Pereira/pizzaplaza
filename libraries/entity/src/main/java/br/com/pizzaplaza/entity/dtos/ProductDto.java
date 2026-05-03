@@ -1,4 +1,4 @@
-package br.com.pizzaplaza.entity.dto;
+package br.com.pizzaplaza.entity.dtos;
 
 public class ProductDto {
     public long id;

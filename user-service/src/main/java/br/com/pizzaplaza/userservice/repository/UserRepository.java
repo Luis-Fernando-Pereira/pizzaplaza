@@ -1,17 +1,11 @@
 package br.com.pizzaplaza.userservice.repository;
 
-import br.com.pizzaplaza.entity.systemactor.Admin;
-import br.com.pizzaplaza.entity.systemactor.Client;
-import br.com.pizzaplaza.entity.systemactor.Seller;
-import br.com.pizzaplaza.entity.systemactor.User;
+import br.com.pizzaplaza.entity.actors.User;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 
-import java.util.List;
 import java.util.Optional;
-
-import static org.eclipse.microprofile.jwt.Claims.email;
 
 @ApplicationScoped
 public class UserRepository {

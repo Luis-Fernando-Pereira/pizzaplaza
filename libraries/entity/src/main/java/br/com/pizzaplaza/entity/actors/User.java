@@ -1,6 +1,5 @@
-package br.com.pizzaplaza.entity.systemactor;
+package br.com.pizzaplaza.entity.actors;
 
-import br.com.pizzaplaza.entity.fatherofall.Odin;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

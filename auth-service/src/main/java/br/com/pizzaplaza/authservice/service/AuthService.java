@@ -1,8 +1,8 @@
 package br.com.pizzaplaza.authservice.service;
 
 import br.com.pizzaplaza.authservice.repository.UserRepository;
-import br.com.pizzaplaza.entity.dto.LoginDto;
-import br.com.pizzaplaza.entity.systemactor.User;
+import br.com.pizzaplaza.entity.dtos.LoginDto;
+import br.com.pizzaplaza.entity.actors.User;
 import br.com.pizzaplaza.util.PasswordUtil;
 import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;

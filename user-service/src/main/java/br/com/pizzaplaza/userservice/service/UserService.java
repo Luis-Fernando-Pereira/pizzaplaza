@@ -1,10 +1,10 @@
 package br.com.pizzaplaza.userservice.service;
 
-import br.com.pizzaplaza.entity.dto.UserDto;
+import br.com.pizzaplaza.entity.dtos.UserDto;
 import br.com.pizzaplaza.entity.enums.UserType;
-import br.com.pizzaplaza.entity.systemactor.User;
+import br.com.pizzaplaza.entity.actors.User;
 import br.com.pizzaplaza.userservice.factory.UserFactory;
-import br.com.pizzaplaza.userservice.interfaces.UserStrategy;
+import br.com.pizzaplaza.userservice.interfaces.ActorStrategy;
 import br.com.pizzaplaza.userservice.repository.UserRepository;
 import br.com.pizzaplaza.util.ValidationUtils;
 import io.quarkus.security.UnauthorizedException;
@@ -17,7 +17,6 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.NotFoundException;
 import org.jspecify.annotations.NonNull;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,14 +34,14 @@ public class UserService {
     UserFactory userFactory;
 
     @Inject
-    private Instance<UserStrategy> strategies;
+    private Instance<ActorStrategy> strategies;
 
-    private Map<UserType, UserStrategy> strategyMap;
+    private Map<UserType, ActorStrategy> strategyMap;
 
     @PostConstruct
     void init() {
         strategyMap = new HashMap<>();
-        for (UserStrategy strategy : strategies) {
+        for (ActorStrategy strategy : strategies) {
             strategyMap.put(strategy.getType(), strategy);
         }
     }
@@ -57,7 +56,7 @@ public class UserService {
 
         user = userRepository.save(user);
 
-        UserStrategy strategy = getUserStrategy(type);
+        ActorStrategy strategy = getUserStrategy(type);
 
         return strategy.save(userDto, user);
 
@@ -85,7 +84,7 @@ public class UserService {
 
         user = userRepository.update(user);
 
-        UserStrategy strategy = getUserStrategy(type);
+        ActorStrategy strategy = getUserStrategy(type);
 
         return strategy.update(userDto, user);
 
@@ -112,13 +111,13 @@ public class UserService {
     @Transactional
     public void delete(String oid, UserType type) {
 
-        UserStrategy strategy = getUserStrategy(type);
+        ActorStrategy strategy = getUserStrategy(type);
 
         strategy.delete(oid);
 
     }
 
-    private void validateStrategy(UserType type, UserStrategy strategy) {
+    private void validateStrategy(UserType type, ActorStrategy strategy) {
         if (strategy == null) {
             throw new IllegalArgumentException("Tipo inválido: " + type);
         }
@@ -126,7 +125,7 @@ public class UserService {
 
     public List<UserDto> findAll(UserType type) {
 
-        UserStrategy strategy = getUserStrategy(type);
+        ActorStrategy strategy = getUserStrategy(type);
 
         return strategy.findAll();
 
@@ -134,14 +133,14 @@ public class UserService {
 
     public UserDto findByOid(UserType type, String oid) {
 
-        UserStrategy strategy = getUserStrategy(type);
+        ActorStrategy strategy = getUserStrategy(type);
 
         return strategy.findByOid(oid);
 
     }
 
-    private @NonNull UserStrategy getUserStrategy(UserType type) {
-        UserStrategy strategy = strategyMap.get(type);
+    private @NonNull ActorStrategy getUserStrategy(UserType type) {
+        ActorStrategy strategy = strategyMap.get(type);
 
         validateStrategy(type, strategy);
         return strategy;

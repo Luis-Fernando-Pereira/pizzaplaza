@@ -1,7 +1,7 @@
 package br.com.pizzaplaza.userservice.factory;
 
-import br.com.pizzaplaza.entity.dto.UserDto;
-import br.com.pizzaplaza.entity.systemactor.User;
+import br.com.pizzaplaza.entity.dtos.UserDto;
+import br.com.pizzaplaza.entity.actors.User;
 import br.com.pizzaplaza.util.PasswordUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 

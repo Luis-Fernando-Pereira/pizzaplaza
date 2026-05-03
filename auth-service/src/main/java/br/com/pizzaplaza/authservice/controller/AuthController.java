@@ -1,8 +1,8 @@
 package br.com.pizzaplaza.authservice.controller;
 
 import br.com.pizzaplaza.authservice.service.AuthService;
-import br.com.pizzaplaza.entity.dto.LoginDto;
-import br.com.pizzaplaza.entity.systemactor.User;
+import br.com.pizzaplaza.entity.dtos.LoginDto;
+import br.com.pizzaplaza.entity.actors.User;
 import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

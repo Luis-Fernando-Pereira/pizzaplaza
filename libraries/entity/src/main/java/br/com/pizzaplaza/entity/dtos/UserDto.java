@@ -1,4 +1,4 @@
-package br.com.pizzaplaza.entity.dto;
+package br.com.pizzaplaza.entity.dtos;
 
 import br.com.pizzaplaza.entity.fatherofall.OdinDto;
 import jakarta.validation.constraints.Email;

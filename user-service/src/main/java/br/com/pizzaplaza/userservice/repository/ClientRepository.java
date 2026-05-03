@@ -1,12 +1,9 @@
 package br.com.pizzaplaza.userservice.repository;
 
-import br.com.pizzaplaza.entity.systemactor.Admin;
-import br.com.pizzaplaza.entity.systemactor.Client;
-import br.com.pizzaplaza.entity.systemactor.Seller;
+import br.com.pizzaplaza.entity.actors.Client;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 
 import java.util.List;
 import java.util.Optional;

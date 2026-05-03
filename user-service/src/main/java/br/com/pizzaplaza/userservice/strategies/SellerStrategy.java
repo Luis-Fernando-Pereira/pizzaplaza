@@ -1,16 +1,16 @@
 package br.com.pizzaplaza.userservice.strategies;
 
-import br.com.pizzaplaza.entity.dto.UserDto;
+import br.com.pizzaplaza.entity.dtos.UserDto;
 import br.com.pizzaplaza.entity.enums.UserType;
-import br.com.pizzaplaza.entity.systemactor.Seller;
-import br.com.pizzaplaza.entity.systemactor.User;
-import br.com.pizzaplaza.userservice.interfaces.UserStrategy;
+import br.com.pizzaplaza.entity.actors.Seller;
+import br.com.pizzaplaza.entity.actors.User;
+import br.com.pizzaplaza.userservice.interfaces.ActorStrategy;
 import br.com.pizzaplaza.userservice.repository.SellerRepository;
 import jakarta.inject.Inject;
 
 import java.util.List;
 
-public class SellerStrategy implements UserStrategy {
+public class SellerStrategy implements ActorStrategy {
 
     @Inject
     SellerRepository sellerRepository;

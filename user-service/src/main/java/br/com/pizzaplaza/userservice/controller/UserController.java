@@ -1,6 +1,6 @@
 package br.com.pizzaplaza.userservice.controller;
 
-import br.com.pizzaplaza.entity.dto.UserDto;
+import br.com.pizzaplaza.entity.dtos.UserDto;
 import br.com.pizzaplaza.entity.enums.UserType;
 import br.com.pizzaplaza.userservice.service.UserService;
 import jakarta.annotation.security.PermitAll;
