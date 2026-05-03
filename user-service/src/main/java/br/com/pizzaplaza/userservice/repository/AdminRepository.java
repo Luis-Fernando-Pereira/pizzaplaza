@@ -20,6 +20,10 @@ public class AdminRepository {
         return admin;
     }
 
+    public Admin update(Admin admin) {
+        return em.merge(admin);
+    }
+
     public void delete(Admin admin) {
         em.remove(admin);
     }
@@ -31,6 +35,16 @@ public class AdminRepository {
     public Optional<Admin> findByOid(String oid) {
         return em.createQuery(
                         "SELECT a FROM Admin a LEFT JOIN FETCH a.user WHERE a.oid = :oid",
+                        Admin.class
+                )
+                .setParameter("oid", oid)
+                .getResultStream()
+                .findFirst();
+    }
+
+    public Optional<Admin> findByUserOid(String oid) {
+        return em.createQuery(
+                        "SELECT a FROM Admin a LEFT JOIN FETCH a.user u WHERE u.oid = :oid",
                         Admin.class
                 )
                 .setParameter("oid", oid)

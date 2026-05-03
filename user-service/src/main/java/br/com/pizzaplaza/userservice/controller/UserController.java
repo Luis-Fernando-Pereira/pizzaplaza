@@ -45,6 +45,29 @@ public class UserController {
         }
     }
 
+    @Path("/{type}")
+    @PUT
+    @PermitAll
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response put(@PathParam("type") String type, @Valid UserDto userDto) {
+        try {
+
+            UserType userType = UserType.valueOf(type.toUpperCase());
+
+            UserDto saved = userService.save(userDto, userType);
+
+            return Response.created(createUri(saved)).entity(saved).build();
+
+        } catch (Exception e) {
+
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
+
+        }
+    }
+
     @GET
     @Path("/{type}")
     @RolesAllowed("admin")

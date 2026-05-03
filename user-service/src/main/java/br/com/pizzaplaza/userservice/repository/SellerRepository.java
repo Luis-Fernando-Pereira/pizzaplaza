@@ -1,6 +1,7 @@
 package br.com.pizzaplaza.userservice.repository;
 
 import br.com.pizzaplaza.entity.systemactor.Admin;
+import br.com.pizzaplaza.entity.systemactor.Client;
 import br.com.pizzaplaza.entity.systemactor.Seller;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -17,6 +18,20 @@ public class SellerRepository {
 
     public void delete(Seller seller) {
         em.remove(seller);
+    }
+
+    public Optional<Seller> findByUserOid(String oid) {
+        return em.createQuery(
+                        "SELECT s FROM Seller s LEFT JOIN FETCH s.user u WHERE u.oid = :oid",
+                        Seller.class
+                )
+                .setParameter("oid", oid)
+                .getResultStream()
+                .findFirst();
+    }
+
+    public Seller update(Seller client) {
+        return em.merge(client);
     }
 
     public Seller save(Seller seller) {

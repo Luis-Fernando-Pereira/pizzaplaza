@@ -1,17 +1,12 @@
 package br.com.pizzaplaza.userservice.strategies;
 
+import br.com.pizzaplaza.entity.dto.UserDto;
 import br.com.pizzaplaza.entity.enums.UserType;
-import br.com.pizzaplaza.entity.systemactor.Admin;
+import br.com.pizzaplaza.entity.systemactor.Client;
+import br.com.pizzaplaza.entity.systemactor.User;
 import br.com.pizzaplaza.userservice.interfaces.UserStrategy;
 import br.com.pizzaplaza.userservice.repository.ClientRepository;
 import br.com.pizzaplaza.userservice.repository.UserRepository;
-import br.com.pizzaplaza.entity.dto.UserDto;
-import br.com.pizzaplaza.entity.systemactor.Client;
-import br.com.pizzaplaza.entity.systemactor.User;
-import br.com.pizzaplaza.util.PasswordUtil;
-import io.quarkus.security.UnauthorizedException;
-import io.vertx.core.cli.InvalidValueException;
-import io.vertx.core.cli.Option;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -22,25 +17,11 @@ import java.util.List;
 public class ClientStrategy implements UserStrategy {
 
     @Inject
-    UserRepository userRepository;
-
-    @Inject
     ClientRepository clientRepository;
 
     @Override
     @Transactional
-    public UserDto save(UserDto userDto) {
-
-        User user = new User();
-
-        user.setEmail(userDto.email);
-        user.setPassword(PasswordUtil.hash(userDto.password));
-        user.setAuthenticated(false);
-        user.setName(userDto.getName());
-        user.setCpf(userDto.getCpf());
-
-        userRepository.save(user);
-
+    public UserDto save(UserDto userDto, User user) {
         Client client = new Client();
 
         client.setUser(user);
@@ -58,6 +39,16 @@ public class ClientStrategy implements UserStrategy {
                 .orElseThrow(() -> new IllegalArgumentException("Admin não encontrado: " + oid));
 
         clientRepository.delete(client);
+    }
+
+    @Override
+    public UserDto update(UserDto userDto, User user) {
+        Client client = clientRepository.findByUserOid(user.getOid())
+                .orElseThrow(() -> new IllegalArgumentException("Admin não encontrado: " + userDto.getOid()));
+
+        client = clientRepository.update(client);
+
+        return convertClientToUserDto(client);
     }
 
     @Override
@@ -88,8 +79,9 @@ public class ClientStrategy implements UserStrategy {
 
         dto.setOid(user.getOid());
         dto.setEmail(user.getEmail());
+        dto.setCpf(user.getCpf());
         dto.setName(user.getName());
-        dto.setUserType(UserDto.Type.ADMIN);
+        dto.setUserType(UserDto.Type.CLIENT);
 
         return dto;
     }

@@ -1,15 +1,11 @@
 package br.com.pizzaplaza.userservice.strategies;
 
-import br.com.pizzaplaza.entity.enums.UserType;
-import br.com.pizzaplaza.userservice.interfaces.UserStrategy;
-import br.com.pizzaplaza.userservice.repository.AdminRepository;
-import br.com.pizzaplaza.userservice.repository.UserRepository;
 import br.com.pizzaplaza.entity.dto.UserDto;
+import br.com.pizzaplaza.entity.enums.UserType;
 import br.com.pizzaplaza.entity.systemactor.Admin;
 import br.com.pizzaplaza.entity.systemactor.User;
-import br.com.pizzaplaza.util.PasswordUtil;
-import io.vertx.core.cli.InvalidValueException;
-import io.vertx.core.cli.Option;
+import br.com.pizzaplaza.userservice.interfaces.UserStrategy;
+import br.com.pizzaplaza.userservice.repository.AdminRepository;
 import jakarta.inject.Inject;
 
 import java.util.List;
@@ -17,24 +13,10 @@ import java.util.List;
 public class AdminStrategy implements UserStrategy {
 
     @Inject
-    UserRepository userRepository;
-
-    @Inject
     AdminRepository adminRepository;
 
     @Override
-    public UserDto save(UserDto userDto) {
-
-        User user = new User();
-
-        user.setEmail(userDto.email);
-        user.setPassword(PasswordUtil.hash(userDto.password));
-        user.setAuthenticated(false);
-        user.setName(userDto.getName());
-        user.setCpf(userDto.getCpf());
-
-        userRepository.save(user);
-
+    public UserDto save(UserDto userDto, User user) {
         Admin admin = new Admin();
 
         admin.setUser(user);
@@ -44,6 +26,16 @@ public class AdminStrategy implements UserStrategy {
         userDto.setOid(user.getOid());
 
         return userDto;
+    }
+
+    @Override
+    public UserDto update(UserDto userDto, User user) {
+        Admin admin = adminRepository.findByUserOid(user.getOid())
+                .orElseThrow(() -> new IllegalArgumentException("Admin não encontrado: " + userDto.getOid()));
+
+        admin = adminRepository.update(admin);
+
+        return convertAdminToUserDto(admin);
     }
 
     @Override
@@ -82,6 +74,7 @@ public class AdminStrategy implements UserStrategy {
 
         dto.setOid(user.getOid());
         dto.setEmail(user.getEmail());
+        dto.setCpf(user.getCpf());
         dto.setName(user.getName());
         dto.setUserType(UserDto.Type.ADMIN);
 

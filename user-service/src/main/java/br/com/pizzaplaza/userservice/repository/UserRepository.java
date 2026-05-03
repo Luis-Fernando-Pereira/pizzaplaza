@@ -11,6 +11,8 @@ import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
+import static org.eclipse.microprofile.jwt.Claims.email;
+
 @ApplicationScoped
 public class UserRepository {
 
@@ -22,10 +24,24 @@ public class UserRepository {
         return user;
     }
 
+    public void detach(User user) {
+        em.detach(user);
+    }
+
     public User findByEmail(String email) {
         return em.createQuery("SELECT u from User u where u.email = :email", User.class)
                 .setParameter("email", email)
                 .getSingleResult();
+    }
+
+    public Optional<User> findByOid(String oid) {
+        return em.createQuery(
+                        "SELECT u FROM User u WHERE u.oid = :oid",
+                        User.class
+                )
+                .setParameter("oid", oid)
+                .getResultStream()
+                .findFirst();
     }
 
     public Boolean isEmailInUse(String email) {
@@ -38,12 +54,6 @@ public class UserRepository {
         return em.createQuery("SELECT count(u) from User u where u.cpf = :cpf", Long.class)
                 .setParameter("cpf", cpf)
                 .getSingleResult() > 0;
-    }
-
-    public Boolean emailAlreadyInUse(String email) {
-        return em.createQuery("SELECT u from User u where u.email = :email", User.class)
-                .setParameter("email", email)
-                .getSingleResult() != null;
     }
 
     public User update(User user) {

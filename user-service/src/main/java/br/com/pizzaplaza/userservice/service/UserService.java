@@ -2,6 +2,8 @@ package br.com.pizzaplaza.userservice.service;
 
 import br.com.pizzaplaza.entity.dto.UserDto;
 import br.com.pizzaplaza.entity.enums.UserType;
+import br.com.pizzaplaza.entity.systemactor.User;
+import br.com.pizzaplaza.userservice.factory.UserFactory;
 import br.com.pizzaplaza.userservice.interfaces.UserStrategy;
 import br.com.pizzaplaza.userservice.repository.UserRepository;
 import br.com.pizzaplaza.util.ValidationUtils;
@@ -12,6 +14,7 @@ import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.ws.rs.NotFoundException;
 import org.jspecify.annotations.NonNull;
 
 import java.net.URI;
@@ -27,6 +30,9 @@ public class UserService {
 
     @Inject
     UserRepository userRepository;
+
+    @Inject
+    UserFactory userFactory;
 
     @Inject
     private Instance<UserStrategy> strategies;
@@ -47,17 +53,45 @@ public class UserService {
         isUserDtoValid(userDto);
         validateUserCredentials(userDto);
 
+        User user = userFactory.create(userDto);
+
+        user = userRepository.save(user);
+
         UserStrategy strategy = getUserStrategy(type);
 
-        return strategy.save(userDto);
+        return strategy.save(userDto, user);
+
+    }
+
+    @Transactional
+    public UserDto put(@Valid UserDto userDto, UserType type) {
+
+        isUserDtoValid(userDto);
+
+        User user = userRepository.findByOid(userDto.getOid()).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
+
+        if (cpfInUse(userDto) && !userDto.cpf.equals(user.getCpf())) {
+            throw new IllegalStateException("Já existe um usuário cadastrado com esse CPF.");
+        }
+
+        if (emailInUse(userDto) && !userDto.email.equals(user.getEmail())) {
+            throw new IllegalStateException("Já existe um usuário cadastrado com esse CPF.");
+        }
+
+        user.setCpf(userDto.cpf);
+        user.setName(userDto.name);
+        user.setEmail(userDto.email);
+        user.setPassword(userDto.password);
+
+        user = userRepository.update(user);
+
+        UserStrategy strategy = getUserStrategy(type);
+
+        return strategy.update(userDto, user);
 
     }
 
     public void validateUserCredentials(UserDto userDto) {
-        if (!isUserDtoValid(userDto)) {
-            throw new IllegalArgumentException("Usuário inválido");
-        }
-
         if (emailInUse(userDto)) {
             throw new IllegalStateException("Email já está em uso.");
         }
@@ -113,23 +147,27 @@ public class UserService {
         return strategy;
     }
 
-    public Boolean isUserDtoValid(UserDto userDto) {
+    public void isUserDtoValid(UserDto userDto) {
+        Boolean isDtoValid = true;
+
         if (userDto == null) {
-            return false;
+            isDtoValid = false;
         }
 
         if (!isEmailValid(userDto.email)) {
-            return false;
+            isDtoValid = false;
         }
 
         if (!ValidationUtils.isPasswordValid(userDto.getPassword())) {
-            return false;
+            isDtoValid = false;
         }
 
         if (!isCpfValid(userDto.cpf)) {
-            return false;
+            isDtoValid = false;
         }
 
-        return true;
+        if (!isDtoValid) {
+            throw new IllegalArgumentException("Dados de usuário inválidos");
+        }
     }
 }

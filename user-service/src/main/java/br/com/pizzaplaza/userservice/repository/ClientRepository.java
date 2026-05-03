@@ -26,6 +26,10 @@ public class ClientRepository {
         return client;
     }
 
+    public Client update(Client client) {
+        return em.merge(client);
+    }
+
     public List<Client> findAll() {
         return em.createQuery("SELECT c from Client c LEFT JOIN FETCH c.user", Client.class).getResultList();
     }
@@ -33,6 +37,16 @@ public class ClientRepository {
     public Optional<Client> findByOid(String oid) {
         return em.createQuery(
                         "SELECT c FROM Client c LEFT JOIN FETCH c.user WHERE c.oid = :oid",
+                        Client.class
+                )
+                .setParameter("oid", oid)
+                .getResultStream()
+                .findFirst();
+    }
+
+    public Optional<Client> findByUserOid(String oid) {
+        return em.createQuery(
+                        "SELECT c FROM Client c LEFT JOIN FETCH c.user u WHERE u.oid = :oid",
                         Client.class
                 )
                 .setParameter("oid", oid)
