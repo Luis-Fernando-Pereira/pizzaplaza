@@ -1,0 +1,33 @@
+@startuml C4_Component_ProductService
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Pizza Plaza - Product Service (Component Diagram)
+
+Container(api_gateway, "API Gateway", "Gateway", "Ponto de entrada das APIs")
+
+Container_Boundary(product_microsservice, "Product Service - Quarkus") {
+
+    Component(product_controller, "ProductController", "REST Controller (Quarkus)","Expõe endpoints REST para gerenciamento de produtos")
+
+    Component(product_service, "ProductService", "Serviço de Produtos","Implementa regras de negócio de produtos")
+
+    Component(product_repository, "ProductRepository", "JPA Repository","Persistência de produtos")
+
+    Component(categoria_repository, "CatgoriaRepository", "JPA Repository","Persistência de categorais de produtos")
+
+}
+
+Component(auth, "Auth", "JWT Authentication","Autenticação e autorização de produtos")
+ContainerDb(database, "PostgreSQL", "PostgreSQL 18", "Banco de dados do sistema")
+
+Rel(api_gateway, product_controller, "Chama endpoints REST de gerenciamento de produtos", "HTTPS/JSON")
+Rel(product_controller, product_service, "Gerencia produtos de acordo com regras de negócio", "DTOs")
+Rel(product_service, product_controller, "Retorna resposta", "DTOs")
+Rel(api_gateway, auth, "Valida token JWT para autorização de acesso a endpoints", "HTTPS/JSON")
+Rel(product_service, product_repository, "Chama métodos de persistencia, atualização e consulta de produtos", "ProdutctEntity")
+Rel(product_service, categoria_repository, "Chama métodos de persistencia, atualização e consulta de produtos", "CategoryEntity")
+Rel(categoria_repository, database, "Interage com o banco de dados", "JPA/SQL")
+Rel(product_repository, database, "Interage com o banco de dados", "JPA/SQL")
+
+
+@enduml
