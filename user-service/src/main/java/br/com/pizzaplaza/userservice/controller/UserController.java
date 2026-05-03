@@ -3,9 +3,6 @@ package br.com.pizzaplaza.userservice.controller;
 import br.com.pizzaplaza.entity.dto.UserDto;
 import br.com.pizzaplaza.entity.enums.UserType;
 import br.com.pizzaplaza.userservice.service.UserService;
-import br.com.pizzaplaza.userservice.strategies.AdminStrategy;
-import br.com.pizzaplaza.userservice.strategies.ClientStrategy;
-import br.com.pizzaplaza.userservice.strategies.SellerStrategy;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -25,60 +22,19 @@ public class UserController {
     @Inject
     UserService userService;
 
-    @Path("/client")
+    @Path("/{type}")
     @POST
     @PermitAll
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response newClient(@Valid UserDto userDto) {
+    public Response save(@PathParam("type") String type, @Valid UserDto userDto) {
         try {
 
-            userDto = userService.save(userDto, UserType.CLIENT);
+            UserType userType = UserType.valueOf(type.toUpperCase());
 
-            return Response.created(userService.createUri(userDto)).entity(userDto).build();
+            UserDto saved = userService.save(userDto, userType);
 
-        } catch (Exception e) {
-
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(e.getMessage())
-                    .build();
-
-        }
-    }
-
-    @Path("admin")
-    @POST
-    @RolesAllowed("admin")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response newAdmin(@Valid UserDto userDto) {
-        try {
-
-            userDto = userService.save(userDto, UserType.ADMIN);
-
-            return Response.created(userService.createUri(userDto)).entity(userDto).build();
-
-        } catch (Exception e) {
-
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(e.getMessage())
-                    .build();
-
-        }
-    }
-
-    @Path("seller")
-    @POST
-    @RolesAllowed({"admin", "seller"})
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response newSeller(UserDto userDto) {
-
-        try {
-
-            userDto = userService.save(userDto, UserType.SELLER);
-
-            return Response.created(userService.createUri(userDto)).entity(userDto).build();
+            return Response.created(createUri(saved)).entity(saved).build();
 
         } catch (Exception e) {
 
@@ -90,14 +46,15 @@ public class UserController {
     }
 
     @GET
-    @Path("/admin")
+    @Path("/{type}")
     @RolesAllowed("admin")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findAllAdmin() {
+    public Response findAll(@PathParam("type") String type) {
 
         try {
+            UserType userType = UserType.valueOf(type.toUpperCase());
 
-            List<UserDto> users = userService.findAll(UserType.ADMIN);
+            List<UserDto> users = userService.findAll(userType);
 
             return Response.ok(users).build();
 
@@ -111,14 +68,15 @@ public class UserController {
     }
 
     @GET
-    @Path("/admin/{oid}")
+    @Path("/{type}/{oid}")
     @RolesAllowed("admin")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findAdmin(@PathParam("oid") String oid) {
+    public Response find(@PathParam("type") String type, @PathParam("oid") String oid) {
 
         try {
+            UserType userType = UserType.valueOf(type.toUpperCase());
 
-            UserDto userDto = userService.findByOid(UserType.ADMIN, oid);
+            UserDto userDto = userService.findByOid(userType, oid);
 
             return Response.ok(userDto).build();
 
@@ -131,17 +89,18 @@ public class UserController {
         }
     }
 
-    @GET
-    @Path("/seller")
+    @DELETE
+    @Path("/{type}/{oid}")
     @RolesAllowed("admin")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findAllSeller() {
+    public Response delete(@PathParam("type") String type, @PathParam("oid") String oid) {
 
         try {
+            UserType userType = UserType.valueOf(type.toUpperCase());
 
-            List<UserDto> users = userService.findAll(UserType.SELLER);
+            userService.delete(oid, userType);
 
-            return Response.ok(users).build();
+            return Response.noContent().build();
 
         } catch (Exception e) {
 
@@ -152,66 +111,7 @@ public class UserController {
         }
     }
 
-    @GET
-    @Path("/seller/{oid}")
-    @RolesAllowed("admin")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response findSeller(@PathParam("oid") String oid) {
-
-        try {
-
-            UserDto userDto = userService.findByOid(UserType.SELLER, oid);
-
-            return Response.ok(userDto).build();
-
-        } catch (Exception e) {
-
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(e.getMessage())
-                    .build();
-
-        }
-    }
-
-    @GET
-    @Path("/client")
-    @RolesAllowed("admin")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response findAllClient() {
-
-        try {
-
-            List<UserDto> users = userService.findAll(UserType.CLIENT);
-
-            return Response.ok(users).build();
-
-        } catch (Exception e) {
-
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(e.getMessage())
-                    .build();
-
-        }
-    }
-
-    @GET
-    @Path("/client/{oid}")
-    @RolesAllowed("admin")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response findClient(@PathParam("oid") String oid) {
-
-        try {
-
-            UserDto userDto = userService.findByOid(UserType.CLIENT, oid);
-
-            return Response.ok(userDto).build();
-
-        } catch (Exception e) {
-
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(e.getMessage())
-                    .build();
-
-        }
+    public URI createUri(UserDto userDto) {
+        return URI.create("/users/" + userDto.getOid());
     }
 }

@@ -1,14 +1,21 @@
 package br.com.pizzaplaza.entity.dto;
 
-
 import br.com.pizzaplaza.entity.fatherofall.OdinDto;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 public class UserDto extends OdinDto {
+
+    @NotNull(message = "Nome é obrigatório")
+    @NotBlank(message = "Nome é obrigatório")
     public String name;
+
+    @NotNull(message = "CPF é obrigatório")
+    @NotBlank(message = "CPF é obrigatório")
     public String cpf;
 
     @Email(message = "Email inválido")

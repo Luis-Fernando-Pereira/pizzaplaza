@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class AdminRepository {
@@ -19,11 +20,21 @@ public class AdminRepository {
         return admin;
     }
 
+    public void delete(Admin admin) {
+        em.remove(admin);
+    }
+
     public List<Admin> findAll() {
-        Query query = em.createQuery("select a from Admin a");
+        return em.createQuery("SELECT a FROM Admin a LEFT JOIN FETCH a.user", Admin.class).getResultList();
+    }
 
-        List<Admin> results = query.getResultList();
-
-        return results;
+    public Optional<Admin> findByOid(String oid) {
+        return em.createQuery(
+                        "SELECT a FROM Admin a LEFT JOIN FETCH a.user WHERE a.oid = :oid",
+                        Admin.class
+                )
+                .setParameter("oid", oid)
+                .getResultStream()
+                .findFirst();
     }
 }

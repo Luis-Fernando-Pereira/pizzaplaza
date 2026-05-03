@@ -24,9 +24,6 @@ public class AdminStrategy implements UserStrategy {
 
     @Override
     public UserDto save(UserDto userDto) {
-        if (!isUserDtoValid(userDto)) {
-            throw new InvalidValueException(new Option(),"Usuário inválido");
-        }
 
         User user = new User();
 
@@ -49,6 +46,14 @@ public class AdminStrategy implements UserStrategy {
     }
 
     @Override
+    public void delete(String oid) {
+        Admin admin = adminRepository.findByOid(oid)
+                .orElseThrow(() -> new IllegalArgumentException("Admin não encontrado: " + oid));
+
+        adminRepository.delete(admin);
+    }
+
+    @Override
     public UserType getType() {
         return UserType.ADMIN;
     }
@@ -56,7 +61,7 @@ public class AdminStrategy implements UserStrategy {
     @Override
     public List<UserDto> findAll() {
 
-        List<Admin> results = userRepository.findAllUserAdmin();
+        List<Admin> results = adminRepository.findAll();
 
         return results.stream()
                 .map(this::convertAdminToUserDto)
@@ -65,7 +70,7 @@ public class AdminStrategy implements UserStrategy {
 
     @Override
     public UserDto findByOid(String oid) {
-        return userRepository.findAdminByOid(oid)
+        return adminRepository.findByOid(oid)
                 .map(this::convertAdminToUserDto)
                 .orElse(null);
     }

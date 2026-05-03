@@ -17,48 +17,6 @@ public class UserRepository {
     @Inject
     EntityManager em;
 
-    public Optional<Admin> findAdminByOid(String oid) {
-        return em.createQuery(
-                        "SELECT a FROM Admin a LEFT JOIN FETCH a.user WHERE a.oid = :oid",
-                        Admin.class
-                )
-                .setParameter("oid", oid)
-                .getResultStream()
-                .findFirst();
-    }
-
-    public Optional<Client> findClientByOid(String oid) {
-        return em.createQuery(
-                        "SELECT c FROM Client c LEFT JOIN FETCH c.user WHERE c.oid = :oid",
-                        Client.class
-                )
-                .setParameter("oid", oid)
-                .getResultStream()
-                .findFirst();
-    }
-
-    public Optional<Seller> findSellerByOid(String oid) {
-        return em.createQuery(
-                        "SELECT s FROM Seller s LEFT JOIN FETCH s.user WHERE s.oid = :oid",
-                        Seller.class
-                )
-                .setParameter("oid", oid)
-                .getResultStream()
-                .findFirst();
-    }
-
-    public List<Admin> findAllUserAdmin() {
-        return em.createQuery("SELECT a FROM Admin a LEFT JOIN FETCH a.user", Admin.class).getResultList();
-    }
-
-    public List<Client> findAllUserClient() {
-        return em.createQuery("SELECT c from Client c LEFT JOIN FETCH c.user", Client.class).getResultList();
-    }
-
-    public List<Seller> findAllUserSeller() {
-        return em.createQuery("SELECT s from Seller s LEFT JOIN FETCH s.user", Seller.class).getResultList();
-    }
-
     public User save(User user) {
         em.persist(user);
         return user;

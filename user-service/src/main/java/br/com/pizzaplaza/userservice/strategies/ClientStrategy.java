@@ -31,8 +31,6 @@ public class ClientStrategy implements UserStrategy {
     @Transactional
     public UserDto save(UserDto userDto) {
 
-        validateUserCredentials(userDto);
-
         User user = new User();
 
         user.setEmail(userDto.email);
@@ -54,19 +52,12 @@ public class ClientStrategy implements UserStrategy {
         return userDto;
     }
 
-    @Transactional
-    public void validateUserCredentials(UserDto userDto) {
-        if (!isUserDtoValid(userDto)) {
-            throw new InvalidValueException(new Option(),"Usuário inválido");
-        }
+    @Override
+    public void delete(String oid) {
+        Client client = clientRepository.findByOid(oid)
+                .orElseThrow(() -> new IllegalArgumentException("Admin não encontrado: " + oid));
 
-        if (emailInUse(userDto)) {
-            throw new UnauthorizedException("Email já está em uso.");
-        }
-
-        if (cpfInUse(userDto)) {
-            throw new UnauthorizedException("Email já está em uso.");
-        }
+        clientRepository.delete(client);
     }
 
     @Override
@@ -77,7 +68,7 @@ public class ClientStrategy implements UserStrategy {
     @Override
     public List<UserDto> findAll() {
 
-        List<Client> results = userRepository.findAllUserClient();
+        List<Client> results = clientRepository.findAll();
 
         return results.stream()
                 .map(this::convertClientToUserDto)
@@ -86,7 +77,7 @@ public class ClientStrategy implements UserStrategy {
 
     @Override
     public UserDto findByOid(String oid) {
-        return userRepository.findClientByOid(oid)
+        return clientRepository.findByOid(oid)
                 .map(this::convertClientToUserDto)
                 .orElse(null);
     }
@@ -103,45 +94,4 @@ public class ClientStrategy implements UserStrategy {
         return dto;
     }
 
-    @Transactional
-    public Boolean emailInUse(UserDto dto) {
-        return userRepository.isEmailInUse(dto.getEmail());
-    }
-
-    @Transactional
-    public Boolean cpfInUse(UserDto dto) {
-        return userRepository.isCpfInUse(dto.getEmail());
-    }
-
-    public Boolean isUserDtoValid(UserDto userDto) {
-        if (userDto == null) {
-            return false;
-        }
-
-        if (!isEmailValid(userDto.email)) {
-            return false;
-        }
-
-        if (!isPasswordValid(userDto.password)) {
-            return false;
-        }
-
-        if (!isCpfValid(userDto.cpf)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public Boolean isPasswordValid(String password) {
-        return password != null && !password.isEmpty() && !password.isBlank();
-    }
-
-    public Boolean isEmailValid(String email) {
-        return email != null && !email.isEmpty() && !email.isBlank();
-    }
-
-    public Boolean isCpfValid(String cpf) {
-        return cpf != null && !cpf.isEmpty() && !cpf.isBlank();
-    }
 }

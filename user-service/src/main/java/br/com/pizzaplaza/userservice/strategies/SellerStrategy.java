@@ -7,18 +7,51 @@ import br.com.pizzaplaza.entity.systemactor.Seller;
 import br.com.pizzaplaza.entity.systemactor.User;
 import br.com.pizzaplaza.userservice.interfaces.UserStrategy;
 import br.com.pizzaplaza.entity.dto.UserDto;
+import br.com.pizzaplaza.userservice.repository.SellerRepository;
 import br.com.pizzaplaza.userservice.repository.UserRepository;
+import br.com.pizzaplaza.util.PasswordUtil;
+import io.vertx.core.cli.InvalidValueException;
+import io.vertx.core.cli.Option;
 import jakarta.inject.Inject;
 
 import java.util.List;
 
 public class SellerStrategy implements UserStrategy {
+
     @Inject
     UserRepository userRepository;
 
+    @Inject
+    SellerRepository sellerRepository;
+
     @Override
     public UserDto save(UserDto userDto) {
-        return null;
+        User user = new User();
+
+        user.setEmail(userDto.email);
+        user.setPassword(PasswordUtil.hash(userDto.password));
+        user.setAuthenticated(false);
+
+        userRepository.save(user);
+
+        Seller seller = new Seller();
+
+        seller.setUser(user);
+        seller.setName(userDto.getName());
+
+        sellerRepository.save(seller);
+
+        userDto.setOid(user.getOid());
+
+        return userDto;
+    }
+
+    @Override
+    public void delete(String oid) {
+        Seller seller = sellerRepository.findByOid(oid)
+                .orElseThrow(() -> new IllegalArgumentException("Admin não encontrado: " + oid));
+
+        sellerRepository.delete(seller);
     }
 
     @Override
@@ -29,7 +62,7 @@ public class SellerStrategy implements UserStrategy {
     @Override
     public List<UserDto> findAll() {
 
-        List<Seller> results = userRepository.findAllUserSeller();
+        List<Seller> results = sellerRepository.findAll();
 
         return results.stream()
                 .map(this::convertSellerToUserDto)
@@ -38,7 +71,7 @@ public class SellerStrategy implements UserStrategy {
 
     @Override
     public UserDto findByOid(String oid) {
-        return userRepository.findSellerByOid(oid)
+        return sellerRepository.findByOid(oid)
                 .map(this::convertSellerToUserDto)
                 .orElse(null);
     }
