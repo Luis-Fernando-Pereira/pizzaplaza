@@ -1,31 +1,36 @@
 package br.com.pizzaplaza.userservice.controller;
 
-import br.com.pizzaplaza.authservice.service.UserService;
-import br.com.pizzaplaza.authservice.strategies.AdminStrategy;
-import br.com.pizzaplaza.authservice.strategies.ClientStrategy;
 import br.com.pizzaplaza.entity.dto.UserDto;
+import br.com.pizzaplaza.userservice.service.UserService;
+import br.com.pizzaplaza.userservice.strategies.AdminStrategy;
+import br.com.pizzaplaza.userservice.strategies.ClientStrategy;
+import br.com.pizzaplaza.userservice.strategies.SellerStrategy;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.NoSuchElementException;
 
 @ApplicationScoped
-@Path("/user")
+@Path("/users")
 public class UserController {
 
     @Inject
     UserService userService;
+
+    @Inject
+    ClientStrategy clientStrategy;
+
+    @Inject
+    AdminStrategy adminStrategy;
+
+    @Inject
+    SellerStrategy sellerStrategy;
 
     @Path("/client")
     @POST
@@ -35,13 +40,17 @@ public class UserController {
     public Response newClient(@Valid UserDto userDto) {
         try {
 
-            userDto = userService.save(userDto, new ClientStrategy());
+            userDto = userService.save(userDto, clientStrategy);
 
-            return Response.created(new URI(userDto.getLink())).build();
+            URI uri = URI.create("/users/" + userDto.getOid());
+
+            return Response.created(uri).entity(userDto).build();
 
         } catch (Exception e) {
 
-            return Response.ok(e.getMessage()).build();
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
 
         }
     }
@@ -54,22 +63,17 @@ public class UserController {
     public Response newAdmin(@Valid UserDto userDto) {
         try {
 
-            userDto = userService.save(userDto, new AdminStrategy());
-            return Response.created(new URI(userDto.getLink())).build();
+            userDto = userService.save(userDto, adminStrategy);
 
-        } catch (NoSuchElementException e) {
+            URI uri = URI.create("/users/" + userDto.getOid());
 
-            System.out.println("Erro: este endpoint não suporta este tipo de usuário");
-            return Response.status(400, e.getMessage()).build();
+            return Response.created(uri).entity(userDto).build();
 
         } catch (Exception e) {
 
-            System.out.println(e.getCause().getCause().getCause());
-
-            HashMap hashMap = new HashMap();
-            hashMap.put("Erro", e.getCause().getCause().getMessage());
-
-            return Response.ok(hashMap).build();
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
 
         }
     }
@@ -80,6 +84,67 @@ public class UserController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response newSeller(UserDto userDto) {
-        return Response.ok().build();
+
+        try {
+
+            userDto = userService.save(userDto, sellerStrategy);
+
+            URI uri = URI.create("/users/" + userDto.getOid());
+
+            return Response.created(uri).entity(userDto).build();
+
+        } catch (Exception e) {
+
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
+
+        }
+    }
+
+    @GET
+    @Path("/admin")
+    @RolesAllowed({"admin", "seller"})
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAllAdmin() {
+
+        try {
+
+            userDto = userService.findAll(adminStrategy);
+
+            URI uri = URI.create("/users/" + userDto.getOid());
+
+            return Response.created(uri).entity(userDto).build();
+
+        } catch (Exception e) {
+
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
+
+        }
+    }
+
+    @GET
+    @Path("/admin/{oid}")
+    @RolesAllowed({"admin", "seller"})
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAdmin(@PathParam("oid") String oid) {
+
+        try {
+
+            userDto = userService.save(userDto, sellerStrategy);
+
+            URI uri = URI.create("/users/" + userDto.getOid());
+
+            return Response.created(uri).entity(userDto).build();
+
+        } catch (Exception e) {
+
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
+
+        }
     }
 }

@@ -2,7 +2,10 @@ package br.com.pizzaplaza.userservice.interfaces;
 
 import br.com.pizzaplaza.entity.dto.UserDto;
 
+import java.util.List;
+
 public interface UserStrategy {
-    public UserDto save(UserDto userDto);
+    UserDto save(UserDto userDto);
     boolean supports(String userType);
+    List<UserDto> findAll();
 }

@@ -1,8 +1,8 @@
 package br.com.pizzaplaza.userservice.strategies;
 
-import br.com.pizzaplaza.authservice.interfaces.UserStrategy;
-import br.com.pizzaplaza.authservice.repository.AdminRepository;
-import br.com.pizzaplaza.authservice.repository.UserRepository;
+import br.com.pizzaplaza.userservice.interfaces.UserStrategy;
+import br.com.pizzaplaza.userservice.repository.AdminRepository;
+import br.com.pizzaplaza.userservice.repository.UserRepository;
 import br.com.pizzaplaza.entity.dto.UserDto;
 import br.com.pizzaplaza.entity.systemactor.Admin;
 import br.com.pizzaplaza.entity.systemactor.User;
@@ -10,6 +10,8 @@ import br.com.pizzaplaza.util.PasswordUtil;
 import io.vertx.core.cli.InvalidValueException;
 import io.vertx.core.cli.Option;
 import jakarta.inject.Inject;
+
+import java.util.List;
 
 public class AdminStrategy implements UserStrategy {
 
@@ -40,7 +42,7 @@ public class AdminStrategy implements UserStrategy {
 
         adminRepository.save(admin);
 
-        userDto.link = "http://localhost:8081/user/"+ user.getOid();
+        userDto.setOid(user.getOid());
 
         return userDto;
     }
@@ -48,6 +50,14 @@ public class AdminStrategy implements UserStrategy {
     @Override
     public boolean supports(String userType) {
         return "ADMIN".equals(userType);
+    }
+
+    @Override
+    public List<UserDto> findAll() {
+
+        userRepository.findByType();
+
+        return List.of();
     }
 
     public Boolean isUserDtoValid(UserDto userDto) {

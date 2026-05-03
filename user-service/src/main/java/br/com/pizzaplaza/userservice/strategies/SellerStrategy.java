@@ -1,6 +1,6 @@
 package br.com.pizzaplaza.userservice.strategies;
 
-import br.com.pizzaplaza.authservice.interfaces.UserStrategy;
+import br.com.pizzaplaza.userservice.interfaces.UserStrategy;
 import br.com.pizzaplaza.entity.dto.UserDto;
 
 public class SellerStrategy implements UserStrategy {

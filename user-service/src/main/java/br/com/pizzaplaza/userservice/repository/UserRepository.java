@@ -11,6 +11,11 @@ public class UserRepository {
     @Inject
     EntityManager em;
 
+    public List<User> findByType(User. user) {
+        em.persist(user);
+        return user;
+    }
+
     public User save(User user) {
         em.persist(user);
         return user;

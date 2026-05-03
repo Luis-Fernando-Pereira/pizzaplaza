@@ -1,8 +1,9 @@
 package br.com.pizzaplaza.userservice.strategies;
 
-import br.com.pizzaplaza.authservice.interfaces.UserStrategy;
-import br.com.pizzaplaza.authservice.repository.ClientRepository;
-import br.com.pizzaplaza.authservice.repository.UserRepository;
+import br.com.pizzaplaza.entity.enums.UserType;
+import br.com.pizzaplaza.userservice.interfaces.UserStrategy;
+import br.com.pizzaplaza.userservice.repository.ClientRepository;
+import br.com.pizzaplaza.userservice.repository.UserRepository;
 import br.com.pizzaplaza.entity.dto.UserDto;
 import br.com.pizzaplaza.entity.systemactor.Client;
 import br.com.pizzaplaza.entity.systemactor.User;
@@ -13,6 +14,8 @@ import io.vertx.core.cli.Option;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+
+import java.util.List;
 
 @ApplicationScoped
 public class ClientStrategy implements UserStrategy {
@@ -45,7 +48,7 @@ public class ClientStrategy implements UserStrategy {
 
         clientRepository.save(client);
 
-        userDto.link = "http://localhost:8081/user/"+ user.getOid();
+        userDto.setOid(user.getOid());
 
         return userDto;
     }
@@ -67,7 +70,12 @@ public class ClientStrategy implements UserStrategy {
 
     @Override
     public boolean supports(String userType) {
-        return "CLIENT".equals(userType);
+        return UserType.CLIENT.equals(userType);
+    }
+
+    @Override
+    public List<UserDto> findAll() {
+        return List.of();
     }
 
     @Transactional
