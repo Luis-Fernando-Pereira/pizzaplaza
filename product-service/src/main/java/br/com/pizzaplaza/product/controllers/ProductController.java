@@ -10,7 +10,7 @@ public class ProductController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Reponse findAll() {
+    public Response findAll() {
         return Response.ok().build();
     }
 
@@ -39,7 +39,7 @@ public class ProductController {
 
     @DELETE
     @Path("{oid}")
-    public Response update(String json) {
+    public Response delete(String json) {
         return Response.noContent().build();
     }
 }
