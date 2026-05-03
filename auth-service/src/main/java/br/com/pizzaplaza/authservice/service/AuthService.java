@@ -8,6 +8,7 @@ import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -18,6 +19,9 @@ public class AuthService {
 
     @Inject
     UserRepository userRepository;
+
+    @Inject
+    JsonWebToken jwt;
 
     public String generateJwt(User user) {
         Set<String> roles = new HashSet<>(
@@ -42,6 +46,24 @@ public class AuthService {
         }
 
         if (!PasswordUtil.isPasswordValid(loginData.password, user.getPassword())) {
+            return null;
+        }
+
+        user.setAuthenticated(true);
+
+        user = userRepository.update(user);
+
+        return user;
+    }
+
+    @Transactional
+    public User authenticate() {
+
+        String email = jwt.getIssuer();
+
+        User user = userRepository.findByEmail(email);
+
+        if (user == null) {
             return null;
         }
 

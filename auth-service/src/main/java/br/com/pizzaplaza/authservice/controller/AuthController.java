@@ -14,7 +14,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/")
+@Path("/auth")
 @ApplicationScoped
 public class AuthController {
 
@@ -43,18 +43,13 @@ public class AuthController {
     }
 
     @POST
-    @Path("/auth")
+    @Path("/refresh")
     @PermitAll
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response auth(@Valid LoginDto loginData) {
+    public Response auth() {
         try {
 
-            User user = authService.authenticate(loginData);
-
-            if (user == null) {
-                return Response.status(400).build();
-            }
+            User user = authService.authenticate();
 
             return Response.ok(authService.generateJwt(user)).build();
 
