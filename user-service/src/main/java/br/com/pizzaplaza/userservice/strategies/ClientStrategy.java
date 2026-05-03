@@ -70,10 +70,9 @@ public class ClientStrategy implements UserStrategy {
     }
 
     @Override
-    public boolean supports(String userType) {
-        return UserType.CLIENT.equals(userType);
+    public UserType getType() {
+        return UserType.CLIENT;
     }
-
 
     @Override
     public List<UserDto> findAll() {

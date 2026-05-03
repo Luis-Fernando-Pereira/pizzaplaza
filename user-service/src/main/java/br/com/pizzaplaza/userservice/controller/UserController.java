@@ -1,6 +1,7 @@
 package br.com.pizzaplaza.userservice.controller;
 
 import br.com.pizzaplaza.entity.dto.UserDto;
+import br.com.pizzaplaza.entity.enums.UserType;
 import br.com.pizzaplaza.userservice.service.UserService;
 import br.com.pizzaplaza.userservice.strategies.AdminStrategy;
 import br.com.pizzaplaza.userservice.strategies.ClientStrategy;
@@ -24,15 +25,6 @@ public class UserController {
     @Inject
     UserService userService;
 
-    @Inject
-    ClientStrategy clientStrategy;
-
-    @Inject
-    AdminStrategy adminStrategy;
-
-    @Inject
-    SellerStrategy sellerStrategy;
-
     @Path("/client")
     @POST
     @PermitAll
@@ -41,11 +33,9 @@ public class UserController {
     public Response newClient(@Valid UserDto userDto) {
         try {
 
-            userDto = userService.save(userDto, clientStrategy);
+            userDto = userService.save(userDto, UserType.CLIENT);
 
-            URI uri = URI.create("/users/" + userDto.getOid());
-
-            return Response.created(uri).entity(userDto).build();
+            return Response.created(userService.createUri(userDto)).entity(userDto).build();
 
         } catch (Exception e) {
 
@@ -64,11 +54,9 @@ public class UserController {
     public Response newAdmin(@Valid UserDto userDto) {
         try {
 
-            userDto = userService.save(userDto, adminStrategy);
+            userDto = userService.save(userDto, UserType.ADMIN);
 
-            URI uri = URI.create("/users/" + userDto.getOid());
-
-            return Response.created(uri).entity(userDto).build();
+            return Response.created(userService.createUri(userDto)).entity(userDto).build();
 
         } catch (Exception e) {
 
@@ -88,11 +76,9 @@ public class UserController {
 
         try {
 
-            userDto = userService.save(userDto, sellerStrategy);
+            userDto = userService.save(userDto, UserType.SELLER);
 
-            URI uri = URI.create("/users/" + userDto.getOid());
-
-            return Response.created(uri).entity(userDto).build();
+            return Response.created(userService.createUri(userDto)).entity(userDto).build();
 
         } catch (Exception e) {
 
@@ -111,7 +97,7 @@ public class UserController {
 
         try {
 
-            List<UserDto> users = userService.findAll(adminStrategy);
+            List<UserDto> users = userService.findAll(UserType.ADMIN);
 
             return Response.ok(users).build();
 
@@ -132,11 +118,93 @@ public class UserController {
 
         try {
 
-            userDto = userService.save(userDto, sellerStrategy);
+            UserDto userDto = userService.findByOid(UserType.ADMIN, oid);
 
-            URI uri = URI.create("/users/" + userDto.getOid());
+            return Response.ok(userDto).build();
 
-            return Response.created(uri).entity(userDto).build();
+        } catch (Exception e) {
+
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
+
+        }
+    }
+
+    @GET
+    @Path("/seller")
+    @RolesAllowed("admin")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAllSeller() {
+
+        try {
+
+            List<UserDto> users = userService.findAll(UserType.SELLER);
+
+            return Response.ok(users).build();
+
+        } catch (Exception e) {
+
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
+
+        }
+    }
+
+    @GET
+    @Path("/seller/{oid}")
+    @RolesAllowed("admin")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findSeller(@PathParam("oid") String oid) {
+
+        try {
+
+            UserDto userDto = userService.findByOid(UserType.SELLER, oid);
+
+            return Response.ok(userDto).build();
+
+        } catch (Exception e) {
+
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
+
+        }
+    }
+
+    @GET
+    @Path("/client")
+    @RolesAllowed("admin")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAllClient() {
+
+        try {
+
+            List<UserDto> users = userService.findAll(UserType.CLIENT);
+
+            return Response.ok(users).build();
+
+        } catch (Exception e) {
+
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
+
+        }
+    }
+
+    @GET
+    @Path("/client/{oid}")
+    @RolesAllowed("admin")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findClient(@PathParam("oid") String oid) {
+
+        try {
+
+            UserDto userDto = userService.findByOid(UserType.CLIENT, oid);
+
+            return Response.ok(userDto).build();
 
         } catch (Exception e) {
 

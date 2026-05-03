@@ -1,5 +1,6 @@
 package br.com.pizzaplaza.userservice.strategies;
 
+import br.com.pizzaplaza.entity.enums.UserType;
 import br.com.pizzaplaza.userservice.interfaces.UserStrategy;
 import br.com.pizzaplaza.userservice.repository.AdminRepository;
 import br.com.pizzaplaza.userservice.repository.UserRepository;
@@ -48,8 +49,8 @@ public class AdminStrategy implements UserStrategy {
     }
 
     @Override
-    public boolean supports(String userType) {
-        return "ADMIN".equals(userType);
+    public UserType getType() {
+        return UserType.ADMIN;
     }
 
     @Override

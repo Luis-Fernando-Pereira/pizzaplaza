@@ -1,5 +1,6 @@
 package br.com.pizzaplaza.userservice.strategies;
 
+import br.com.pizzaplaza.entity.enums.UserType;
 import br.com.pizzaplaza.entity.systemactor.Admin;
 import br.com.pizzaplaza.entity.systemactor.Client;
 import br.com.pizzaplaza.entity.systemactor.Seller;
@@ -21,8 +22,8 @@ public class SellerStrategy implements UserStrategy {
     }
 
     @Override
-    public boolean supports(String userType) {
-        return false;
+    public UserType getType() {
+        return UserType.SELLER;
     }
 
     @Override

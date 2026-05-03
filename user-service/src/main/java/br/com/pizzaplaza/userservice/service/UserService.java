@@ -1,47 +1,76 @@
 package br.com.pizzaplaza.userservice.service;
 
-import br.com.pizzaplaza.userservice.interfaces.UserStrategy;
 import br.com.pizzaplaza.entity.dto.UserDto;
-import io.quarkus.security.UnauthorizedException;
+import br.com.pizzaplaza.entity.enums.UserType;
+import br.com.pizzaplaza.userservice.interfaces.UserStrategy;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.jspecify.annotations.NonNull;
 
+import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @ApplicationScoped
 public class UserService {
 
-    private UserStrategy strategy;
+    @Inject
+    private Instance<UserStrategy> strategies;
+
+    private Map<UserType, UserStrategy> strategyMap;
+
+    @PostConstruct
+    void init() {
+        strategyMap = new HashMap<>();
+        for (UserStrategy strategy : strategies) {
+            strategyMap.put(strategy.getType(), strategy);
+        }
+    }
 
     @Transactional
-    public UserDto save(UserDto userDto, UserStrategy strategy) throws Exception {
+    public UserDto save(UserDto userDto, UserType type) {
 
-        strategy = strategy;
-
-        if (userTypeNotSupported(userDto)) {
-            throw new UnauthorizedException();
-        }
+        UserStrategy strategy = getUserStrategy(type);
 
         return strategy.save(userDto);
 
     }
 
     @Transactional
-    public List<UserDto> findAll(UserStrategy strategy) throws Exception {
+    public URI createUri(UserDto userDto) {
+        return URI.create("/users/" + userDto.getOid());
+    }
+
+    private void validateStrategy(UserType type, UserStrategy strategy) {
+        if (strategy == null) {
+            throw new IllegalArgumentException("Tipo inválido: " + type);
+        }
+    }
+
+    public List<UserDto> findAll(UserType type) throws Exception {
+
+        UserStrategy strategy = getUserStrategy(type);
 
         return strategy.findAll();
 
     }
 
-    @Transactional
-    public UserDto findByOid(UserStrategy strategy, String oid) throws Exception {
+    public UserDto findByOid(UserType type, String oid) {
+
+        UserStrategy strategy = getUserStrategy(type);
 
         return strategy.findByOid(oid);
 
     }
 
-    private Boolean userTypeNotSupported(UserDto dto) {
-        return !strategy.supports(dto.userType.name());
-    }
+    private @NonNull UserStrategy getUserStrategy(UserType type) {
+        UserStrategy strategy = strategyMap.get(type);
 
+        validateStrategy(type, strategy);
+        return strategy;
+    }
 }
