@@ -31,13 +31,14 @@ public class SellerStrategy implements UserStrategy {
         user.setEmail(userDto.email);
         user.setPassword(PasswordUtil.hash(userDto.password));
         user.setAuthenticated(false);
+        user.setName(userDto.getName());
+        user.setCpf(userDto.getCpf());
 
         userRepository.save(user);
 
         Seller seller = new Seller();
 
         seller.setUser(user);
-        seller.setName(userDto.getName());
 
         sellerRepository.save(seller);
 
@@ -82,7 +83,7 @@ public class SellerStrategy implements UserStrategy {
 
         dto.setOid(user.getOid());
         dto.setEmail(user.getEmail());
-        dto.setName(seller.getName());
+        dto.setName(user.getName());
         dto.setUserType(UserDto.Type.ADMIN);
 
         return dto;

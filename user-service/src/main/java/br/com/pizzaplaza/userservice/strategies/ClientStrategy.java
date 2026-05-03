@@ -36,14 +36,14 @@ public class ClientStrategy implements UserStrategy {
         user.setEmail(userDto.email);
         user.setPassword(PasswordUtil.hash(userDto.password));
         user.setAuthenticated(false);
+        user.setName(userDto.getName());
+        user.setCpf(userDto.getCpf());
 
         userRepository.save(user);
 
         Client client = new Client();
 
         client.setUser(user);
-        client.setCpf(userDto.getCpf());
-        client.setName(userDto.getName());
 
         clientRepository.save(client);
 
@@ -88,7 +88,7 @@ public class ClientStrategy implements UserStrategy {
 
         dto.setOid(user.getOid());
         dto.setEmail(user.getEmail());
-        dto.setName(client.getName());
+        dto.setName(user.getName());
         dto.setUserType(UserDto.Type.ADMIN);
 
         return dto;

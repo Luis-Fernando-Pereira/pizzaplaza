@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Data
 public class UserDto extends OdinDto {
@@ -16,6 +17,7 @@ public class UserDto extends OdinDto {
 
     @NotNull(message = "CPF é obrigatório")
     @NotBlank(message = "CPF é obrigatório")
+    @CPF
     public String cpf;
 
     @Email(message = "Email inválido")

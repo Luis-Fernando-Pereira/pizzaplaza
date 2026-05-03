@@ -12,3 +12,4 @@
 .idea
 
 /api-gateway/target/
+/user-service/target/

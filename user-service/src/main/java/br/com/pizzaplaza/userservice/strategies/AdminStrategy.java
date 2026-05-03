@@ -30,13 +30,14 @@ public class AdminStrategy implements UserStrategy {
         user.setEmail(userDto.email);
         user.setPassword(PasswordUtil.hash(userDto.password));
         user.setAuthenticated(false);
+        user.setName(userDto.getName());
+        user.setCpf(userDto.getCpf());
 
         userRepository.save(user);
 
         Admin admin = new Admin();
 
         admin.setUser(user);
-        admin.setName(userDto.getName());
 
         adminRepository.save(admin);
 
@@ -81,7 +82,7 @@ public class AdminStrategy implements UserStrategy {
 
         dto.setOid(user.getOid());
         dto.setEmail(user.getEmail());
-        dto.setName(admin.getName());
+        dto.setName(user.getName());
         dto.setUserType(UserDto.Type.ADMIN);
 
         return dto;

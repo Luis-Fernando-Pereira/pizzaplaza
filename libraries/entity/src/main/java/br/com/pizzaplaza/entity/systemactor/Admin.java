@@ -1,5 +1,6 @@
 package br.com.pizzaplaza.entity.systemactor;
 
+import br.com.pizzaplaza.entity.fatherofall.Odin;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -9,9 +10,9 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="admin")
-public class Admin extends Person {
+public class Admin extends Odin {
 
     @OneToOne
-    @JoinColumn(name="user_id",nullable = false)
+    @JoinColumn(name="user_id", nullable = false)
     private User user;
 }

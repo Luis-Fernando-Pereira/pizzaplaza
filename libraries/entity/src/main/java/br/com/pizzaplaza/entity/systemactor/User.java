@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "pizzaplaza_user")
-public class User extends Odin {
+public class User extends Person {
 
     public User(){}
 
