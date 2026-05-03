@@ -26,6 +26,8 @@ public class CategoryController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response post(String json) {
+
+
         return Response.ok().build();
     }
 
