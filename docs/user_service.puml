@@ -1,0 +1,41 @@
+@startuml C4_Component_AuthService
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Pizza Plaza - Auth Service (Component Diagram)
+
+Container(api_gateway, "API Gateway", "Gateway", "Ponto de entrada das APIs")
+
+Container_Boundary(user_microsservice, "User Service - Quarkus") {
+
+    Component(user_controller, "UserController", "REST Controller (Quarkus)","Expõe endpoints REST para gerenciamento de usuários")
+
+    Component(user_service, "UserService", "Serviço de usuários","Implementa regras de negócio de usuários")
+
+    Component(user_strategy, "UserStrategy", "Interface de atores", "Implementa regras de negócio de atores (clientes, administradores e vendedores)")
+
+    Component(user_repository, "UserRepository", "JPA Repository","Persistência de usuários")
+
+    Component(client_repository, "ClientRepository", "JPA Repository", "Persistência de clientes")
+
+    Component(admin_repository, "AdminRepository", "JPA Repository", "Persistência de administradores")
+
+    Component(seller_repository, "SellerRepository", "JPA Repository", "Persistência de vendedores")
+
+}
+
+ContainerDb(database, "PostgreSQL", "PostgreSQL 18", "Banco de dados do sistema")
+
+Rel(api_gateway, user_controller, "Chama endpoints REST de gerenciamento de usuários", "HTTPS/JSON")
+Rel(user_controller, user_service, "Gerencia usuários de acordo com regras de negócio", "DTOs")
+Rel(user_service, user_strategy, "Aplica regras de negócio de atores (clientes  administradores e vendedores)", "DTOs")
+Rel(user_service, user_repository, "Chama métodos de persistencia, atualização e consulta de usuários", "DTOs")
+Rel(user_strategy, client_repository, "Chama consultas e persistencia de entidades JPA de clientes", "Entidade JPA")
+Rel(user_strategy, admin_repository, "Chama consultas e persistencia de entidades JPA de administradores", "Entidade JPA")
+Rel(user_strategy, seller_repository, "Chama consultas e persistencia de entidades JPA de vendedores", "Entidade JPA")
+Rel(client_repository, database, "Interage com o banco de dados", "JSON")
+Rel(admin_repository, database, "Interage com o banco de dados", "JSON")
+Rel(seller_repository, database, "Interage com o banco de dados", "JSON")
+Rel(user_repository, database, "Interage com o banco de dados", "JSON")
+
+
+@enduml
