@@ -5,6 +5,7 @@ import br.com.pizzaplaza.entity.dtos.CategoryDto;
 import br.com.pizzaplaza.product.repositories.CategoryRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class CategoryService {
@@ -12,6 +13,7 @@ public class CategoryService {
     @Inject
     CategoryRepository categoryRepository;
 
+    @Transactional
     public CategoryDto save(CategoryDto dto) {
         Category category = new Category();
 
