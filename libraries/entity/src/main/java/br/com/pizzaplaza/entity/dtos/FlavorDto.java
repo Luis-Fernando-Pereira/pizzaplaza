@@ -11,12 +11,8 @@ import java.util.Date;
 @Data
 public class FlavorDto extends OdinDto {
 
-    private String oid;
-
     @NotBlank
     private String name;
-
-    private Date createdAt;
 
     @NotNull
     private CategoryDto category;

@@ -1,5 +1,6 @@
 package br.com.pizzaplaza.entity;
 
+import br.com.pizzaplaza.entity.enums.PizzaSize;
 import br.com.pizzaplaza.entity.fatherofall.Odin;
 import jakarta.persistence.*;
 
@@ -16,5 +17,5 @@ public class Pizza extends Odin {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pizza", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PizzaFlavor> flavors;
 
-    enum PizzaSize {SMALL, MEDIUM, LARGE, GIANT}
+
 }
