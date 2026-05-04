@@ -13,6 +13,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.net.URI;
+import java.util.List;
 
 @Path("/categories")
 public class CategoryController {
@@ -23,7 +24,10 @@ public class CategoryController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
-        return Response.ok().build();
+
+        List<CategoryDto> dtos = categoryService.findAll();
+
+        return Response.ok(dtos).build();
     }
 
     @GET

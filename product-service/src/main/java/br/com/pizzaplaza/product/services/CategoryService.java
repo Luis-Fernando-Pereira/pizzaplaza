@@ -6,6 +6,10 @@ import br.com.pizzaplaza.product.repositories.CategoryRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @ApplicationScoped
 public class CategoryService {
@@ -31,13 +35,24 @@ public class CategoryService {
 
         Category category = categoryRepository.findByOid(oid);
 
-        CategoryDto dto = new CategoryDto();
+        if (category == null) {
+            throw new NotFoundException();
+        }
 
-        dto.setOid(category.getOid());
-        dto.setCreatedAt(category.getCreatedAt());
-        dto.setDescription(category.getDescription());
+        return new CategoryDto(category);
+    }
 
-        return dto;
+    public List<CategoryDto> findAll() {
+
+        List<Category> results = categoryRepository.findAll();
+
+        if (results == null) {
+            return new ArrayList<>();
+        }
+
+        List<CategoryDto> dtos = results.stream().map(CategoryDto::new).toList();
+
+        return dtos;
     }
 
 }
