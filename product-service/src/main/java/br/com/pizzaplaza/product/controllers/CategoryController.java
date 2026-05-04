@@ -75,7 +75,10 @@ public class CategoryController {
 
     @DELETE
     @Path("{oid}")
-    public Response delete(String json) {
+    public Response delete(@PathParam("oid") @NotBlank String oid) {
+
+        categoryService.delete(oid);
+
         return Response.noContent().build();
     }
 

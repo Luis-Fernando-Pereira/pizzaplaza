@@ -44,6 +44,17 @@ public class CategoryService {
         category = categoryRepository.update(category);
     }
 
+    @Transactional
+    public void delete(String oid) {
+        if (oid == null) {
+            throw new IllegalArgumentException("Oid is required for update");
+        }
+
+        Category category = categoryRepository.findByOid(oid);
+
+         categoryRepository.delete(category);
+    }
+
     public CategoryDto find(String oid) {
 
         Category category = categoryRepository.findByOid(oid);

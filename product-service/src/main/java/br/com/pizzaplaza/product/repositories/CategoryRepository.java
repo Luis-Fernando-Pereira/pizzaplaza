@@ -21,6 +21,10 @@ public class CategoryRepository {
         return em.merge(category);
     }
 
+    public void delete(Category category) {
+        em.remove(category);
+    }
+
     public Category findByOid(String oid) {
         return em.find(Category.class, oid);
     }
