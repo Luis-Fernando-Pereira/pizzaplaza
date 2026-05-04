@@ -27,6 +27,8 @@ public class FlavorService {
     public FlavorDto save(FlavorDto dto) {
         Flavor flavor = dto.toEntity();
 
+        flavor.setCategory(categoryService.findEntity(dto.getCategory().getOid()));
+
         flavorRepository.save(flavor);
 
         dto.setOid(flavor.getOid());

@@ -48,7 +48,6 @@ public class FlavorController {
     }
 
     @PUT
-    @Path("{oid}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@Valid FlavorDto dto) {
