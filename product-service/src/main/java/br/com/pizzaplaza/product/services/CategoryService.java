@@ -1,13 +1,28 @@
 package br.com.pizzaplaza.product.services;
 
+import br.com.pizzaplaza.entity.Category;
 import br.com.pizzaplaza.entity.dtos.CategoryDto;
+import br.com.pizzaplaza.product.repositories.CategoryRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class CategoryService {
 
-    public CategoryDto save() {
-        return new CategoryDto();
+    @Inject
+    CategoryRepository categoryRepository;
+
+    public CategoryDto save(CategoryDto dto) {
+        Category category = new Category();
+
+        category.setDescription(dto.description);
+
+        categoryRepository.save(category);
+
+        dto.setOid(category.getOid());
+        dto.setCreatedAt(category.getCreatedAt());
+
+        return dto;
     }
 
 }
