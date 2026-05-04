@@ -5,7 +5,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/products")
-public class ProductController {
+public class PizzaController {
 
 
     @GET
