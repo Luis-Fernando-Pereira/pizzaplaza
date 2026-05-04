@@ -5,7 +5,7 @@ title Pizza Plaza - Product Service (Component Diagram)
 
 Container(api_gateway, "API Gateway", "Gateway", "Ponto de entrada das APIs")
 
-Container_Boundary(product_microsservice, "Product Service - Quarkus") {
+Container_Boundary(product_microservice, "Product Service - Quarkus") {
 
     Component(pizza_controller, "PizzaController", "REST Controller (Quarkus)","Expõe endpoints REST para gerenciamento de produtos")
 
@@ -21,7 +21,7 @@ Container_Boundary(product_microsservice, "Product Service - Quarkus") {
 
     Component(pizza_repository, "PizzaRepository", "JPA Repository","Persistência de produtos")
 
-    Component(categoria_repository, "CatgoriaRepository", "JPA Repository","Persistência de categorais de produtos")
+    Component(category_repository, "CategoryRepository", "JPA Repository","Persistência de categorais de produtos")
 
 }
 
@@ -42,10 +42,10 @@ Rel(api_gateway, category_controller, "Chama endpoints REST de gerenciamento de 
 Rel(pizza_controller, pizza_service, "Gerencia produtos de acordo com regras de negócio", "DTOs")
 Rel(category_controller, category_service, "Gerencia produtos de acordo com regras de negócio", "DTOs")
 
-Rel(category_service, categoria_repository, "Chama métodos de persistencia, atualização e consulta de categorias de produtos", "CategoryEntity")
+Rel(category_service, category_repository, "Chama métodos de persistencia, atualização e consulta de categorias de produtos", "CategoryEntity")
 Rel(pizza_service, pizza_repository, "Chama métodos de persistencia, atualização e consulta de produtos", "PizzaEntity")
 
-Rel(categoria_repository, database, "Interage com o banco de dados", "JPA/SQL")
+Rel(category_repository, database, "Interage com o banco de dados", "JPA/SQL")
 Rel(pizza_repository, database, "Interage com o banco de dados", "JPA/SQL")
 
 
