@@ -31,6 +31,19 @@ public class CategoryService {
         return dto;
     }
 
+    @Transactional
+    public void update(CategoryDto dto) {
+        if (dto.getOid() == null) {
+            throw new IllegalArgumentException("Oid is required for update");
+        }
+
+        Category category = categoryRepository.findByOid(dto.getOid());
+
+        category.setDescription(dto.getDescription());
+
+        category = categoryRepository.update(category);
+    }
+
     public CategoryDto find(String oid) {
 
         Category category = categoryRepository.findByOid(oid);

@@ -17,6 +17,10 @@ public class CategoryRepository {
         em.persist(category);
     }
 
+    public Category update(Category category) {
+        return em.merge(category);
+    }
+
     public Category findByOid(String oid) {
         return em.find(Category.class, oid);
     }

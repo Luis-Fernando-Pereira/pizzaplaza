@@ -10,9 +10,7 @@ import lombok.Data;
 @Data
 public class CategoryDto extends OdinDto {
 
-    @NotEmpty(message = "Description cannot be empty")
-    @NotBlank(message = "Description cannot be blank")
-    @NotNull(message = "Description cannot be null")
+    @NotBlank
     public String description;
 
     public CategoryDto() {}

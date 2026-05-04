@@ -66,9 +66,11 @@ public class CategoryController {
     @Path("{oid}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(String json) {
+    public Response update(@Valid CategoryDto dto) {
 
-        return Response.ok().build();
+        categoryService.update(dto);
+
+        return Response.ok(dto).build();
     }
 
     @DELETE
