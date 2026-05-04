@@ -10,7 +10,7 @@ import lombok.Data;
 public class Client extends Odin {
 
     @OneToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_oid")
     public User user;
 
 }

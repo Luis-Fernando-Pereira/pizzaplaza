@@ -13,7 +13,7 @@ import lombok.Data;
 public class Seller extends Odin {
 
     @OneToOne
-    @JoinColumn(name="user_id",nullable = false)
+    @JoinColumn(name="user_oid",nullable = false)
     private User user;
 
 }

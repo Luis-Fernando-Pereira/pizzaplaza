@@ -13,6 +13,6 @@ import lombok.Data;
 public class Admin extends Odin {
 
     @OneToOne
-    @JoinColumn(name="user_id", nullable = false)
+    @JoinColumn(name="user_oid", nullable = false)
     private User user;
 }
