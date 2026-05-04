@@ -25,4 +25,17 @@ public class CategoryService {
         return dto;
     }
 
+    public CategoryDto find(String oid) {
+
+        Category category = categoryRepository.findByOid(oid);
+
+        CategoryDto dto = new CategoryDto();
+
+        dto.setOid(category.getOid());
+        dto.setCreatedAt(category.getCreatedAt());
+        dto.setDescription(category.getDescription());
+
+        return dto;
+    }
+
 }

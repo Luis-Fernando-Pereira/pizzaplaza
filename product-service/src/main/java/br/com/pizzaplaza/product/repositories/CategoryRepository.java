@@ -15,4 +15,8 @@ public class CategoryRepository {
         em.persist(category);
     }
 
+    public Category findByOid(String oid) {
+        return em.find(Category.class, oid);
+    }
+
 }

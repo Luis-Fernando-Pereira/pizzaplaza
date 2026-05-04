@@ -5,6 +5,9 @@ import br.com.pizzaplaza.entity.dtos.UserDto;
 import br.com.pizzaplaza.product.services.CategoryService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -26,8 +29,11 @@ public class CategoryController {
     @GET
     @Path("/{oid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response find(@PathParam("oid") String oid) {
-        return Response.ok().build();
+    public Response find(@PathParam("oid") @NotBlank String oid) {
+
+        CategoryDto dto = categoryService.find(oid);
+
+        return Response.ok(dto).build();
     }
 
 
@@ -57,6 +63,7 @@ public class CategoryController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(String json) {
+
         return Response.ok().build();
     }
 
