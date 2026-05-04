@@ -3,8 +3,6 @@ package br.com.pizzaplaza.entity.dtos;
 import br.com.pizzaplaza.entity.Category;
 import br.com.pizzaplaza.entity.fatherofall.OdinDto;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
@@ -19,5 +17,15 @@ public class CategoryDto extends OdinDto {
         setOid(category.getOid());
         setCreatedAt(category.getCreatedAt());
         setDescription(category.getDescription());
+    }
+
+    public Category toEntity() {
+        Category category = new Category();
+
+        category.setDescription(this.description);
+        category.setOid(this.getOid());
+        category.setCreatedAt(this.getCreatedAt());
+
+        return category;
     }
 }

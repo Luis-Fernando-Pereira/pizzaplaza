@@ -1,11 +1,14 @@
 package br.com.pizzaplaza.product.services;
 
 import br.com.pizzaplaza.entity.Category;
+import br.com.pizzaplaza.entity.Flavor;
 import br.com.pizzaplaza.entity.dtos.CategoryDto;
-import br.com.pizzaplaza.product.repositories.CategoryRepository;
+import br.com.pizzaplaza.entity.dtos.FlavorDto;
+import br.com.pizzaplaza.product.repositories.FlavorRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.ws.rs.NotFoundException;
 
 import java.util.ArrayList;
@@ -15,68 +18,61 @@ import java.util.List;
 public class FlavorService {
 
     @Inject
-    CategoryRepository categoryRepository;
+    FlavorRepository flavorRepository;
+
+    @Inject
+    CategoryService categoryService;
 
     @Transactional
-    public CategoryDto save(CategoryDto dto) {
-        Category category = new Category();
+    public FlavorDto save(FlavorDto dto) {
+        Flavor flavor = dto.toEntity();
 
-        category.setDescription(dto.description);
+        flavorRepository.save(flavor);
 
-        categoryRepository.save(category);
-
-        dto.setOid(category.getOid());
-        dto.setCreatedAt(category.getCreatedAt());
+        dto.setOid(flavor.getOid());
+        dto.setCreatedAt(flavor.getCreatedAt());
 
         return dto;
     }
 
     @Transactional
-    public void update(CategoryDto dto) {
+    public void update(FlavorDto dto) {
         if (dto.getOid() == null) {
             throw new IllegalArgumentException("Oid is required for update");
         }
 
-        Category category = categoryRepository.findByOid(dto.getOid());
+        Flavor flavor = flavorRepository.findByOid(dto.getOid());
 
-        category.setDescription(dto.getDescription());
+        flavor.setName(dto.getName());
 
-        category = categoryRepository.update(category);
+        flavor.setCategory(categoryService.findEntity(dto.getCategory().getOid()));
+
+        flavor = flavorRepository.update(flavor);
     }
 
     @Transactional
-    public void delete(String oid) {
-        if (oid == null) {
-            throw new IllegalArgumentException("Oid is required for update");
-        }
+    public void delete(@NotBlank String oid) {
+        Flavor flavor = flavorRepository.findByOid(oid);
 
-        Category category = categoryRepository.findByOid(oid);
-
-         categoryRepository.delete(category);
+        flavorRepository.delete(flavor);
     }
 
-    public CategoryDto find(String oid) {
+    public FlavorDto find(String oid) {
 
-        Category category = categoryRepository.findByOid(oid);
+        Flavor flavor = flavorRepository.findByOid(oid);
 
-        if (category == null) {
-            throw new NotFoundException();
-        }
-
-        return new CategoryDto(category);
+        return new FlavorDto(flavor);
     }
 
-    public List<CategoryDto> findAll() {
+    public List<FlavorDto> findAll() {
 
-        List<Category> results = categoryRepository.findAll();
+        List<Flavor> results = flavorRepository.findAll();
 
         if (results == null) {
             return new ArrayList<>();
         }
 
-        List<CategoryDto> dtos = results.stream().map(CategoryDto::new).toList();
-
-        return dtos;
+        return results.stream().map(FlavorDto::new).toList();
     }
 
 }

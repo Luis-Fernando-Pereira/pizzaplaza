@@ -1,6 +1,7 @@
 package br.com.pizzaplaza.product.repositories;
 
 import br.com.pizzaplaza.entity.Category;
+import br.com.pizzaplaza.entity.Flavor;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -13,24 +14,24 @@ public class FlavorRepository {
     @Inject
     EntityManager em;
 
-    public void save(Category category) {
+    public void save(Flavor category) {
         em.persist(category);
     }
 
-    public Category update(Category category) {
+    public Flavor update(Flavor category) {
         return em.merge(category);
     }
 
-    public void delete(Category category) {
+    public void delete(Flavor category) {
         em.remove(category);
     }
 
-    public Category findByOid(String oid) {
-        return em.find(Category.class, oid);
+    public Flavor findByOid(String oid) {
+        return em.find(Flavor.class, oid);
     }
 
-    public List<Category> findAll() {
-        return em.createQuery("SELECT c FROM Category c", Category.class)
+    public List<Flavor> findAll() {
+        return em.createQuery("SELECT c FROM Flavor c", Flavor.class)
                 .getResultList();
     }
 

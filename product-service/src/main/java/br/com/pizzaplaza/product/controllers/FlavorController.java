@@ -1,45 +1,73 @@
 package br.com.pizzaplaza.product.controllers;
 
+import br.com.pizzaplaza.entity.dtos.FlavorDto;
+import br.com.pizzaplaza.product.services.FlavorService;
+import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/products")
+import java.net.URI;
+import java.util.List;
+
+@Path("/flavors")
 public class FlavorController {
 
+    @Inject
+    FlavorService flavorService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
-        return Response.ok().build();
+        List<FlavorDto> dtos = flavorService.findAll();
+
+        return Response.ok(dtos).build();
     }
 
     @GET
     @Path("/{oid}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response find(@PathParam("oid") String oid) {
-        return Response.ok().build();
+
+        FlavorDto dto = flavorService.find(oid);
+
+        return Response.ok(dto).build();
     }
 
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response post(String json) {
-        return Response.ok().build();
+    public Response post(@Valid FlavorDto dto) {
+
+        FlavorDto saved = flavorService.save(dto);
+
+         return Response.created(createUri(saved)).entity(saved).build();
     }
 
     @PUT
     @Path("{oid}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(String json) {
+    public Response update(@Valid FlavorDto dto) {
+
+        flavorService.update(dto);
+
         return Response.ok().build();
     }
 
     @DELETE
     @Path("{oid}")
-    public Response delete(String json) {
+    public Response delete(String oid) {
+
+        flavorService.delete(oid);
+
         return Response.noContent().build();
+    }
+
+    public URI createUri(FlavorDto dto) {
+        return URI.create("/flavor/" + dto.getOid());
     }
 }

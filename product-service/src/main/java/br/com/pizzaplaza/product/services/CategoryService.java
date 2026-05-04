@@ -6,6 +6,8 @@ import br.com.pizzaplaza.product.repositories.CategoryRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.NotFoundException;
 
 import java.util.ArrayList;
@@ -45,17 +47,14 @@ public class CategoryService {
     }
 
     @Transactional
-    public void delete(String oid) {
-        if (oid == null) {
-            throw new IllegalArgumentException("Oid is required for update");
-        }
+    public void delete(@NotBlank String oid) {
 
         Category category = categoryRepository.findByOid(oid);
 
-         categoryRepository.delete(category);
+        categoryRepository.delete(category);
     }
 
-    public CategoryDto find(String oid) {
+    public CategoryDto find(@NotBlank String oid) {
 
         Category category = categoryRepository.findByOid(oid);
 
@@ -64,6 +63,17 @@ public class CategoryService {
         }
 
         return new CategoryDto(category);
+    }
+
+    public Category findEntity(@NotBlank String oid) {
+
+        Category category = categoryRepository.findByOid(oid);
+
+        if (category == null) {
+            throw new NotFoundException();
+        }
+
+        return category;
     }
 
     public List<CategoryDto> findAll() {
