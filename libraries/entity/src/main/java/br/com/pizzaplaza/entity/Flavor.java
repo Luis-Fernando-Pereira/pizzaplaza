@@ -17,6 +17,6 @@ public class Flavor extends Odin {
     @Column(name = "price", nullable = false)
     private Double price;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "flavor")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "flavor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FlavorCategory> categories;
 }
