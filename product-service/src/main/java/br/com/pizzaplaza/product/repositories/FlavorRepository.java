@@ -14,16 +14,16 @@ public class FlavorRepository {
     @Inject
     EntityManager em;
 
-    public void save(Flavor category) {
-        em.persist(category);
+    public void save(Flavor flavor) {
+        em.persist(flavor);
     }
 
-    public Flavor update(Flavor category) {
-        return em.merge(category);
+    public Flavor update(Flavor flavor) {
+        return em.merge(flavor);
     }
 
-    public void delete(Flavor category) {
-        em.remove(category);
+    public void delete(Flavor flavor) {
+        em.remove(flavor);
     }
 
     public Flavor findByOid(String oid) {
@@ -31,7 +31,7 @@ public class FlavorRepository {
     }
 
     public List<Flavor> findAll() {
-        return em.createQuery("SELECT c FROM Flavor c", Flavor.class)
+        return em.createQuery("SELECT f FROM Flavor f", Flavor.class)
                 .getResultList();
     }
 
