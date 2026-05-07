@@ -18,12 +18,11 @@ public class FlavorDto extends OdinDto {
     private Double price;
 
     @NotNull
-    private CategoryDto category;
+    private List<CategoryDto> categories;
 
     public FlavorDto(){}
 
     public FlavorDto(@NotNull Flavor flavor) {
-        setCategory(new CategoryDto(flavor.getCategory()));
         setPrice(flavor.getPrice());
         setName(flavor.getName());
         setOid(flavor.getOid());
@@ -33,7 +32,6 @@ public class FlavorDto extends OdinDto {
     public Flavor toEntity() {
         Flavor entity = new Flavor();
 
-        entity.setCategory(getCategory().toEntity());
         entity.setName(getName());
         entity.setPrice(getPrice());
 
