@@ -9,6 +9,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.NotFoundException;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class FlavorService {
         Flavor flavor = flavorRepository.findByOid(dto.getOid());
 
         flavor.setName(dto.getName());
-
+        flavor.setPrice(dto.getPrice());
         flavor.setCategory(categoryService.findEntity(dto.getCategory().getOid()));
 
         flavor = flavorRepository.update(flavor);
@@ -64,6 +65,10 @@ public class FlavorService {
         Flavor flavor = flavorRepository.findByOid(oid);
 
         return new FlavorDto(flavor);
+    }
+
+    public Flavor findEntity(@NotNull String oid) {
+        return flavorRepository.findByOid(oid);
     }
 
     public List<FlavorDto> findAll() {

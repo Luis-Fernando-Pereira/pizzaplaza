@@ -4,6 +4,8 @@ import br.com.pizzaplaza.entity.fatherofall.Odin;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "flavor")
@@ -12,7 +14,9 @@ public class Flavor extends Odin {
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_oid")
-    private Category category;
+    @Column(name = "price", nullable = false)
+    private Double price;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "flavor")
+    private List<FlavorCategory> categories;
 }

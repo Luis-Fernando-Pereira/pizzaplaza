@@ -4,7 +4,6 @@ import br.com.pizzaplaza.entity.dtos.FlavorDto;
 import br.com.pizzaplaza.product.services.FlavorService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -67,6 +66,6 @@ public class FlavorController {
     }
 
     public URI createUri(FlavorDto dto) {
-        return URI.create("/flavor/" + dto.getOid());
+        return URI.create("/flavors/" + dto.getOid());
     }
 }

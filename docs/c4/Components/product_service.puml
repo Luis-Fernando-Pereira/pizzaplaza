@@ -6,47 +6,28 @@ title Pizza Plaza - Product Service (Component Diagram)
 Container(api_gateway, "API Gateway", "Gateway", "Ponto de entrada das APIs")
 
 Container_Boundary(product_microservice, "Product Service - Quarkus") {
+    Component(flavor_controller, "FlavorController", "REST Controller (Quarkus)","Expõe endpoints REST para gerenciamento de sabores de pizzas")
+    Component(flavor_service, "FlavorService", "Serviço de Sabores","Implementa regras de negócio de sabores de pizzas")
+    Component(flavor_repository, "FlavorRepository", "JPA Repository","Persistência de sabores de pizzas")
 
-    Component(pizza_controller, "PizzaController", "REST Controller (Quarkus)","Expõe endpoints REST para gerenciamento de produtos")
-
-    Component(flavor_controller, "FlavorController", "REST Controller (Quarkus)","Expõe endpoints REST para gerenciamento de sabores de produtos")
-    Component(flavor_service, "FlavorService", "Serviço de Sabores","Implementa regras de negócio de sabores de produtos")
-    Component(flavor_repository, "FlavorRepository", "JPA Repository","Persistência de sabores de produtos")
-
-    Component(category_controller, "CategoryController", "REST Controller (Quarkus)", "Expõe endpoints REST para gerenciamento de categorias de produtos")
-
-    Component(pizza_service, "PizzaService", "Serviço de Produtos","Implementa regras de negócio de produtos")
-
-    Component(category_service, "CategoryService", "Serviço de Categorias","Implementa regras de negócio de categorias de produtos")
-
-    Component(pizza_repository, "PizzaRepository", "JPA Repository","Persistência de produtos")
-
-    Component(category_repository, "CategoryRepository", "JPA Repository","Persistência de categorais de produtos")
-
+    Component(category_controller, "CategoryController", "REST Controller (Quarkus)", "Expõe endpoints REST para gerenciamento de categorias de pizzas")
+    Component(category_service, "CategoryService", "Serviço de Categorias","Implementa regras de negócio de categorias de pizzas")
+    Component(category_repository, "CategoryRepository", "JPA Repository","Persistência de categorais de pizzas")
 }
 
 ContainerDb(database, "PostgreSQL", "PostgreSQL 18", "Banco de dados do sistema")
 
-Rel(api_gateway, flavor_controller, "Chama endpoints REST de gerenciamento de sabores de produtos", "HTTPS/JSON")
-Rel(flavor_controller, flavor_service, "Gerencia sabores de produtos de acordo com regras de negócio", "DTOs")
-Rel(flavor_service, flavor_repository, "Chama métodos de persistencia, atualização e consulta de sabores de produtos", "FlavorEntity")
+Rel(api_gateway, flavor_controller, "Chama endpoints REST de gerenciamento de sabores de pizzas", "HTTPS/JSON")
+Rel(flavor_controller, flavor_service, "Gerencia sabores de pizzas de acordo com regras de negócio", "DTOs")
+Rel(flavor_service, flavor_repository, "Chama métodos de persistencia, atualização e consulta de sabores de pizzas", "FlavorEntity")
 Rel(flavor_repository, database, "Interage com o banco de dados", "JPA/SQL")
 
-Rel(flavor_service, category_service, "Consulta categorias de produtos para associar a um sabor", "CategoryEntity")
+Rel(flavor_service, category_service, "Consulta categorias de pizzas para associar a um sabor", "CategoryEntity")
+Rel(api_gateway, category_controller, "Chama endpoints REST de gerenciamento de categorias de pizzas", "HTTPS/JSON")
 
-Rel(api_gateway, pizza_controller, "Chama endpoints REST de gerenciamento de produtos", "HTTPS/JSON")
-Rel(pizza_service, flavor_service, "Consulta sabores de produtos para associar a um produto", "FlavorEntity")
-
-Rel(api_gateway, category_controller, "Chama endpoints REST de gerenciamento de categorias de produtos", "HTTPS/JSON")
-
-Rel(pizza_controller, pizza_service, "Gerencia produtos de acordo com regras de negócio", "DTOs")
-Rel(category_controller, category_service, "Gerencia produtos de acordo com regras de negócio", "DTOs")
-
-Rel(category_service, category_repository, "Chama métodos de persistencia, atualização e consulta de categorias de produtos", "CategoryEntity")
-Rel(pizza_service, pizza_repository, "Chama métodos de persistencia, atualização e consulta de produtos", "PizzaEntity")
-
+Rel(category_controller, category_service, "Gerencia pizzas de acordo com regras de negócio", "DTOs")
+Rel(category_service, category_repository, "Chama métodos de persistencia, atualização e consulta de categorias de pizzas", "CategoryEntity")
 Rel(category_repository, database, "Interage com o banco de dados", "JPA/SQL")
-Rel(pizza_repository, database, "Interage com o banco de dados", "JPA/SQL")
 
 
 @enduml
