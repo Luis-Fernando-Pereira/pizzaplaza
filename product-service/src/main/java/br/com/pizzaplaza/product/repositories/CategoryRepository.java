@@ -34,4 +34,10 @@ public class CategoryRepository {
                 .getResultList();
     }
 
+    public List<Category> findByOidList(List<String> oidList) {
+        return em.createQuery("SELECT c FROM Category c WHERE c.oid IN :oidList", Category.class)
+                .setParameter("oidList", oidList)
+                .getResultList();
+    }
+
 }

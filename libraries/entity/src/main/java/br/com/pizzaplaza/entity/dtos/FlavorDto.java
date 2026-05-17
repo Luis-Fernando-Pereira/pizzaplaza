@@ -45,17 +45,4 @@ public class FlavorDto extends OdinDto {
         return categories.stream().filter(CategoryDto::isOidInvalid).findFirst().isPresent();
     }
 
-    public List<FlavorCategory> createCategoryList() {
-        List<FlavorCategory> categoryList = new ArrayList<>();
-
-        categories.stream().map(categoryDto -> {
-            FlavorCategory flavorCategory = new FlavorCategory();
-            flavorCategory.setFlavor(this.toEntity());
-            flavorCategory.setCategory(categoryDto.toEntity());
-            return flavorCategory;
-        }).forEach(categoryList::add);
-
-        return categoryList;
-    }
-
 }

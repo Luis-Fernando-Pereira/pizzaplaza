@@ -1,13 +1,13 @@
 package br.com.pizzaplaza.product.services;
 
 import br.com.pizzaplaza.entity.Category;
+import br.com.pizzaplaza.entity.FlavorCategory;
 import br.com.pizzaplaza.entity.dtos.CategoryDto;
 import br.com.pizzaplaza.product.repositories.CategoryRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.NotFoundException;
 
 import java.util.ArrayList;
@@ -87,6 +87,12 @@ public class CategoryService {
         List<CategoryDto> dtos = results.stream().map(CategoryDto::new).toList();
 
         return dtos;
+    }
+
+    public List<Category> findByFlavorCategoryList(List<CategoryDto> categoryDtoList) {
+        List<String> oidList = categoryDtoList.stream().map(CategoryDto::getOid).toList();
+
+        return categoryRepository.findByOidList(oidList);
     }
 
 }

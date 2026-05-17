@@ -4,6 +4,7 @@ import br.com.pizzaplaza.entity.fatherofall.Odin;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,5 +19,5 @@ public class Flavor extends Odin {
     private Double price;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "flavor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FlavorCategory> categories;
+    private List<FlavorCategory> categories = new ArrayList<>();;
 }

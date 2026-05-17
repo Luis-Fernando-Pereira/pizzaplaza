@@ -28,4 +28,12 @@ public class CategoryDto extends OdinDto {
 
         return category;
     }
+
+    public Boolean isOidValid() {
+        return getOid() != null && !getOid().isEmpty();
+    }
+
+    public Boolean isOidInvalid() {
+        return getOid() == null || getOid().isEmpty();
+    }
 }
