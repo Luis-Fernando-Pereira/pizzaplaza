@@ -16,6 +16,10 @@ public class Pizza extends Odin {
     @Enumerated(EnumType.STRING)
     private PizzaSize size;
 
+    @ManyToOne
+    @JoinColumn(name = "order_oid")
+    private Order order;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pizza", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PizzaFlavor> flavors;
 
