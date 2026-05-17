@@ -6,6 +6,8 @@
 /libraries/entity/.idea/
 /libraries/util/.idea/
 /libraries/util/target/
+/order-service/.idea/
+/order-service/target/
 /.idea/
 /.mvn/
 
