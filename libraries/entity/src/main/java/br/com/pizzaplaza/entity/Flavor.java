@@ -15,6 +15,9 @@ public class Flavor extends Odin {
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
     @Column(name = "price", nullable = false)
     private Double price;
 
