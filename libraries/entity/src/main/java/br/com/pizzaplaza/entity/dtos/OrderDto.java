@@ -1,0 +1,11 @@
+package br.com.pizzaplaza.entity.dtos;
+
+import br.com.pizzaplaza.entity.enums.OrderStatus;
+import br.com.pizzaplaza.entity.fatherofall.OdinDto;
+import jakarta.validation.constraints.NotBlank;
+
+public class OrderDto extends OdinDto {
+
+    @NotBlank
+    private OrderStatus status;
+}
