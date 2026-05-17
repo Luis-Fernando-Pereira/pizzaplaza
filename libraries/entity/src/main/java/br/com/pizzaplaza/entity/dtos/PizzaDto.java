@@ -32,12 +32,13 @@ public class PizzaDto extends OdinDto {
         Pizza entity = new Pizza();
 
         entity.setSize(this.size);
-        entity.setFlavors(this.flavors.stream().map(flavorDto -> {
+
+        this.flavors.forEach(flavorDto -> {
             PizzaFlavor rel = new PizzaFlavor();
             rel.setFlavor(flavorDto.toEntity());
             rel.setPizza(entity);
-            return rel;
-        }).toList());
+            entity.getFlavors().add(rel);
+        });
 
         return entity;
     }

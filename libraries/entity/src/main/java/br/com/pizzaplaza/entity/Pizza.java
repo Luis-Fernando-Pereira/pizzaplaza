@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "pizza")
@@ -27,6 +29,6 @@ public class Pizza extends Odin {
 
     @Getter
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pizza", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PizzaFlavor> flavors = new ArrayList<>();
+    private Set<PizzaFlavor> flavors = new HashSet<>();
 
 }
