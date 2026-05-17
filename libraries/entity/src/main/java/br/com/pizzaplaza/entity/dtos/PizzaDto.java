@@ -6,20 +6,24 @@ import br.com.pizzaplaza.entity.enums.PizzaSize;
 import br.com.pizzaplaza.entity.fatherofall.OdinDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
 public class PizzaDto extends OdinDto {
 
+    @Getter
+    @Setter
     @NotBlank
     private PizzaSize size;
 
+    @Getter
+    @Setter
     @NotEmpty
     private List<FlavorDto> flavors;
 
-    public PizzaDto(){};
+    public PizzaDto(){}
 
     public PizzaDto(Pizza entity) {
         setSize(entity.getSize());
