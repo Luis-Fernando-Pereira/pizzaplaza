@@ -5,39 +5,41 @@ title Pizza Plaza - Order Service (Component Diagram)
 
 Container(api_gateway, "API Gateway", "Gateway", "Ponto de entrada das APIs")
 
-Container_Boundary(order_service, "Order Service - Quarkus") {
+Container_Boundary(order, "Order Service - Quarkus") {
 
     Component(order_controller, "OrderController", "REST Controller (Quarkus)","Expõe endpoints REST para criação, consulta e atualização de pedidos")
 
-    Component(order_service_core, "OrderService", "Business Service","Implementa regras de negócio de pedidos")
+    Component(order_service, "OrderService", "Business Service", "Implementa regras de negócio de pedidos")
 
     Component(order_validator, "OrderValidator", "Domain Validator","Valida regras de negócio como status, cancelamento e itens mínimos")
 
     Component(order_repository, "OrderRepository", "JPA Repository","Acesso a dados da entidade Pedido")
 
-    Component(item_repository, "ItemPedidoRepository", "JPA Repository","Persistência dos itens do pedido")
+    Component(pizza_repository, "PizzaRepository", "JPA Repository","Acesso a dados da entidade Pizza")
 
-    Component(order_entity, "Pedido Entity", "JPA Entity","Representa pedidos no banco de dados")
+    Component(pizza_service, "PizzaService", "Business Service","Implementa regras de negócio de pizzas")
+}
 
-    Component(item_entity, "ItemPedido Entity", "JPA Entity","Representa itens de pedidos")
-
+System_Boundary(product_service, "Product Microservice") {
+    Container(flavor_api, "Flavor API", "Quarkus", "Responsável pelos sabores")
 }
 
 ContainerDb(database, "PostgreSQL", "PostgreSQL 18", "Banco de dados do sistema")
 
 Rel(api_gateway, order_controller, "Chama endpoints REST", "HTTPS/JSON")
 
-Rel(order_controller, order_service_core, "Invoca operações")
+Rel(order_controller, order_service, "Invoca operações")
 
-Rel(order_service_core, order_validator, "Valida regras")
+Rel(order_service, order_validator, "Valida regras")
 
-Rel(order_service_core, order_repository, "Gerencia pedidos")
-Rel(order_service_core, item_repository, "Gerencia itens")
+Rel(order_service, order_repository, "Gerencia pedidos")
 
-Rel(order_repository, order_entity, "Mapeia entidade")
-Rel(item_repository, item_entity, "Mapeia entidade")
+Rel(pizza_service, pizza_repository, "Mapeia entidade")
+Rel(order_service, pizza_service, "Mapeia entidade")
+
+Rel(pizza_service, flavor_api, "Consulta sabores", "HTTP/REST")
 
 Rel(order_repository, database, "Lê/Escreve", "JPA/Hibernate")
-Rel(item_repository, database, "Lê/Escreve", "JPA/Hibernate")
+Rel(pizza_repository, database, "Lê/Escreve", "JPA/Hibernate")
 
 @enduml
