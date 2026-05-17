@@ -17,6 +17,7 @@
         <module>api-gateway</module>
         <module>libraries/util</module>
         <module>user-service</module>
+        <module>order-service</module>
     </modules>
 
     <properties>
