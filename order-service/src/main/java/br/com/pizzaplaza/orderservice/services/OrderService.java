@@ -6,9 +6,11 @@ import br.com.pizzaplaza.entity.PizzaFlavorSnapshot;
 import br.com.pizzaplaza.entity.dtos.OrderDto;
 import br.com.pizzaplaza.entity.dtos.PizzaDto;
 import br.com.pizzaplaza.orderservice.integration.productservice.FlavorIntegrator;
+import br.com.pizzaplaza.orderservice.interfaces.FlavorGateway;
 import br.com.pizzaplaza.orderservice.repositories.OrderRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.transaction.Transactional;
 
 import java.math.BigDecimal;
@@ -22,7 +24,8 @@ public class OrderService {
     OrderRepository orderRepository;
 
     @Inject
-    FlavorIntegrator flavorIntegrator;
+    @Named("rest")
+    FlavorGateway flavorGateway;
 
     @Transactional
     public Order createOrder(OrderDto dto) {
@@ -41,7 +44,7 @@ public class OrderService {
 
             List<PizzaFlavorSnapshot> snapshots = pizzaDto.getFlavorOids()
                     .stream()
-                    .map(flavorIntegrator::find)
+                    .map(flavorGateway::find)
                     .map(flavor -> {
                         PizzaFlavorSnapshot snapshot = new PizzaFlavorSnapshot();
 
@@ -71,6 +74,21 @@ public class OrderService {
         orderRepository.persist(order);
 
         return order;
+    }
+
+    @Transactional
+    public Order find(String oid) {
+        if (oid == null) {
+            throw new IllegalArgumentException("Oid is required");
+        }
+
+        return orderRepository.findByOidOptional(oid)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+    }
+
+    @Transactional
+    public List<Order> findAll() {
+        return orderRepository.listAll();
     }
 
     private void validateOrder(OrderDto dto) {
