@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,6 +21,11 @@ public class Order extends Odin {
     @Setter
     @Column(name = "status", length = 20, nullable = false)
     private OrderStatus status = OrderStatus.RECEIVED;
+
+    @Getter
+    @Setter
+    @Column(name = "total_price", nullable = false)
+    private BigDecimal totalPrice;
 
     @Getter
     @OneToMany(mappedBy = "order")

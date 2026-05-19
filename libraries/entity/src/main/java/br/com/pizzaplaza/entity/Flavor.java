@@ -4,6 +4,7 @@ import br.com.pizzaplaza.entity.fatherofall.Odin;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class Flavor extends Odin {
     private String description;
 
     @Column(name = "price", nullable = false)
-    private Double price;
+    private BigDecimal price;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "flavor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FlavorCategory> categories = new ArrayList<>();;

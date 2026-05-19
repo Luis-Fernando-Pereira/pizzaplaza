@@ -46,4 +46,8 @@ public class PizzaDto extends OdinDto {
 
         return entity;
     }
+
+    public List<String> getFlavorOids() {
+        return this.flavors.stream().map(FlavorDto::getOid).toList();
+    }
 }

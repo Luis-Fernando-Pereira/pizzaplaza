@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,10 @@ public class FlavorDto extends OdinDto {
     private String name;
 
     @NotNull
-    private Double price;
+    private BigDecimal price;
+
+    @NotBlank
+    private String description;
 
     @NotNull
     private List<CategoryDto> categories;

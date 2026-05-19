@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +27,12 @@ public class Pizza extends Odin {
     private Order order;
 
     @Getter
+    @Setter
+    @Column(name = "unit_price", nullable = false)
+    private BigDecimal unitPrice;
+
+    @Getter
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pizza", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PizzaFlavor> flavors = new HashSet<>();
+    private Set<PizzaFlavorSnapshot> flavors = new HashSet<>();
 
 }
