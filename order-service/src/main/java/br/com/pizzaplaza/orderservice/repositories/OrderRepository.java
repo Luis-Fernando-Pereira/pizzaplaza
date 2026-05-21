@@ -1,6 +1,6 @@
 package br.com.pizzaplaza.orderservice.repositories;
 
-import br.com.pizzaplaza.entity.Order;
+import br.com.pizzaplaza.orderservice.entities.Order;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -19,7 +19,7 @@ public class OrderRepository {
     }
 
     public Optional<Order> findByOidOptional(String oid) {
-        return em.createQuery("SELECT * from Order o where o.oid = :oid", Order.class)
+        return em.createQuery("SELECT o from Order o where o.oid = :oid", Order.class)
                 .setParameter("oid", oid)
                 .getResultStream()
                 .findFirst();

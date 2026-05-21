@@ -9,6 +9,8 @@ import br.com.pizzaplaza.orderservice.repositories.OrderRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.ws.rs.NotFoundException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,33 +27,33 @@ public class OrderService {
 
         Order order = dto.toEntity();
 
-        BigDecimal total = BigDecimal.ZERO;
+        orderRepository.persist(order);
 
+        dto.setOid(order.getOid());
 
+        return dto;
     }
 
     @Transactional
-    public Order find(String oid) {
-        if (oid == null) {
-            throw new IllegalArgumentException("Oid is required");
-        }
+    public OrderDto find(@NotBlank String oid) {
+        Order order = orderRepository.findByOidOptional(oid)
+                .orElseThrow(() -> new NotFoundException("Order not found"));
 
-        return orderRepository.findByOidOptional(oid)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+        return new OrderDto(order);
     }
-
-    @Transactional
-    public List<Order> findAll() {
-        return orderRepository.listAll();
-    }
-
-
-    private BigDecimal calculatePizzaPrice(List<FlavorSnapshot> flavors, Integer quantity) {
-        BigDecimal highestFlavorPrice = flavors.stream()
-                .map(FlavorSnapshot::getPrice)
-                .max(BigDecimal::compareTo)
-                .orElse(BigDecimal.ZERO);
-
-        return highestFlavorPrice.multiply(BigDecimal.valueOf(quantity));
-    }
+//
+//    @Transactional
+//    public List<Order> findAll() {
+//        return orderRepository.listAll();
+//    }
+//
+//
+//    private BigDecimal calculatePizzaPrice(List<FlavorSnapshot> flavors, Integer quantity) {
+//        BigDecimal highestFlavorPrice = flavors.stream()
+//                .map(FlavorSnapshot::getPrice)
+//                .max(BigDecimal::compareTo)
+//                .orElse(BigDecimal.ZERO);
+//
+//        return highestFlavorPrice.multiply(BigDecimal.valueOf(quantity));
+//    }
 }

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class CostumerDto extends OdinDto {
+public class CustumerDto extends OdinDto {
 
     private String userOid;
 
@@ -14,6 +14,16 @@ public class CostumerDto extends OdinDto {
     private String name;
 
     private String cpf;
+
+    public CustumerDto(){}
+
+    public CustumerDto(Custumer custumer){
+        setCpf(custumer.getCpf());
+        setUserOid(custumer.getUserOid());
+        setName(custumer.getName());
+        setCreatedAt(custumer.getCreatedAt());
+        setOid(custumer.getOid());
+    }
 
     public Custumer toEntity() {
         Custumer custumer = new Custumer();

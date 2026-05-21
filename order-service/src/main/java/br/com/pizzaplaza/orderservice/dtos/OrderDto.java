@@ -13,6 +13,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 public class OrderDto extends OdinDto {
@@ -27,10 +28,20 @@ public class OrderDto extends OdinDto {
 
     @NotNull
     @Valid
-    private CostumerDto costumer;
+    private CustumerDto costumer;
 
     @Positive
     private BigDecimal totalPrice;
+
+    public OrderDto(){}
+
+    public OrderDto(Order order) {
+        setOid(order.getOid());
+        setStatus(order.getStatus());
+        setCostumer(new CustumerDto(order.getCustumer()));
+        setTotalPrice(order.getTotalPrice());
+        setPizzaList(order.getPizzaSet().stream().map(PizzaDto::new).collect(Collectors.toSet()));
+    }
 
     public Order toEntity() {
         Order entity = new Order();

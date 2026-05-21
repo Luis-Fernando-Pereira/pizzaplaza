@@ -33,7 +33,7 @@ public class PizzaDto extends OdinDto {
     public PizzaDto(Pizza entity) {
         setSize(entity.getSize());
         setUnitPrice(entity.getUnitPrice());
-        setFlavors(entity.getFlavors().stream().map(rel -> new FlavorSnapshotDto(rel)).toList());
+        setFlavors(entity.getFlavors().stream().map(flavor -> new FlavorSnapshotDto(flavor)).toList());
         setOid(entity.getOid());
         setCreatedAt(entity.getCreatedAt());
     }
