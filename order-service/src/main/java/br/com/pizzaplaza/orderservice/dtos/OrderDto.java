@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class OrderDto extends OdinDto {
 
     @NotNull
@@ -49,7 +51,7 @@ public class OrderDto extends OdinDto {
         entity.setCustumer(getCostumer().toEntity());
         entity.setTotalPrice(getTotalPrice());
         entity.setStatus(getStatus());
-        pizzaList.stream().forEach(dto -> {
+        pizzaList.forEach(dto -> {
             Pizza pizza = dto.toEntity();
             pizza.setOrder(entity);
             entity.getPizzaSet().add(pizza);

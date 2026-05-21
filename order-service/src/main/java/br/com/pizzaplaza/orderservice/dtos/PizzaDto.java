@@ -9,11 +9,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class PizzaDto extends OdinDto {
 
     @NotNull
@@ -33,7 +35,7 @@ public class PizzaDto extends OdinDto {
     public PizzaDto(Pizza entity) {
         setSize(entity.getSize());
         setUnitPrice(entity.getUnitPrice());
-        setFlavors(entity.getFlavors().stream().map(flavor -> new FlavorSnapshotDto(flavor)).toList());
+        setFlavors(entity.getFlavors().stream().map(FlavorSnapshotDto::new).toList());
         setOid(entity.getOid());
         setCreatedAt(entity.getCreatedAt());
     }
@@ -50,9 +52,5 @@ public class PizzaDto extends OdinDto {
         });
 
         return entity;
-    }
-
-    public List<String> getFlavorOids() {
-        return this.flavors.stream().map(FlavorSnapshotDto::getOid).toList();
     }
 }

@@ -1,11 +1,9 @@
 package br.com.pizzaplaza.orderservice.controllers;
 
-import br.com.pizzaplaza.orderservice.entities.Order;
 import br.com.pizzaplaza.orderservice.dtos.OrderDto;
 import br.com.pizzaplaza.orderservice.services.OrderService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 

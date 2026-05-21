@@ -1,20 +1,13 @@
 package br.com.pizzaplaza.orderservice.services;
 
 import br.com.pizzaplaza.orderservice.dtos.OrderDto;
-import br.com.pizzaplaza.orderservice.dtos.PizzaDto;
-import br.com.pizzaplaza.orderservice.entities.FlavorSnapshot;
 import br.com.pizzaplaza.orderservice.entities.Order;
-import br.com.pizzaplaza.orderservice.entities.Pizza;
 import br.com.pizzaplaza.orderservice.repositories.OrderRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.ws.rs.NotFoundException;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @ApplicationScoped
 public class OrderService {
