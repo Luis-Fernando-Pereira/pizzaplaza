@@ -18,6 +18,7 @@
         <module>libraries/util</module>
         <module>user-service</module>
         <module>order-service</module>
+        <module>libraries/contracts</module>
     </modules>
 
     <properties>

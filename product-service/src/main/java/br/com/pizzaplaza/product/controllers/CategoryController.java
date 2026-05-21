@@ -1,13 +1,10 @@
 package br.com.pizzaplaza.product.controllers;
 
-import br.com.pizzaplaza.entity.dtos.CategoryDto;
-import br.com.pizzaplaza.entity.dtos.UserDto;
+import br.com.pizzaplaza.product.libraries.CategoryDto;
 import br.com.pizzaplaza.product.services.CategoryService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;

@@ -1,7 +1,7 @@
 package br.com.pizzaplaza.orderservice.controllers;
 
-import br.com.pizzaplaza.entity.Order;
-import br.com.pizzaplaza.entity.dtos.OrderDto;
+import br.com.pizzaplaza.orderservice.entities.Order;
+import br.com.pizzaplaza.orderservice.dtos.OrderDto;
 import br.com.pizzaplaza.orderservice.services.OrderService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -21,8 +21,7 @@ public class OrderController {
     public Response post(@Valid OrderDto dto) {
         try {
 
-            Order order = orderService.createOrder(dto);
-
+            OrderDto created = orderService.createOrder(dto);
 
             return Response.created(new URI("")).build();
         } catch (Exception e) {

@@ -1,15 +1,14 @@
 package br.com.pizzaplaza.orderservice.integration.productservice;
 
-import br.com.pizzaplaza.entity.dtos.FlavorDto;
-import br.com.pizzaplaza.orderservice.integration.productservice.client.FlavorClient;
-import br.com.pizzaplaza.orderservice.interfaces.FlavorGateway;
+import br.com.pizzaplaza.contracts.dtos.FlavorResponseDto;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
-import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.WebApplicationException;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-@Named("rest")
+import java.util.Set;
+
+
 @ApplicationScoped
 public class FlavorIntegrator implements FlavorGateway {
 
@@ -18,20 +17,33 @@ public class FlavorIntegrator implements FlavorGateway {
     FlavorClient flavorClient;
 
     @Override
-    public FlavorDto find(String oid) {
+    public FlavorResponseDto findByOid(String oid) {
         try {
             return flavorClient.findByOid(oid);
 
-        } catch (NotFoundException e) {
-            throw new IllegalArgumentException(
-                    "Flavor não encontrado: " + oid
-            );
+        } catch (WebApplicationException webAppException) {
 
-        } catch (Exception e) {
-            throw new RuntimeException(
-                    "Erro ao integrar com Product Service",
-                    e
-            );
+            throw new RuntimeException("Erro ao buscar flavor no Product Service. Status: " + webAppException.getResponse().getStatus(), webAppException);
+
+        } catch (Exception exception) {
+
+            throw new RuntimeException("Erro inesperado ao integrar com Product Service", exception);
+        }
+    }
+
+    @Override
+    public Set<FlavorResponseDto> findByOids(Set<String> oids) {
+        try {
+
+            return flavorClient.findByOids(oids);
+
+        } catch (WebApplicationException webAppException) {
+
+            throw new RuntimeException("Erro ao buscar flavors no Product Service. Status: " + webAppException.getResponse().getStatus(), webAppException);
+
+        } catch (Exception exception) {
+
+            throw new RuntimeException("Erro inesperado ao integrar com Product Service", exception);
         }
     }
 }

@@ -1,9 +1,9 @@
 package br.com.pizzaplaza.product.services;
 
-import br.com.pizzaplaza.entity.Category;
-import br.com.pizzaplaza.entity.Flavor;
-import br.com.pizzaplaza.entity.FlavorCategory;
-import br.com.pizzaplaza.entity.dtos.FlavorDto;
+import br.com.pizzaplaza.product.libraries.Category;
+import br.com.pizzaplaza.product.libraries.Flavor;
+import br.com.pizzaplaza.product.libraries.FlavorCategory;
+import br.com.pizzaplaza.product.libraries.FlavorDto;
 import br.com.pizzaplaza.product.factories.FlavorCategoryFactory;
 import br.com.pizzaplaza.product.repositories.FlavorRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -160,9 +160,9 @@ public class FlavorService {
         return flavorRepository.findByOid(oid);
     }
 
-    public List<FlavorDto> findAll() {
+    public List<FlavorDto> findAll(List<String> oidList) {
 
-        List<Flavor> results = flavorRepository.findAll();
+        List<Flavor> results = flavorRepository.findAll(oidList);
 
         if (results == null) {
             return new ArrayList<>();

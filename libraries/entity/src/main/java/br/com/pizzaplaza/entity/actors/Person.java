@@ -4,15 +4,20 @@ import br.com.pizzaplaza.entity.fatherofall.Odin;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
 @MappedSuperclass
 public class Person extends Odin {
 
+    @Getter
+    @Setter
     @Column(unique = true)
-    public String cpf;
+    private String cpf;
 
+    @Getter
+    @Setter
     @Column
-    public String name;
+    private String name;
 
 }

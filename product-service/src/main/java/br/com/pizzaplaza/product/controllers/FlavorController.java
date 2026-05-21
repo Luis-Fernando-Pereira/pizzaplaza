@@ -1,6 +1,6 @@
 package br.com.pizzaplaza.product.controllers;
 
-import br.com.pizzaplaza.entity.dtos.FlavorDto;
+import br.com.pizzaplaza.product.libraries.FlavorDto;
 import br.com.pizzaplaza.product.services.FlavorService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -19,8 +19,8 @@ public class FlavorController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findAll() {
-        List<FlavorDto> dtos = flavorService.findAll();
+    public Response findAll(@QueryParam("oidList") List<String> oids) {
+        List<FlavorDto> dtos = flavorService.findAll(oids);
 
         return Response.ok(dtos).build();
     }

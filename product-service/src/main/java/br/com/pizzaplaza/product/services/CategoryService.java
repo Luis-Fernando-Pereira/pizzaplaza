@@ -1,8 +1,7 @@
 package br.com.pizzaplaza.product.services;
 
-import br.com.pizzaplaza.entity.Category;
-import br.com.pizzaplaza.entity.FlavorCategory;
-import br.com.pizzaplaza.entity.dtos.CategoryDto;
+import br.com.pizzaplaza.product.libraries.Category;
+import br.com.pizzaplaza.product.libraries.CategoryDto;
 import br.com.pizzaplaza.product.repositories.CategoryRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
