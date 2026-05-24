@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+}
+
+.content {
+  margin-left: 260px;
+
+  width: calc(100% - 260px);
+
+  min-height: 100vh;
+
+  padding: 32px;
+  box-sizing: border-box;
+
+  background: #f3f4f6;
+
+  transition:
+    margin-left 0.3s ease,
+    width 0.3s ease;
+}
+
+.content.collapsed {
+  margin-left: 90px;
+
+  width: calc(100% - 90px);
+}

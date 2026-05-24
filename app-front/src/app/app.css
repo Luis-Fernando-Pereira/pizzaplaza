@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+}
+
+.content {
+  margin-left: 260px;
+
+  width: calc(100% - 260px);
+
+  padding: 32px;
+  box-sizing: border-box;
+
+  transition:
+    margin-left 0.3s ease,
+    width 0.3s ease;
+}
+
+.content.collapsed {
+  margin-left: 90px;
+
+  width: calc(100% - 90px);
+}

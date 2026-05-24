@@ -1,0 +1,56 @@
+<aside class="sidebar"
+       [class.collapsed]="layout.collapsed()">
+
+  <div class="top-area">
+
+    @if (!layout.collapsed()) {
+      <div class="logo">
+        🍕 Pizza Plaza
+      </div>
+    }
+
+    <button class="toggle-btn"
+            (click)="layout.toggleMenu()">
+      ☰
+    </button>
+
+  </div>
+
+  <nav class="menu">
+
+    <a routerLink="/admin/sabores"
+       routerLinkActive="active">
+
+      <span class="icon">🍕</span>
+
+      @if (!layout.collapsed()) {
+        <span>Sabores</span>
+      }
+
+    </a>
+
+    <a routerLink="/admin/pizzas"
+       routerLinkActive="active">
+
+      <span class="icon">🔥</span>
+
+      @if (!layout.collapsed()) {
+        <span>Pizzas</span>
+      }
+
+    </a>
+
+    <a routerLink="/admin/pedidos"
+       routerLinkActive="active">
+
+      <span class="icon">📦</span>
+
+      @if (!layout.collapsed()) {
+        <span>Pedidos</span>
+      }
+
+    </a>
+
+  </nav>
+
+</aside>
