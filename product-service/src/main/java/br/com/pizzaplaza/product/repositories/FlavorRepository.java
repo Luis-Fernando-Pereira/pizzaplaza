@@ -1,6 +1,6 @@
 package br.com.pizzaplaza.product.repositories;
 
-import br.com.pizzaplaza.product.libraries.Flavor;
+import br.com.pizzaplaza.product.entities.Flavor;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;

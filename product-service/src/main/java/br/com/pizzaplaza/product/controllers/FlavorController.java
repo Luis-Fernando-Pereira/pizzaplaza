@@ -1,6 +1,6 @@
 package br.com.pizzaplaza.product.controllers;
 
-import br.com.pizzaplaza.product.libraries.FlavorDto;
+import br.com.pizzaplaza.product.dtos.FlavorDto;
 import br.com.pizzaplaza.product.services.FlavorService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;

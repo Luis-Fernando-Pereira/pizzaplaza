@@ -1,6 +1,6 @@
-package br.com.pizzaplaza.product.libraries;
+package br.com.pizzaplaza.product.dtos;
 
-import br.com.pizzaplaza.entity.Category;
+import br.com.pizzaplaza.product.entities.Category;
 import br.com.pizzaplaza.entity.fatherofall.OdinDto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

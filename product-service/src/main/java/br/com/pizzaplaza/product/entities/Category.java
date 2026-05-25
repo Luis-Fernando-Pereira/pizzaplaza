@@ -1,4 +1,4 @@
-package br.com.pizzaplaza.product.libraries;
+package br.com.pizzaplaza.product.entities;
 
 import br.com.pizzaplaza.entity.fatherofall.Odin;
 import jakarta.persistence.Column;

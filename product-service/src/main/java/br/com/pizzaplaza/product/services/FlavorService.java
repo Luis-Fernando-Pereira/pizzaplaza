@@ -1,9 +1,9 @@
 package br.com.pizzaplaza.product.services;
 
-import br.com.pizzaplaza.product.libraries.Category;
-import br.com.pizzaplaza.product.libraries.Flavor;
-import br.com.pizzaplaza.product.libraries.FlavorCategory;
-import br.com.pizzaplaza.product.libraries.FlavorDto;
+import br.com.pizzaplaza.product.entities.Category;
+import br.com.pizzaplaza.product.entities.Flavor;
+import br.com.pizzaplaza.product.entities.FlavorCategory;
+import br.com.pizzaplaza.product.dtos.FlavorDto;
 import br.com.pizzaplaza.product.factories.FlavorCategoryFactory;
 import br.com.pizzaplaza.product.repositories.FlavorRepository;
 import jakarta.enterprise.context.ApplicationScoped;

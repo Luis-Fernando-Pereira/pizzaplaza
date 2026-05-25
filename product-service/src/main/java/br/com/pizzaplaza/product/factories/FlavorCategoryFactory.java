@@ -1,8 +1,8 @@
 package br.com.pizzaplaza.product.factories;
 
-import br.com.pizzaplaza.product.libraries.Category;
-import br.com.pizzaplaza.product.libraries.Flavor;
-import br.com.pizzaplaza.product.libraries.FlavorCategory;
+import br.com.pizzaplaza.product.entities.Category;
+import br.com.pizzaplaza.product.entities.Flavor;
+import br.com.pizzaplaza.product.entities.FlavorCategory;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped

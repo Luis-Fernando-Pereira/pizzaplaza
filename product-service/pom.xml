@@ -7,16 +7,13 @@
         <groupId>br.com</groupId>
         <artifactId>pizzaplaza</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>br.com.pizzaplaza</groupId>
     <artifactId>product-service</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>br.com.pizzaplaza</groupId>
-            <artifactId>contracts</artifactId>
-        </dependency>
         <dependency>
             <groupId>br.com.pizzaplaza</groupId>
             <artifactId>entity</artifactId>
