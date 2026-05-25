@@ -3,9 +3,10 @@ import { Routes } from '@angular/router';
 import { AdminLayout } from './features/admin/layout/pages/admin-layout/admin-layout';
 
 import {FlavorCreatePage} from './features/admin/flavors/pages/flavor-create-page/flavor-create-page';
+import {FlavorListPage} from './features/admin/flavors/pages/flavor-list-page/flavor-list-page';
+import {FlavorEditPage} from './features/admin/flavors/pages/flavor-edit-page/flavor-edit-page';
 
 export const routes: Routes = [
-
   {
     path: 'admin',
     component: AdminLayout,
@@ -13,6 +14,14 @@ export const routes: Routes = [
       {
         path: 'sabores/novo',
         component: FlavorCreatePage
+      },
+      {
+        path: 'sabores',
+        component: FlavorListPage
+      },
+      {
+        path: 'sabores/:id/editar',
+        component: FlavorEditPage
       }
 
     ]
