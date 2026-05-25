@@ -35,7 +35,7 @@ export class CategoryFormComponent {
 
     oid: [''],
 
-    name: [
+    description: [
       '',
       [
         Validators.required,
@@ -59,7 +59,7 @@ export class CategoryFormComponent {
 
         oid: category.oid,
 
-        name: category.name
+        description: category.description
 
       });
 
@@ -81,13 +81,9 @@ export class CategoryFormComponent {
 
       oid: this.form.value.oid ?? undefined,
 
-      name: this.form.value.name!
+      description: this.form.value.description!
 
     };
-
-    const request = payload.oid
-      ? this.service.update(payload)
-      : this.service.save(payload);
 
     if (payload.oid) {
 
@@ -120,7 +116,6 @@ export class CategoryFormComponent {
         });
 
     }
-
   }
 
 }

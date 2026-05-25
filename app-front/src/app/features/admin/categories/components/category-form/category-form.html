@@ -5,22 +5,22 @@
 
   <div class="form-group">
 
-    <label for="name">
-      Nome
+    <label for="description">
+      Descrição
     </label>
 
     <input
-      id="name"
+      id="description"
       type="text"
-      formControlName="name"
-      placeholder="Digite o nome da categoria"
+      formControlName="description"
+      placeholder="Digite a descrição da categoria"
     />
 
-    @if(form.controls.name.invalid &&
-    form.controls.name.touched) {
+    @if(form.controls.description.invalid &&
+    form.controls.description.touched) {
 
       <small>
-        Nome obrigatório
+        Descrição obrigatória
       </small>
 
     }
