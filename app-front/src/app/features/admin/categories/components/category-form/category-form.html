@@ -1,0 +1,18 @@
+<form [formGroup]="form">
+
+  <div>
+
+    <label>Nome</label>
+
+    <input
+      type="text"
+      formControlName="name"
+    />
+
+  </div>
+
+  <button type="submit">
+    {{ submitLabel }}
+  </button>
+
+</form>

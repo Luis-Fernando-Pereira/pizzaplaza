@@ -1,0 +1,40 @@
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 32px;
+}
+
+.page-header h1 {
+  margin: 0;
+
+  font-size: 32px;
+
+  color: #111827;
+}
+
+.page-header p {
+  margin-top: 8px;
+
+  color: #6b7280;
+}
+
+.back-button {
+  background: #374151;
+  color: white;
+
+  text-decoration: none;
+
+  padding: 14px 20px;
+
+  border-radius: 10px;
+
+  font-weight: 600;
+
+  transition: background 0.2s;
+}
+
+.back-button:hover {
+  background: #1f2937;
+}

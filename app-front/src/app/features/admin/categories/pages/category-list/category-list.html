@@ -1,0 +1,49 @@
+<div class="page-header">
+
+  <div>
+    <h1>Categorias</h1>
+    <p>Gerencie as categorias da pizzaria</p>
+  </div>
+
+  <a routerLink="/admin/categories/new">
+    Nova Categoria
+  </a>
+
+</div>
+
+<table>
+
+  <thead>
+  <tr>
+    <th>Nome</th>
+    <th>Ações</th>
+  </tr>
+  </thead>
+
+  <tbody>
+
+    @for(category of categories; track category.oid) {
+
+      <tr>
+
+        <td>{{ category.name }}</td>
+
+        <td>
+
+          <a [routerLink]="['/admin/categories/edit', category.oid]">
+            Editar
+          </a>
+
+          <button (click)="delete(category.oid!)">
+            Excluir
+          </button>
+
+        </td>
+
+      </tr>
+
+    }
+
+  </tbody>
+
+</table>
