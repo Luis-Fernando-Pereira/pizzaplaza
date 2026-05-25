@@ -9,7 +9,8 @@ import {RouterLink} from '@angular/router';
   imports: [
     RouterLink
   ],
-  templateUrl: './category-list.html'
+  templateUrl: './category-list.html',
+  styleUrl: './category-list.css'
 })
 export class CategoryListPage implements OnInit {
 
