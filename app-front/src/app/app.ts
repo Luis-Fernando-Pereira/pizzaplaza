@@ -8,7 +8,6 @@ import { AdminLayoutService } from './features/admin/layout/services/admin-layou
   standalone: true,
   imports: [
     RouterOutlet,
-    AdminMenu
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'

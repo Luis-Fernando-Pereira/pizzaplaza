@@ -19,13 +19,15 @@ export class FlavorEditPage {
 
   flavor = signal<Flavor>({
 
-    id: 1,
+    oid: "1",
 
     name: 'Calabresa',
 
     description: 'Calabresa com cebola',
 
-    price: 59.90
+    price: 59.90,
+
+    categories: []
 
   });
 

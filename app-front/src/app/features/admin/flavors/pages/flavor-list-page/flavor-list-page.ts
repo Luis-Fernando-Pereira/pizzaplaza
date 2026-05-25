@@ -10,15 +10,18 @@ import { FlavorApiService }
 
 import { Flavor }
   from '../../models/flavor.model';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-flavor-list-page',
   standalone: true,
   templateUrl: './flavor-list-page.html',
+  imports: [
+    RouterLink
+  ],
   styleUrl: './flavor-list-page.css'
 })
-export class FlavorListPage
-  implements OnInit {
+export class FlavorListPage implements OnInit {
 
   private api =
     inject(FlavorApiService);
@@ -33,6 +36,20 @@ export class FlavorListPage
 
   }
 
+  deleteFlavor(oid: string): void {
+
+    const confirmed = confirm('Deseja remover este sabor?');
+
+    if (!confirmed) {
+      return;
+    }
+
+    this.flavors.update(flavors =>
+      flavors.filter(flavor => flavor.oid !== oid)
+    );
+
+  }
+
   loadFlavors(): void {
 
     this.loading.set(true);
@@ -40,21 +57,13 @@ export class FlavorListPage
     this.api.findAll().subscribe({
 
       next: (response) => {
-
         this.flavors.set(response);
-
       },
-
       error: (error) => {
-
         console.error(error);
-
       },
-
       complete: () => {
-
         this.loading.set(false);
-
       }
 
     });

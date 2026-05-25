@@ -98,21 +98,13 @@ export class FlavorForm {
 
     this.api.create(payload)
       .subscribe({
-
         next: response => {
-
           console.log(response);
-
         },
-
         error: error => {
-
           console.error(error);
-
         }
-
       });
-
   }
 
 }

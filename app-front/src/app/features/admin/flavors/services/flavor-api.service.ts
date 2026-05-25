@@ -10,7 +10,7 @@ export class FlavorApiService {
   private http = inject(HttpClient);
 
   private readonly API =
-    'http://localhost:8080/flavors';
+    'http://localhost:8083/flavors';
 
   findAll(): Observable<Flavor[]> {
 
@@ -18,10 +18,10 @@ export class FlavorApiService {
 
   }
 
-  findById(id: number): Observable<Flavor> {
+  findById(oid: string): Observable<Flavor> {
 
     return this.http.get<Flavor>(
-      `${this.API}/${id}`
+      `${this.API}/${oid}`
     );
 
   }
@@ -38,21 +38,21 @@ export class FlavorApiService {
   }
 
   update(
-    id: number,
+    oid: string,
     request: CreateFlavorRequest
   ): Observable<Flavor> {
 
     return this.http.put<Flavor>(
-      `${this.API}/${id}`,
+      `${this.API}/${oid}`,
       request
     );
 
   }
 
-  delete(id: number): Observable<void> {
+  delete(oid: string): Observable<void> {
 
     return this.http.delete<void>(
-      `${this.API}/${id}`
+      `${this.API}/${oid}`
     );
 
   }

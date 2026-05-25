@@ -18,24 +18,19 @@
 
   <nav class="menu">
 
-    <a routerLink="/admin/sabores"
-       routerLinkActive="active">
-
+    <a routerLink="/admin/sabores" routerLinkActive="active">
       <span class="icon">🍕</span>
-
       @if (!layout.collapsed()) {
         <span>Sabores</span>
       }
-
     </a>
 
-    <a routerLink="/admin/pizzas"
-       routerLinkActive="active">
+    <a routerLink="/admin/categorias" routerLinkActive="active">
 
       <span class="icon">🔥</span>
 
       @if (!layout.collapsed()) {
-        <span>Pizzas</span>
+        <span>Categorias</span>
       }
 
     </a>

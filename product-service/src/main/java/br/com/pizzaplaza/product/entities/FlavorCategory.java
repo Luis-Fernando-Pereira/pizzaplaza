@@ -1,6 +1,7 @@
 package br.com.pizzaplaza.product.entities;
 
 import br.com.pizzaplaza.entity.fatherofall.Odin;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -15,6 +16,7 @@ import java.util.Optional;
 public class FlavorCategory extends Odin {
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "flavor_oid", nullable = false)
     private Flavor flavor;
 

@@ -3,6 +3,7 @@ package br.com.pizzaplaza.product.dtos;
 import br.com.pizzaplaza.product.entities.Flavor;
 import br.com.pizzaplaza.product.entities.FlavorCategory;
 import br.com.pizzaplaza.entity.fatherofall.OdinDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -44,6 +45,7 @@ public class FlavorDto extends OdinDto {
         return entity;
     }
 
+    @JsonIgnore
     public Boolean isCategoryListInvalid() {
         return categories.stream().filter(CategoryDto::isOidInvalid).findFirst().isPresent();
     }

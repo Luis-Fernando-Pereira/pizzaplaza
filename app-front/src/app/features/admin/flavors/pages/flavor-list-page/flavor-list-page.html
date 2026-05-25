@@ -10,12 +10,7 @@
 
   </div>
 
-  <a class="new-button"
-     routerLink="/admin/sabores/novo">
-
-    Novo sabor
-
-  </a>
+  <a class="new-button" routerLink="/admin/sabores/novo">Novo sabor</a>
 
 </div>
 
@@ -36,7 +31,7 @@
 
     <tbody>
 
-      @for (flavor of flavors(); track flavor.id) {
+      @for (flavor of flavors(); track flavor.oid) {
 
         <tr>
 
@@ -54,19 +49,9 @@
 
           <td class="actions">
 
-            <a class="edit-button"
-               [routerLink]="['/admin/sabores', flavor.id, 'editar']">
+            <a class="edit-button" [routerLink]="['/admin/sabores', flavor.oid, 'editar']">Editar</a>
 
-              Editar
-
-            </a>
-
-            <button class="delete-button"
-                    (click)="deleteFlavor(flavor.id)">
-
-              Excluir
-
-            </button>
+            <button class="delete-button" (click)="deleteFlavor(flavor.oid!)">Excluir</button>
 
           </td>
 

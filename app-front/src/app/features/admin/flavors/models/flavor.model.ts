@@ -1,11 +1,15 @@
+import {Category} from '../../categories/models/category.model';
+
 export interface Flavor {
 
-  id?: number;
+  oid?: string;
 
   name: string;
 
   description: string;
 
   price: number;
+
+  categories: Category[];
 
 }

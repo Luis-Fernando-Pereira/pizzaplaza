@@ -1,6 +1,7 @@
 package br.com.pizzaplaza.product.entities;
 
 import br.com.pizzaplaza.entity.fatherofall.Odin;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,6 +23,7 @@ public class Flavor extends Odin {
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "flavor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FlavorCategory> categories = new ArrayList<>();;
 }
