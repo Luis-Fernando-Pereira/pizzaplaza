@@ -20,8 +20,8 @@
   color: #6b7280;
 }
 
-.back-button {
-  background: #374151;
+.new-button {
+  background: #2563eb;
   color: white;
 
   text-decoration: none;
@@ -35,6 +35,78 @@
   transition: background 0.2s;
 }
 
-.back-button:hover {
-  background: #1f2937;
+.new-button:hover {
+  background: #1d4ed8;
+}
+
+.table-container {
+  background: white;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  border: 1px solid #e5e7eb;
+}
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+thead {
+  background: #f9fafb;
+}
+
+th {
+  text-align: left;
+
+  padding: 18px;
+
+  font-size: 14px;
+
+  color: #6b7280;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+td {
+  padding: 18px;
+
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.actions {
+  display: flex;
+
+  gap: 12px;
+}
+
+.edit-button {
+  background: #f59e0b;
+  color: white;
+
+  border: none;
+
+  padding: 10px 14px;
+
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  cursor: pointer;
+}
+
+.delete-button {
+  background: #dc2626;
+  color: white;
+
+  border: none;
+
+  padding: 10px 14px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
 }

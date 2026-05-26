@@ -5,45 +5,62 @@
     <p>Gerencie as categorias da pizzaria</p>
   </div>
 
-  <a routerLink="/admin/categorias/novo">
+  <a class="new-button" routerLink="/admin/categorias/novo">
     Nova Categoria
   </a>
 
 </div>
 
-<table>
+<div class="table-container">
 
-  <thead>
-  <tr>
-    <th>Nome</th>
-    <th>Ações</th>
-  </tr>
-  </thead>
+  <table>
 
-  <tbody>
+    <thead>
 
-    @for(category of categories; track category.oid) {
+    <tr>
+      <th>Nome</th>
+      <th>Ações</th>
+    </tr>
 
-      <tr>
+    </thead>
 
-        <td>{{ category.description }}</td>
+    <tbody>
 
-        <td>
+      @for (category of categories(); track category.oid) {
 
-          <a [routerLink]="['/admin/categories/edit', category.oid]">
-            Editar
-          </a>
+        <tr>
 
-          <button (click)="delete(category.oid!)">
-            Excluir
-          </button>
+          <td>
+            {{ category.description }}
+          </td>
 
-        </td>
+          <td class="actions">
 
-      </tr>
+            <a
+              class="edit-button"
+              [routerLink]="['/admin/categorias', category.oid, 'editar']">
 
-    }
+              Editar
 
-  </tbody>
+            </a>
 
-</table>
+            <button
+              class="delete-button"
+              (click)="deleteCategory(category.oid!)">
+
+              Excluir
+
+            </button>
+
+          </td>
+
+        </tr>
+
+      }
+
+    </tbody>
+
+  </table>
+
+</div>
+

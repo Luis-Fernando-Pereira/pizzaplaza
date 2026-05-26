@@ -2,7 +2,7 @@ import {
   Component,
   effect,
   inject,
-  input
+  input, signal
 } from '@angular/core';
 
 import {
@@ -13,6 +13,8 @@ import {
 
 import { Flavor } from '../../models/flavor.model';
 import {FlavorApiService} from '../../services/flavor-api.service';
+import {CategoryService} from '../../../categories/services/category.service';
+import {Category} from '../../../categories/models/category.model';
 
 @Component({
   selector: 'app-flavor-form',
@@ -25,13 +27,13 @@ import {FlavorApiService} from '../../services/flavor-api.service';
 })
 export class FlavorForm {
   private api = inject(FlavorApiService);
-
+  private categoryApi = inject(CategoryService);
   private fb = inject(FormBuilder);
 
   flavor = input<Flavor | null>(null);
+  categories = signal<Category[]>([]);
 
   form = this.fb.group({
-
     name: [
       '',
       [
@@ -39,22 +41,26 @@ export class FlavorForm {
         Validators.maxLength(50)
       ]
     ],
-
     description: [
       ''
     ],
-
     price: [
       null as number | null,
       [
         Validators.required,
         Validators.min(1)
       ]
+    ],
+    categories: [
+      [] as string[],
+      Validators.required
     ]
 
   });
 
   constructor() {
+
+    this.loadCategories();
 
     effect(() => {
 
@@ -70,11 +76,30 @@ export class FlavorForm {
 
         description: flavor.description,
 
-        price: flavor.price
+        price: flavor.price,
+
+        categories: flavor.categories?.map(c => c.oid!) ?? []
 
       });
 
     });
+
+  }
+
+  loadCategories(): void {
+
+    this.categoryApi.findAll()
+      .subscribe({
+
+        next: response => {
+          this.categories.set(response);
+        },
+
+        error: error => {
+          console.error(error);
+        }
+
+      });
 
   }
 
@@ -92,7 +117,8 @@ export class FlavorForm {
 
       name: this.form.value.name!,
       description: this.form.value.description!,
-      price: this.form.value.price!
+      price: this.form.value.price!,
+      categories: this.form.value.categories!
 
     };
 

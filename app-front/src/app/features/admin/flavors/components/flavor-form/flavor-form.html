@@ -92,4 +92,34 @@
 
   </div>
 
+  <div class="field">
+
+    <label for="categories">
+      Categorias
+    </label>
+
+    <select
+      id="categories"
+      multiple
+      formControlName="categories"
+      class="categories-select">
+
+      @for (category of categories(); track category.oid) {
+
+        <option [value]="category.oid">
+
+          {{ category.description }}
+
+        </option>
+
+      }
+
+    </select>
+
+    <small>
+      Segure CTRL para selecionar múltiplas categorias
+    </small>
+
+  </div>
+
 </form>

@@ -23,7 +23,7 @@ export const routes: Routes = [
         component: FlavorListPage
       },
       {
-        path: 'sabores/:id/editar',
+        path: 'sabores/:oid/editar',
         component: FlavorEditPage
       },
       {
@@ -35,7 +35,7 @@ export const routes: Routes = [
         component: CategoryCreatePage
       },
       {
-        path: 'categories/:id/editar',
+        path: 'categories/:oid/editar',
         component: CategoryEditPage
       }
     ]

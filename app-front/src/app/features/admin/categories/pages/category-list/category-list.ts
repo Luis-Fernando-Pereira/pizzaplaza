@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category.model';
 import {RouterLink} from '@angular/router';
@@ -13,26 +13,49 @@ import {RouterLink} from '@angular/router';
   styleUrl: './category-list.css'
 })
 export class CategoryListPage implements OnInit {
+  private api = inject(CategoryService);
 
-  categories: Category[] = [];
+  categories = signal<Category[]>([]);
 
-  constructor(private service: CategoryService) {}
+  loading = signal(true);
 
   ngOnInit(): void {
-    this.load();
+
+    this.loadCategories();
+
   }
 
-  load(): void {
-    this.service.findAll().subscribe({
-      next: data => {
-        this.categories = data;
+  deleteCategory(oid: string): void {
+
+    const confirmed = confirm('Deseja remover este sabor?');
+
+    if (!confirmed) {
+      return;
+    }
+
+    this.categories.update(categories =>
+      categories.filter(category => category.oid !== oid)
+    );
+
+  }
+
+  loadCategories(): void {
+
+    this.loading.set(true);
+
+    this.api.findAll().subscribe({
+
+      next: (response) => {
+        this.categories.set(response);
+      },
+      error: (error) => {
+        console.error(error);
+      },
+      complete: () => {
+        this.loading.set(false);
       }
-    });
-  }
 
-  delete(oid: string): void {
-    this.service.delete(oid).subscribe({
-      next: () => this.load()
     });
+
   }
 }
