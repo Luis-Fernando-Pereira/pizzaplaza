@@ -1,34 +1,63 @@
-import { Component, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  signal
+} from '@angular/core';
 
-import { FlavorForm } from '../../components/flavor-form/flavor-form';
+import {ActivatedRoute, RouterLink} from '@angular/router';
+
+import { FlavorApiService } from '../../services/flavor-api.service';
 
 import { Flavor } from '../../models/flavor.model';
-import {RouterLink} from '@angular/router';
+
+import { FlavorForm } from '../../components/flavor-form/flavor-form';
 
 @Component({
   selector: 'app-flavor-edit-page',
   standalone: true,
   imports: [
-    RouterLink,
-    FlavorForm
+    FlavorForm,
+    RouterLink
   ],
   templateUrl: './flavor-edit-page.html',
   styleUrl: './flavor-edit-page.css'
 })
-export class FlavorEditPage {
+export class FlavorEditPage implements OnInit {
 
-  flavor = signal<Flavor>({
+  private route = inject(ActivatedRoute);
 
-    oid: "1",
+  private api = inject(FlavorApiService);
 
-    name: 'Calabresa',
+  flavor = signal<Flavor | null>(null);
 
-    description: 'Calabresa com cebola',
+  loading = signal(true);
 
-    price: 59.90,
+  ngOnInit(): void {
 
-    categories: []
+    const oid = this.route.snapshot.paramMap.get('oid');
 
-  });
+    if (!oid) {
+      return;
+    }
+
+    this.api.findByOid(oid)
+      .subscribe({
+
+        next: response => {
+          this.flavor.set(response);
+        },
+
+        error: error => {
+          console.error(error);
+        },
+
+        complete: () => {
+          this.loading.set(false);
+        }
+
+      });
+
+  }
 
 }

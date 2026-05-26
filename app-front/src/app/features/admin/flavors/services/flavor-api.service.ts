@@ -18,7 +18,7 @@ export class FlavorApiService {
 
   }
 
-  findById(oid: string): Observable<Flavor> {
+  findByOid(oid: string): Observable<Flavor> {
 
     return this.http.get<Flavor>(
       `${this.API}/${oid}`
@@ -37,13 +37,10 @@ export class FlavorApiService {
 
   }
 
-  update(
-    oid: string,
-    request: CreateFlavorRequest
-  ): Observable<Flavor> {
+  update(request: CreateFlavorRequest): Observable<Flavor> {
 
     return this.http.put<Flavor>(
-      `${this.API}/${oid}`,
+      `${this.API}`,
       request
     );
 

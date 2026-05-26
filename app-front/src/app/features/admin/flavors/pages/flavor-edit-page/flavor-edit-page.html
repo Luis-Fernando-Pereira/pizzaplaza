@@ -1,17 +1,29 @@
-<div class="page-header">
+  <div class="page-header">
 
-  <div>
+    <div>
 
-    <h1>Editar Sabor</h1>
+      <h1>Editar sabor</h1>
 
-    <p>
-      Atualize os dados do sabor
-    </p>
+      <p>
+        Atualize os dados do sabor
+      </p>
 
+    </div>
+
+
+    <a class="back-button" routerLink="/admin/sabores">Voltar</a>
   </div>
 
-  <a class="back-button" routerLink="/admin/sabores">Voltar</a>
+  @if (loading()) {
 
-</div>
+    <p>
+      Carregando...
+    </p>
 
-<app-flavor-form  [flavor]="flavor()"></app-flavor-form>
+  } @else {
+
+    <app-flavor-form
+      [flavor]="flavor()">
+    </app-flavor-form>
+
+  }

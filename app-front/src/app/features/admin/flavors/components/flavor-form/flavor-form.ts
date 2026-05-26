@@ -15,6 +15,7 @@ import { Flavor } from '../../models/flavor.model';
 import {FlavorApiService} from '../../services/flavor-api.service';
 import {CategoryService} from '../../../categories/services/category.service';
 import {Category} from '../../../categories/models/category.model';
+import {CreateFlavorRequest} from '../../models/create-flavor-request';
 
 @Component({
   selector: 'app-flavor-form',
@@ -34,6 +35,8 @@ export class FlavorForm {
   categories = signal<Category[]>([]);
 
   form = this.fb.group({
+    oid: [''],
+
     name: [
       '',
       [
@@ -71,6 +74,7 @@ export class FlavorForm {
       }
 
       this.form.patchValue({
+        oid: flavor.oid,
 
         name: flavor.name,
 
@@ -113,24 +117,54 @@ export class FlavorForm {
 
     }
 
-    const payload = {
+    const payload: CreateFlavorRequest = {
+
+      oid: this.form.value.oid!,
 
       name: this.form.value.name!,
+
       description: this.form.value.description!,
+
       price: this.form.value.price!,
-      categories: this.form.value.categories!
+
+      categories: this.form.value.categories!.map(oid => ({
+        oid
+      } as Category))
 
     };
 
-    this.api.create(payload)
-      .subscribe({
-        next: response => {
-          console.log(response);
-        },
-        error: error => {
-          console.error(error);
-        }
-      });
+    if (payload.oid) {
+
+      this.api.update(payload)
+        .subscribe({
+
+          next: () => {
+            console.log('Sabor atualizado');
+          },
+
+          error: error => {
+            console.error(error);
+          }
+
+        });
+
+    } else {
+
+      this.api.create(payload)
+        .subscribe({
+
+          next: response => {
+            console.log(response);
+          },
+
+          error: error => {
+            console.error(error);
+          }
+
+        });
+
+    }
+
   }
 
 }
