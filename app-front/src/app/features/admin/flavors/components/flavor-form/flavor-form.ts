@@ -16,6 +16,7 @@ import {FlavorApiService} from '../../services/flavor-api.service';
 import {CategoryService} from '../../../categories/services/category.service';
 import {Category} from '../../../categories/models/category.model';
 import {CreateFlavorRequest} from '../../models/create-flavor-request';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-flavor-form',
@@ -30,6 +31,7 @@ export class FlavorForm {
   private api = inject(FlavorApiService);
   private categoryApi = inject(CategoryService);
   private fb = inject(FormBuilder);
+  private router = inject(Router);
 
   flavor = input<Flavor | null>(null);
   categories = signal<Category[]>([]);
@@ -165,6 +167,7 @@ export class FlavorForm {
 
     }
 
+    this.router.navigate(['/admin/sabores']).then(r => console.log('navigatorizo'));
   }
 
 }

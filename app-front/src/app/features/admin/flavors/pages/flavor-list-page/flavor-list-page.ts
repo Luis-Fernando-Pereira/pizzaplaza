@@ -23,8 +23,7 @@ import {RouterLink} from '@angular/router';
 })
 export class FlavorListPage implements OnInit {
 
-  private api =
-    inject(FlavorApiService);
+  private api = inject(FlavorApiService);
 
   flavors = signal<Flavor[]>([]);
 
@@ -43,6 +42,18 @@ export class FlavorListPage implements OnInit {
     if (!confirmed) {
       return;
     }
+
+    this.api.delete(oid).subscribe({
+
+      next: response => {
+        console.log(response);
+      },
+
+      error: error => {
+        console.error(error);
+      }
+
+    });
 
     this.flavors.update(flavors =>
       flavors.filter(flavor => flavor.oid !== oid)
