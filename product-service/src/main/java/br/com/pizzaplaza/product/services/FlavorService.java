@@ -140,6 +140,7 @@ public class FlavorService {
     private void updateFlavorData(Flavor flavor, FlavorDto dto) {
         flavor.setName(dto.getName());
         flavor.setPrice(dto.getPrice());
+        flavor.setDescription(dto.getDescription());
     }
 
     @Transactional

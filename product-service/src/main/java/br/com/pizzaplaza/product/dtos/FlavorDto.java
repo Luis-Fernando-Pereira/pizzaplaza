@@ -31,6 +31,7 @@ public class FlavorDto extends OdinDto {
     public FlavorDto(@NotNull Flavor flavor) {
         setPrice(flavor.getPrice());
         setName(flavor.getName());
+        setDescription(flavor.getDescription());
         setOid(flavor.getOid());
         setCreatedAt(flavor.getCreatedAt());
         setCategories(flavor.getCategories().stream().map(category -> new CategoryDto(category.getCategory())).toList());
@@ -41,6 +42,7 @@ public class FlavorDto extends OdinDto {
 
         entity.setName(getName());
         entity.setPrice(getPrice());
+        entity.setDescription(getDescription());
 
         return entity;
     }
