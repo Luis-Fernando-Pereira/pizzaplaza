@@ -1,38 +1,51 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnInit, signal} from '@angular/core';
 
 import { FlavorApiService } from '../../../../admin/flavors/services/flavor-api.service';
 import { PizzaBuilderService } from '../../services/pizza-builder.service';
 
 import { Flavor } from '../../../../admin/flavors/models/flavor.model';
-import { DecimalPipe } from '@angular/common';
+import {CommonModule, DecimalPipe} from '@angular/common';
 
 @Component({
   selector: 'app-pizza-flavor-selector',
   templateUrl: './pizza-flavor-selector.html',
   styleUrls: ['./pizza-flavor-selector.css'],
+  standalone: true,
   imports: [
-    DecimalPipe
+    DecimalPipe,
+    CommonModule
   ]
 })
 export class PizzaFlavorSelectorComponent implements OnInit {
 
-  flavors: Flavor[] = [];
+  loading = signal(false);
+  flavors = signal<Flavor[]>([]);
 
-  loading = false;
-
-  constructor(private flavorService: FlavorApiService, public pizzaBuilder: PizzaBuilderService) {}
+  constructor(private flavorService: FlavorApiService, public pizzaBuilder: PizzaBuilderService,  private ngZone: NgZone) {}
 
   ngOnInit(): void {
 
-    this.loading = true;
+    this.loading.set(true);
 
     this.flavorService.findAll()
       .subscribe({
         next: response => {
-          this.flavors = response;
+          this.ngZone.run(() => {
+            this.flavors.set(response);
+            console.log(this.loading)
+          });
         },
         complete: () => {
-          this.loading = false;
+          this.ngZone.run(() => {
+            this.loading.set(false);
+            console.log(this.loading)
+          });
+        },
+        error: error => {
+          this.ngZone.run(() => {
+            this.loading.set(false);
+            console.log(this.loading)
+          });
         }
       });
 

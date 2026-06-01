@@ -1,13 +1,8 @@
 import {Routes} from '@angular/router';
 
-import {AdminLayout} from './features/admin/layout/pages/admin-layout/admin-layout';
-
-
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '',
-    pathMatch: 'full',
     loadChildren: () =>
       import('./features/client/routes/client.routes')
         .then(m => m.CLIENT_ROUTES)

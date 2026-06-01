@@ -4,7 +4,8 @@ import { PizzaBuilderService } from '../../services/pizza-builder.service';
 
 @Component({
   selector: 'app-pizza-size-selector',
-  templateUrl: './pizza-size-selector.html'
+  templateUrl: './pizza-size-selector.html',
+  styleUrls: ['./pizza-size-selector.css']
 })
 export class PizzaSizeSelectorComponent {
 

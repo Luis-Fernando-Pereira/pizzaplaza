@@ -14,7 +14,7 @@
 
   </div>
 
-  @if(loading){
+  @if(loading()){
 
     <p>Carregando sabores...</p>
 
@@ -22,7 +22,7 @@
 
     <div class="flavor-grid">
 
-      @for(flavor of flavors; track flavor.oid){
+      @for(flavor of flavors(); track flavor.oid){
 
         <div
           class="flavor-card"
