@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PizzaSizeSelector } from './pizza-size-selector';
+import { PizzaSizeSelectorComponent } from './pizza-size-selector';
 
 describe('PizzaSizeSelector', () => {
-  let component: PizzaSizeSelector;
-  let fixture: ComponentFixture<PizzaSizeSelector>;
+  let component: PizzaSizeSelectorComponent;
+  let fixture: ComponentFixture<PizzaSizeSelectorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PizzaSizeSelector],
+      imports: [PizzaSizeSelectorComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PizzaSizeSelector);
+    fixture = TestBed.createComponent(PizzaSizeSelectorComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

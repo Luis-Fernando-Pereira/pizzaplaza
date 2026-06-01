@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PizzaFlavorSelector } from './pizza-flavor-selector';
+import { PizzaFlavorSelectorComponent } from './pizza-flavor-selector';
 
 describe('PizzaFlavorSelector', () => {
-  let component: PizzaFlavorSelector;
-  let fixture: ComponentFixture<PizzaFlavorSelector>;
+  let component: PizzaFlavorSelectorComponent;
+  let fixture: ComponentFixture<PizzaFlavorSelectorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PizzaFlavorSelector],
+      imports: [PizzaFlavorSelectorComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PizzaFlavorSelector);
+    fixture = TestBed.createComponent(PizzaFlavorSelectorComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
