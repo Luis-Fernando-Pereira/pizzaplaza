@@ -5,7 +5,7 @@
     <p>Gerencie as categorias da pizzaria</p>
   </div>
 
-  <a class="new-button" routerLink="/admin/categorias/novo">
+  <a class="new-button" routerLink="/admin/categories/new">
     Nova Categoria
   </a>
 
@@ -38,7 +38,7 @@
 
             <a
               class="edit-button"
-              [routerLink]="['/admin/categories', category.oid, 'editar']">
+              [routerLink]="['/admin/categories', category.oid]">
 
               Editar
 

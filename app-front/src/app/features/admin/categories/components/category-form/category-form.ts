@@ -120,7 +120,7 @@ export class CategoryFormComponent {
 
     }
 
-    this.router.navigate(['/admin/categorias']);
+    this.router.navigate(['/admin/categories']);
   }
 
 }

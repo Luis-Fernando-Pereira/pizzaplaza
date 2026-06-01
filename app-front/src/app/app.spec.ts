@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
-import {Flavor} from './features/admin/flavors/flavor';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App, Flavor],
+      imports: [App],
     }).compileComponents();
   });
 

@@ -6,7 +6,7 @@ import {AdminLayout} from './features/admin/layout/pages/admin-layout/admin-layo
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'client',
+    redirectTo: '',
     pathMatch: 'full',
     loadChildren: () =>
       import('./features/client/routes/client.routes')
@@ -21,7 +21,7 @@ export const routes: Routes = [
   {
     path: '**',
     loadComponent: () =>
-      import('./features/shared/pages/not-found/not-found')
+      import('./shared/pages/not-found/not-found')
         .then(c => c.NotFoundComponent)
   }
 ];

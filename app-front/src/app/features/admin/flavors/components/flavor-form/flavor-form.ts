@@ -167,7 +167,7 @@ export class FlavorForm {
 
     }
 
-    this.router.navigate(['/admin/sabores']).then(r => console.log('navigatorizo'));
+    this.router.navigate(['/admin/flavors']).then(r => console.log('navigatorizo'));
   }
 
 }
