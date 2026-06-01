@@ -13,6 +13,7 @@ import {
 
 import { Category } from '../../models/category.model';
 import { CategoryService } from '../../services/category.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-category-form',
@@ -28,6 +29,8 @@ export class CategoryFormComponent {
   private service = inject(CategoryService);
 
   private fb = inject(FormBuilder);
+
+  private router = inject(Router);
 
   category = input<Category | null>(null);
 
@@ -116,6 +119,8 @@ export class CategoryFormComponent {
         });
 
     }
+
+    this.router.navigate(['/admin/categorias']);
   }
 
 }

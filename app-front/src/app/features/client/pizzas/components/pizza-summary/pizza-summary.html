@@ -1,0 +1,80 @@
+<div class="pizza-summary">
+
+  <h2>Resumo da Pizza</h2>
+
+  <div class="summary-section">
+
+    <strong>Tamanho</strong>
+
+    <span>
+      {{ pizzaBuilder.pizza.size }}
+    </span>
+
+  </div>
+
+  <div class="summary-section">
+
+    <strong>Sabores</strong>
+
+    @if(pizzaBuilder.pizza.flavors.length){
+
+      <ul>
+
+        @for(
+          flavor of pizzaBuilder.pizza.flavors;
+          track flavor.flavorOid
+          ){
+
+          <li>
+
+            <div>
+
+              <strong>
+                {{ flavor.name }}
+              </strong>
+
+              <small>
+                R$ {{ flavor.price | number:'1.2-2' }}
+              </small>
+
+            </div>
+
+            <button
+              type="button"
+              (click)="removeFlavor(flavor.flavorOid)">
+
+              Remover
+
+            </button>
+
+          </li>
+
+        }
+
+      </ul>
+
+    } @else {
+
+      <p>
+        Nenhum sabor selecionado
+      </p>
+
+    }
+
+  </div>
+
+  <div class="summary-section total">
+
+    <strong>Preço da Pizza</strong>
+
+    <span>
+      R$
+      {{
+        pizzaBuilder.pizza.unitPrice
+          | number:'1.2-2'
+      }}
+    </span>
+
+  </div>
+
+</div>

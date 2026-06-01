@@ -33,6 +33,15 @@ export class CategoryListPage implements OnInit {
       return;
     }
 
+    this.api.delete(oid).subscribe({
+      next(result) {
+        console.log(result);
+      },
+      error(error) {
+        console.log(error);
+      }
+    })
+
     this.categories.update(categories =>
       categories.filter(category => category.oid !== oid)
     );

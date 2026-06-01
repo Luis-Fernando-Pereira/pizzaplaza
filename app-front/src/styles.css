@@ -1,3 +1,17 @@
 .default-theme {
   margin: 0px;
 }
+
+:root {
+  --primary: #dc2626;
+  --primary-dark: #b91c1c;
+
+  --success: #16a34a;
+
+  --text: #111827;
+  --text-secondary: #6b7280;
+
+  --background: #f8fafc;
+
+  --border: #e5e7eb;
+}

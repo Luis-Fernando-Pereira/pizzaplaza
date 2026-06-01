@@ -1,0 +1,47 @@
+.pizza-builder {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+
+  margin-top: 2rem;
+}
+
+.actions button {
+  border: none;
+  border-radius: 8px;
+
+  padding: 0.8rem 1.5rem;
+
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.actions button:first-child {
+  background: #e5e7eb;
+}
+
+.actions button:last-child {
+  background: #dc2626;
+  color: white;
+}
+
+.actions button:last-child:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1024px) {
+  .pizza-builder {
+    grid-template-columns: 1fr;
+  }
+}

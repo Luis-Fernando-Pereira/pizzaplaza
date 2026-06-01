@@ -1,0 +1,38 @@
+.sizes {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+
+  gap: 1rem;
+
+  margin-top: 2rem;
+}
+
+.size-card {
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+
+  padding: 2rem 1rem;
+
+  text-align: center;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.size-card:hover {
+  border-color: #dc2626;
+  transform: translateY(-2px);
+}
+
+.size-name {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.size-description {
+  color: #6b7280;
+  margin-top: 0.5rem;
+}

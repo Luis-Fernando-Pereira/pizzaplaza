@@ -1,0 +1,83 @@
+.pizza-summary {
+  position: sticky;
+  top: 2rem;
+
+  background: white;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+
+  padding: 1.5rem;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,.05);
+}
+
+.pizza-summary h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.summary-section {
+  margin-bottom: 1.5rem;
+}
+
+.summary-section strong {
+  display: block;
+  margin-bottom: .5rem;
+}
+
+.summary-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.summary-section li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 1rem;
+
+  padding: .75rem 0;
+
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.summary-section li:last-child {
+  border-bottom: none;
+}
+
+.summary-section small {
+  color: #6b7280;
+  display: block;
+}
+
+.summary-section button {
+  border: none;
+
+  background: transparent;
+
+  color: #dc2626;
+
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.total {
+  padding-top: 1rem;
+
+  border-top: 2px solid #e5e7eb;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total span {
+  font-size: 1.3rem;
+  font-weight: 700;
+
+  color: #dc2626;
+}

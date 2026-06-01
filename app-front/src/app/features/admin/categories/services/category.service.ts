@@ -16,7 +16,7 @@ export class CategoryService {
     return this.http.get<Category[]>(this.api);
   }
 
-  find(oid: string): Observable<Category> {
+  findByOid(oid: string): Observable<Category> {
     return this.http.get<Category>(`${this.api}/${oid}`);
   }
 

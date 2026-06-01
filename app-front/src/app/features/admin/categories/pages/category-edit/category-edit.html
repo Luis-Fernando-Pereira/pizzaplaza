@@ -1,2 +1,29 @@
-<p>category-edit works!</p>
+<div class="page-header">
 
+  <div>
+
+    <h1>Editar categoria</h1>
+
+    <p>
+      Atualize os dados da categoria
+    </p>
+
+  </div>
+
+
+  <a class="back-button" routerLink="/admin/categorias">Voltar</a>
+</div>
+
+@if (loading()) {
+
+  <p>
+    Carregando...
+  </p>
+
+} @else {
+
+  <app-category-form
+    [category]="category()">
+  </app-category-form>
+
+}

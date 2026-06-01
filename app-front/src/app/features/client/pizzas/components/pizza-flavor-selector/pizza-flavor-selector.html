@@ -1,0 +1,85 @@
+<div class="flavor-selector">
+
+  <div class="header">
+
+    <h2>Escolha os sabores</h2>
+
+    <p>
+      Selecione de 1 até 4 sabores
+    </p>
+
+    <span>
+      {{ pizzaBuilder.pizza.flavors.length }}/4 selecionados
+    </span>
+
+  </div>
+
+  @if(loading){
+
+    <p>Carregando sabores...</p>
+
+  } @else {
+
+    <div class="flavor-grid">
+
+      @for(flavor of flavors; track flavor.oid){
+
+        <div
+          class="flavor-card"
+          [class.selected]="isSelected(flavor.oid!)">
+
+          <div class="card-header">
+
+            <h3>{{ flavor.name }}</h3>
+
+            <span class="price">
+              R$ {{ flavor.price | number:'1.2-2' }}
+            </span>
+
+          </div>
+
+          <p class="description">
+            {{ flavor.description }}
+          </p>
+
+          @if(flavor.categories.length){
+
+            <div class="categories">
+
+              @for(category of flavor.categories; track category.oid){
+
+                <span class="category-tag">
+                  {{ category.description }}
+                </span>
+
+              }
+
+            </div>
+
+          }
+
+          <button
+            type="button"
+            [disabled]="
+              isSelected(flavor.oid!) ||
+              pizzaBuilder.pizza.flavors.length >= 4
+            "
+            (click)="addFlavor(flavor)">
+
+            {{
+              isSelected(flavor.oid!)
+                ? 'Selecionado'
+                : 'Adicionar'
+            }}
+
+          </button>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</div>

@@ -1,0 +1,17 @@
+<h2>Escolha o tamanho</h2>
+
+<div class="sizes">
+
+  @for(size of sizes; track size){
+
+    <button
+      type="button"
+      (click)="select(size)">
+
+      {{ size }}
+
+    </button>
+
+  }
+
+</div>

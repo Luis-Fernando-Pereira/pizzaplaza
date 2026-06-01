@@ -1,0 +1,122 @@
+.flavor-selector {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+
+  margin-bottom: 2rem;
+}
+
+.header h2 {
+  margin: 0;
+}
+
+.header span {
+  font-weight: 700;
+  color: #dc2626;
+}
+
+.flavor-grid {
+  display: grid;
+
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(280px, 1fr)
+  );
+
+  gap: 1.5rem;
+}
+
+.flavor-card {
+  display: flex;
+  flex-direction: column;
+
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+
+  padding: 1rem;
+
+  background: white;
+
+  transition: all .2s ease;
+}
+
+.flavor-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 8px 24px rgba(0,0,0,.08);
+}
+
+.flavor-card.selected {
+  border-color: #dc2626;
+
+  background: #fef2f2;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 1rem;
+}
+
+.card-header h3 {
+  margin: 0;
+}
+
+.price {
+  font-weight: 700;
+  color: #dc2626;
+}
+
+.description {
+  flex: 1;
+
+  color: #6b7280;
+
+  margin-bottom: 1rem;
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+
+  margin-bottom: 1rem;
+}
+
+.category-tag {
+  background: #f3f4f6;
+
+  border-radius: 999px;
+
+  padding: .25rem .75rem;
+
+  font-size: .8rem;
+}
+
+.flavor-card button {
+  width: 100%;
+
+  border: none;
+  border-radius: 8px;
+
+  padding: .8rem;
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+  background: #dc2626;
+  color: white;
+}
+
+.flavor-card button:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+}

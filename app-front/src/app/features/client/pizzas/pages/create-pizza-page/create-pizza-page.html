@@ -1,0 +1,41 @@
+<div class="pizza-builder">
+
+  @if(step === 1){
+
+    <app-pizza-size-selector
+      (next)="nextStep()">
+    </app-pizza-size-selector>
+
+  }
+
+  @if(step === 2){
+
+    <app-pizza-flavor-selector>
+    </app-pizza-flavor-selector>
+
+    <app-pizza-summary>
+    </app-pizza-summary>
+
+    <div class="actions">
+
+      <button
+        type="button"
+        (click)="previousStep()">
+
+        Voltar
+
+      </button>
+
+      <button
+        type="button"
+        (click)="finish()">
+
+        Adicionar ao Pedido
+
+      </button>
+
+    </div>
+
+  }
+
+</div>
