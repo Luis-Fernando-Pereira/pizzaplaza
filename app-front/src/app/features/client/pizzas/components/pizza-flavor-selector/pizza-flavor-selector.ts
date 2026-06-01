@@ -21,7 +21,7 @@ export class PizzaFlavorSelectorComponent implements OnInit {
   loading = signal(false);
   flavors = signal<Flavor[]>([]);
 
-  constructor(private flavorService: FlavorApiService, public pizzaBuilder: PizzaBuilderService,  private ngZone: NgZone) {}
+  constructor(private flavorService: FlavorApiService, public pizzaBuilder: PizzaBuilderService) {}
 
   ngOnInit(): void {
 
@@ -30,22 +30,13 @@ export class PizzaFlavorSelectorComponent implements OnInit {
     this.flavorService.findAll()
       .subscribe({
         next: response => {
-          this.ngZone.run(() => {
-            this.flavors.set(response);
-            console.log(this.loading)
-          });
+          this.flavors.set(response);
         },
         complete: () => {
-          this.ngZone.run(() => {
-            this.loading.set(false);
-            console.log(this.loading)
-          });
+          this.loading.set(false);
         },
         error: error => {
-          this.ngZone.run(() => {
-            this.loading.set(false);
-            console.log(this.loading)
-          });
+          this.loading.set(false);
         }
       });
 
