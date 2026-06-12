@@ -1,0 +1,67 @@
+.page-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem;
+  background: #fff;
+  border-radius: 12px;
+}
+
+.pizza-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pizza-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.pizza-card h3 {
+  margin-top: 0;
+}
+
+.flavor-list {
+  margin-top: 1rem;
+}
+
+.flavor-list ul {
+  margin: 0;
+  padding-left: 1rem;
+}
+
+.order-footer {
+  margin-top: 2rem;
+
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.order-total {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+}

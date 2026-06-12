@@ -1,0 +1,47 @@
+services:
+
+  postgres:
+    image: postgres:17
+    container_name: pizzaplaza-postgres
+    environment:
+      POSTGRES_DB: pizzaplaza_db
+      POSTGRES_USER: fernando
+      POSTGRES_PASSWORD: fernando
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./docker/init:/docker-entrypoint-initdb.d
+
+  product-service:
+    build:
+      context: .
+      dockerfile: product-service/Dockerfile
+    container_name: product-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - postgres
+    volumes:
+      - ./auth/publicKey.pem:/publicKey.pem
+
+  order-service:
+    build:
+      context: .
+      dockerfile: order-service/Dockerfile
+    container_name: order-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - postgres
+    volumes:
+      - ./auth/publicKey.pem:/publicKey.pem
+
+  app-front:
+    build:
+      context: ./app-front
+      dockerfile: Dockerfile
+    container_name: pizzaplaza-front
+    ports:
+      - "4200:80"
+    depends_on:
+      - product-service

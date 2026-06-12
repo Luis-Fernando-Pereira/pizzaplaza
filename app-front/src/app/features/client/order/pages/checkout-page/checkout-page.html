@@ -1,1 +1,23 @@
-<p>checkout-page works!</p>
+<div class="actions">
+
+  <h1>Finalizar Pedido</h1>
+
+  <button
+    type="button"
+    routerLink="/montar-pizza">
+    Adicionar Pizza
+  </button>
+  <p>
+    Total:
+    {{ orderBuilder.totalPrice | currency:'BRL' }}
+  </p>
+
+  <button
+    type="button"
+    (click)="finishOrder()">
+
+    Confirmar Pedido
+
+  </button>
+
+</div>

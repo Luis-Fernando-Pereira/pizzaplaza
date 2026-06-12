@@ -9,6 +9,9 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.ws.rs.NotFoundException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ApplicationScoped
 public class OrderService {
 
@@ -34,19 +37,19 @@ public class OrderService {
 
         return new OrderDto(order);
     }
-//
-//    @Transactional
-//    public List<Order> findAll() {
-//        return orderRepository.listAll();
-//    }
-//
-//
-//    private BigDecimal calculatePizzaPrice(List<FlavorSnapshot> flavors, Integer quantity) {
-//        BigDecimal highestFlavorPrice = flavors.stream()
-//                .map(FlavorSnapshot::getPrice)
-//                .max(BigDecimal::compareTo)
-//                .orElse(BigDecimal.ZERO);
-//
-//        return highestFlavorPrice.multiply(BigDecimal.valueOf(quantity));
-//    }
+
+    @Transactional
+    public List<OrderDto> findAll() {
+        List<Order> orderList = orderRepository.listAll();
+
+        if (orderList.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<OrderDto> orderDtoList = new ArrayList<>();
+
+        orderList.stream().map(OrderDto::new).forEach(orderDtoList::add);
+
+        return orderDtoList;
+    }
 }

@@ -1,4 +1,4 @@
-import { FlavorSnapshot } from './flavor-snapshot.model';
+import { FlavorSnapshot } from '../../pizzas/models/flavor-snapshot.model';
 
 export interface PizzaOrder {
 

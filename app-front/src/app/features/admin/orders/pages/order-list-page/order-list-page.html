@@ -1,0 +1,70 @@
+<div class="page-header">
+
+  <div>
+
+    <h1>Pedidos</h1>
+
+    <p>
+      Histórico de pedidos
+    </p>
+
+  </div>
+
+
+</div>
+
+<div class="table-container">
+
+  <table>
+
+    <thead>
+
+    <tr>
+      <th>Status</th>
+      <th>Cliente</th>
+      <th>Número de Pizzas</th>
+      <th>Valor Total</th>
+      <th>Ações</th>
+    </tr>
+
+    </thead>
+
+    <tbody>
+
+      @for (order of orders(); track order.oid) {
+
+        <tr>
+
+          <td>
+            {{ order.status }}
+          </td>
+
+          <td>
+            {{ order.custumer.name }}
+          </td>
+
+          <td>
+            {{ order.pizzaList.length }}
+          </td>
+
+          <td>
+            R$ {{ order.totalPrice.toFixed(2) }}
+          </td>
+
+          <td class="actions">
+
+            <a class="edit-button" [routerLink]="['/admin/flavors', order.oid]">Editar</a>
+
+            <button class="delete-button">Excluir</button>
+
+          </td>
+
+        </tr>
+
+      }
+
+    </tbody>
+
+  </table>
+
+</div>

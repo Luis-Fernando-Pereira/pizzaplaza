@@ -1,6 +1,5 @@
 package br.com.pizzaplaza.orderservice.dtos;
 
-import br.com.pizzaplaza.entity.fatherofall.OdinDto;
 import br.com.pizzaplaza.orderservice.entities.FlavorSnapshot;
 import br.com.pizzaplaza.orderservice.entities.Pizza;
 import br.com.pizzaplaza.orderservice.enums.PizzaSize;

@@ -1,6 +1,5 @@
 package br.com.pizzaplaza.orderservice.entities;
 
-import br.com.pizzaplaza.entity.Person;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

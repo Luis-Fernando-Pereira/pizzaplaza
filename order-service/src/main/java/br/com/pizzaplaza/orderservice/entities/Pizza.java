@@ -1,6 +1,5 @@
 package br.com.pizzaplaza.orderservice.entities;
 
-import br.com.pizzaplaza.entity.fatherofall.Odin;
 import br.com.pizzaplaza.orderservice.enums.PizzaSize;
 import jakarta.persistence.*;
 import lombok.Getter;

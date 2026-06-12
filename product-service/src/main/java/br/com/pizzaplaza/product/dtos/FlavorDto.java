@@ -2,7 +2,7 @@ package br.com.pizzaplaza.product.dtos;
 
 import br.com.pizzaplaza.product.entities.Flavor;
 import br.com.pizzaplaza.product.entities.FlavorCategory;
-import br.com.pizzaplaza.entity.fatherofall.OdinDto;
+import br.com.pizzaplaza.product.entities.fatherofall.OdinDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,1 +1,31 @@
-<p>order-summary works!</p>
+<section class="order-summary">
+
+  <h2>Resumo do Pedido</h2>
+
+  @for (pizza of orderBuilder.pizzas; track $index) {
+
+    <div class="pizza-summary">
+
+      <span>{{ pizza.size }}</span>
+
+      <span>
+        {{ pizza.unitPrice | currency:'BRL' }}
+      </span>
+
+    </div>
+
+  }
+
+  <hr>
+
+  <div class="total">
+
+    <strong>Total</strong>
+
+    <strong>
+      {{ orderBuilder.totalPrice | currency:'BRL' }}
+    </strong>
+
+  </div>
+
+</section>

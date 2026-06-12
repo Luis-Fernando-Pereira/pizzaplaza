@@ -17,6 +17,12 @@ export const ADMIN_ROUTES: Routes = [
         loadChildren: () =>
           import('../flavors/routes/flavors.routes')
             .then(c => c.FLAVOR_ROUTES)
+      },
+      {
+        path: 'orders',
+        loadChildren: () =>
+          import('../orders/routes/orders.route')
+            .then(c => c.ORDER_ROUTES)
       }
     ]
   }

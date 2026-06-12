@@ -1,6 +1,5 @@
 package br.com.pizzaplaza.orderservice.entities;
 
-import br.com.pizzaplaza.entity.fatherofall.Odin;
 import br.com.pizzaplaza.orderservice.dtos.FlavorSnapshotDto;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,7 +9,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "pizza_flavor_snapshot")
-public class FlavorSnapshot extends Odin  {
+public class FlavorSnapshot extends Odin {
 
     @Getter
     @Setter

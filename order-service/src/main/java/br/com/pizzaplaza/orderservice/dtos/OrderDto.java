@@ -1,6 +1,5 @@
 package br.com.pizzaplaza.orderservice.dtos;
 
-import br.com.pizzaplaza.entity.fatherofall.OdinDto;
 import br.com.pizzaplaza.orderservice.entities.Order;
 import br.com.pizzaplaza.orderservice.entities.Pizza;
 import br.com.pizzaplaza.orderservice.enums.OrderStatus;
@@ -30,7 +29,7 @@ public class OrderDto extends OdinDto {
 
     @NotNull
     @Valid
-    private CustumerDto costumer;
+    private CustumerDto custumer;
 
     @Positive
     private BigDecimal totalPrice;
@@ -40,7 +39,7 @@ public class OrderDto extends OdinDto {
     public OrderDto(Order order) {
         setOid(order.getOid());
         setStatus(order.getStatus());
-        setCostumer(new CustumerDto(order.getCustumer()));
+        setCustumer(new CustumerDto(order.getCustumer()));
         setTotalPrice(order.getTotalPrice());
         setPizzaList(order.getPizzaSet().stream().map(PizzaDto::new).collect(Collectors.toSet()));
     }
@@ -48,7 +47,7 @@ public class OrderDto extends OdinDto {
     public Order toEntity() {
         Order entity = new Order();
 
-        entity.setCustumer(getCostumer().toEntity());
+        entity.setCustumer(getCustumer().toEntity());
         entity.setTotalPrice(getTotalPrice());
         entity.setStatus(getStatus());
         pizzaList.forEach(dto -> {

@@ -1,6 +1,5 @@
 package br.com.pizzaplaza.orderservice.dtos;
 
-import br.com.pizzaplaza.entity.fatherofall.OdinDto;
 import br.com.pizzaplaza.orderservice.entities.Custumer;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -28,7 +27,8 @@ public class CustumerDto extends OdinDto {
     public Custumer toEntity() {
         Custumer custumer = new Custumer();
 
-        custumer.setCpf(getCpf());
+        String c = getCpf();
+        custumer.setCpf(c);
         custumer.setName(getName());
         custumer.setUserOid(getUserOid());
 

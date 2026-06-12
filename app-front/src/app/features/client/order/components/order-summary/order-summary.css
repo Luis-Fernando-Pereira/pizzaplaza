@@ -1,0 +1,35 @@
+.order-summary {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.order-summary h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.pizza-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.pizza-item:last-child {
+  border-bottom: none;
+}
+
+.pizza-item h3 {
+  margin-top: 0;
+}
+
+.total {
+  margin-top: 1rem;
+
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 1.25rem;
+  font-weight: bold;
+}
