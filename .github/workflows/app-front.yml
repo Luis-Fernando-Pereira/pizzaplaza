@@ -1,0 +1,25 @@
+name: app-front
+
+on:
+  push:
+    paths:
+      - 'app-front/**'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: |
+          cd app-front
+          npm ci
+          npm run build
