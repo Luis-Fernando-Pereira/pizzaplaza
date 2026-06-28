@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.resteasy.reactive.ClientWebApplicationException;
 
 @Path("/api/auth")
 @ApplicationScoped
@@ -24,7 +25,11 @@ public class AuthGatewayController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response register(Object body) {
-        return authServiceClient.register(body);
+        try {
+            return authServiceClient.register(body);
+        } catch (ClientWebApplicationException e) {
+            return e.getResponse();
+        }
     }
 
     @POST
@@ -33,7 +38,11 @@ public class AuthGatewayController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response login(Object body) {
-        return authServiceClient.login(body);
+        try {
+            return authServiceClient.login(body);
+        } catch (ClientWebApplicationException e) {
+            return e.getResponse();
+        }
     }
 
     @POST
