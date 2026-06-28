@@ -48,7 +48,6 @@ public class OrderDto extends OdinDto {
         Order entity = new Order();
 
         entity.setCustumer(getCustumer().toEntity());
-        entity.setTotalPrice(getTotalPrice());
         entity.setStatus(getStatus());
         pizzaList.forEach(dto -> {
             Pizza pizza = dto.toEntity();

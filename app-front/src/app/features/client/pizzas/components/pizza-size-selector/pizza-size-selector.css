@@ -88,6 +88,20 @@
   align-self: center;
 }
 
+.size-multiplier {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+.size-price {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-brand);
+  margin-top: var(--space-1);
+}
+
 .size-cta {
   width: 100%;
   padding: var(--space-3) var(--space-6);

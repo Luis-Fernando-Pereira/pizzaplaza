@@ -26,6 +26,13 @@
               (click)="removeFlavor(flavor.flavorOid)">✕</button>
           </div>
         }
+
+        @if (hasMultiplierEffect) {
+          <div class="size-breakdown-row">
+            <span class="size-breakdown-label">Tamanho aplicado</span>
+            <span class="size-breakdown-value">{{ sizeMultiplierLabel }}</span>
+          </div>
+        }
       }
     </div>
 

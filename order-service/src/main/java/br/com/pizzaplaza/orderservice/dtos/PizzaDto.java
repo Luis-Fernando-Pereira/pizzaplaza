@@ -25,8 +25,6 @@ public class PizzaDto extends OdinDto {
     @Valid
     private List<FlavorSnapshotDto> flavors;
 
-    @NotNull
-    @Positive
     private BigDecimal unitPrice;
 
     public PizzaDto(){}
@@ -43,7 +41,6 @@ public class PizzaDto extends OdinDto {
         Pizza entity = new Pizza();
 
         entity.setSize(getSize());
-        entity.setUnitPrice(getUnitPrice());
         getFlavors().forEach(flavorDto -> {
             FlavorSnapshot flavorSnapshot = flavorDto.toEntity();
             flavorSnapshot.setPizza(entity);

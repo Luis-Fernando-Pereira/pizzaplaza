@@ -2,7 +2,9 @@ package br.com.pizzaplaza.orderservice.services;
 
 import br.com.pizzaplaza.orderservice.dtos.OrderDto;
 import br.com.pizzaplaza.orderservice.dtos.OrderStatusEventDto;
+import br.com.pizzaplaza.orderservice.entities.FlavorSnapshot;
 import br.com.pizzaplaza.orderservice.entities.Order;
+import br.com.pizzaplaza.orderservice.entities.Pizza;
 import br.com.pizzaplaza.orderservice.enums.OrderStatus;
 import br.com.pizzaplaza.orderservice.repositories.OrderRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -13,6 +15,8 @@ import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,9 +42,26 @@ public class OrderService {
     @Transactional
     public OrderDto createOrder(OrderDto dto) {
         Order order = dto.toEntity();
+
+        BigDecimal total = BigDecimal.ZERO;
+        for (Pizza pizza : order.getPizzaSet()) {
+            BigDecimal unitPrice = computeUnitPrice(pizza);
+            pizza.setUnitPrice(unitPrice);
+            total = total.add(unitPrice);
+        }
+        order.setTotalPrice(total.setScale(2, RoundingMode.HALF_UP));
+
         orderRepository.persist(order);
-        dto.setOid(order.getOid());
-        return dto;
+        return new OrderDto(order);
+    }
+
+    private BigDecimal computeUnitPrice(Pizza pizza) {
+        BigDecimal maxFlavor = pizza.getFlavors().stream()
+                .map(FlavorSnapshot::getPrice)
+                .max(BigDecimal::compareTo)
+                .orElse(BigDecimal.ZERO);
+        return maxFlavor.multiply(pizza.getSize().multiplier)
+                .setScale(2, RoundingMode.HALF_UP);
     }
 
     @Transactional

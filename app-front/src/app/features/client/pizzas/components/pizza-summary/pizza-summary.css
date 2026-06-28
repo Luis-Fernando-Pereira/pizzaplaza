@@ -78,6 +78,24 @@
   color: var(--color-brand);
 }
 
+.size-breakdown-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) 0 var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.size-breakdown-label {
+  font-weight: 600;
+}
+
+.size-breakdown-value {
+  font-weight: 700;
+  color: var(--color-brand);
+}
+
 .summary-total {
   display: flex;
   align-items: center;
