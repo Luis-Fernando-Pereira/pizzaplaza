@@ -14,6 +14,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.resteasy.reactive.ClientWebApplicationException;
 
 import java.lang.reflect.Method;
 
@@ -45,6 +46,19 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             Response validation = authServiceClient.validate(authHeader);
             if (validation.getStatus() != Response.Status.OK.getStatusCode()) {
                 abortUnauthorized(requestContext, "Token inválido ou sessão encerrada");
+            }
+        } catch (ClientWebApplicationException e) {
+            int status = e.getResponse().getStatus();
+            if (status == Response.Status.UNAUTHORIZED.getStatusCode()
+                    || status == Response.Status.FORBIDDEN.getStatusCode()) {
+                abortUnauthorized(requestContext, "Token inválido ou sessão encerrada");
+            } else {
+                requestContext.abortWith(
+                    Response.status(Response.Status.SERVICE_UNAVAILABLE)
+                        .type(MediaType.APPLICATION_JSON)
+                        .entity("{\"error\": \"Serviço de autenticação indisponível\"}")
+                        .build()
+                );
             }
         } catch (Exception e) {
             requestContext.abortWith(
