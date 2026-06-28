@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { OrderApiService } from '../../services/order-api.service';
 import { Order } from '../../models/order.model';
@@ -7,7 +7,7 @@ import { Order } from '../../models/order.model';
 @Component({
   selector: 'app-my-orders-page',
   standalone: true,
-  imports: [CurrencyPipe, DatePipe, RouterLink],
+  imports: [CurrencyPipe, DatePipe, DecimalPipe, RouterLink],
   templateUrl: './my-orders-page.html',
   styleUrl: './my-orders-page.css'
 })

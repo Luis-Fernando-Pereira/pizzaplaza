@@ -8,7 +8,7 @@
       <nav class="breadcrumb">
         <a routerLink="/admin">Painel</a>
         <span class="breadcrumb-sep">›</span>
-        <span class="breadcrumb-current">{{ pageTitle }}</span>
+        <span class="breadcrumb-current">{{ pageTitle() }}</span>
       </nav>
       <div class="topbar-right">
         @if (auth.currentUser()) {

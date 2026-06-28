@@ -46,7 +46,7 @@
           <!-- Cabeçalho do card -->
           <div class="order-card-header">
             <div class="order-meta">
-              <span class="order-id">#{{ order.oid?.slice(0, 8).toUpperCase() }}</span>
+              <span class="order-id">#{{ order.oid?.slice(0, 8)?.toUpperCase() }}</span>
               @if (order.createdAt) {
                 <span class="order-date">
                   {{ order.createdAt | date:"dd/MM/yyyy 'às' HH:mm" }}
