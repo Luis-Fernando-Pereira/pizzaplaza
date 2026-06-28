@@ -2,6 +2,8 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AdminApiService } from '../../services/admin-api.service';
 import { AdminUser } from '../../models/admin-user.model';
+import { ToastService } from '../../../../../shared/services/toast.service';
+import { extractErrorMessage } from '../../../../../core/utils/http-error.util';
 
 @Component({
   selector: 'app-admin-list-page',
@@ -12,7 +14,8 @@ import { AdminUser } from '../../models/admin-user.model';
 })
 export class AdminListPage implements OnInit {
 
-  private api = inject(AdminApiService);
+  private api   = inject(AdminApiService);
+  private toast = inject(ToastService);
 
   admins = signal<AdminUser[]>([]);
   loading = signal(true);
@@ -29,7 +32,7 @@ export class AdminListPage implements OnInit {
       next: () => {
         this.admins.update(list => list.filter(a => a.oid !== oid));
       },
-      error: error => console.error(error)
+      error: (err) => this.toast.error(extractErrorMessage(err, 'Erro ao inativar administrador.'))
     });
   }
 
@@ -38,7 +41,7 @@ export class AdminListPage implements OnInit {
 
     this.api.findAll().subscribe({
       next: response => this.admins.set(response),
-      error: error => console.error(error),
+      error: (err) => this.toast.error(extractErrorMessage(err, 'Erro ao carregar administradores.')),
       complete: () => this.loading.set(false)
     });
   }

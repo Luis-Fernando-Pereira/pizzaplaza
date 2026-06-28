@@ -4,6 +4,8 @@ import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { switchMap } from 'rxjs';
 import { AuthService } from '../../../../../core/services/auth.service';
+import { ToastService } from '../../../../../shared/services/toast.service';
+import { extractErrorMessage } from '../../../../../core/utils/http-error.util';
 
 function passwordMatch(form: AbstractControl): ValidationErrors | null {
   const pw = form.get('password')?.value;
@@ -20,19 +22,20 @@ function passwordMatch(form: AbstractControl): ValidationErrors | null {
 })
 export class ClientRegisterPage {
 
-  private fb = inject(FormBuilder);
-  private auth = inject(AuthService);
-  private http = inject(HttpClient);
+  private fb    = inject(FormBuilder);
+  private auth  = inject(AuthService);
+  private http  = inject(HttpClient);
   private router = inject(Router);
+  private toast  = inject(ToastService);
 
   loading = signal(false);
-  error = signal('');
+  error   = signal('');
 
   form = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
-    cpf: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
+    name:            ['', [Validators.required, Validators.minLength(3)]],
+    cpf:             ['', [Validators.required]],
+    email:           ['', [Validators.required, Validators.email]],
+    password:        ['', [Validators.required, Validators.minLength(8)]],
     confirmPassword: ['', [Validators.required]]
   }, { validators: passwordMatch });
 
@@ -59,8 +62,9 @@ export class ClientRegisterPage {
     ).subscribe({
       next: () => this.router.navigate(['/pizzas']),
       error: (err) => {
-        const msg = typeof err.error === 'string' ? err.error : 'Erro ao criar conta. Verifique os dados e tente novamente.';
+        const msg = extractErrorMessage(err, 'Erro ao criar conta. Verifique os dados e tente novamente.');
         this.error.set(msg);
+        this.toast.error(msg);
         this.loading.set(false);
       }
     });

@@ -3,6 +3,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AdminApiService } from '../../services/admin-api.service';
 import { AdminUser } from '../../models/admin-user.model';
 import { AdminFormComponent } from '../../components/admin-form/admin-form';
+import { ToastService } from '../../../../../shared/services/toast.service';
+import { extractErrorMessage } from '../../../../../core/utils/http-error.util';
 
 @Component({
   selector: 'app-admin-edit-page',
@@ -13,8 +15,9 @@ import { AdminFormComponent } from '../../components/admin-form/admin-form';
 })
 export class AdminEditPage implements OnInit {
 
-  private api = inject(AdminApiService);
+  private api   = inject(AdminApiService);
   private route = inject(ActivatedRoute);
+  private toast = inject(ToastService);
 
   admin = signal<AdminUser | null>(null);
 
@@ -23,7 +26,7 @@ export class AdminEditPage implements OnInit {
 
     this.api.findByOid(oid).subscribe({
       next: admin => this.admin.set(admin),
-      error: error => console.error(error)
+      error: (err) => this.toast.error(extractErrorMessage(err, 'Erro ao carregar administrador.'))
     });
   }
 }

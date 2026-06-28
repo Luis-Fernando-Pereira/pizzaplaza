@@ -32,7 +32,10 @@ public class UserService {
     @Transactional
     public User register(User user) {
         if (userRepository.isEmailInUse(user.getEmail())) {
-            throw new IllegalStateException("Email já está em uso");
+            throw new IllegalStateException("E-mail já está em uso");
+        }
+        if (userRepository.isCpfInUse(user.getCpf())) {
+            throw new IllegalStateException("CPF já está em uso");
         }
         return userRepository.save(user);
     }

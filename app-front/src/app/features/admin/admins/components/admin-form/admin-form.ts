@@ -3,6 +3,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminApiService } from '../../services/admin-api.service';
 import { AdminUser } from '../../models/admin-user.model';
+import { ToastService } from '../../../../../shared/services/toast.service';
+import { extractErrorMessage } from '../../../../../core/utils/http-error.util';
 
 @Component({
   selector: 'app-admin-form',
@@ -14,8 +16,9 @@ import { AdminUser } from '../../models/admin-user.model';
 export class AdminFormComponent {
 
   private service = inject(AdminApiService);
-  private fb = inject(FormBuilder);
-  private router = inject(Router);
+  private fb      = inject(FormBuilder);
+  private router  = inject(Router);
+  private toast   = inject(ToastService);
 
   admin = input<AdminUser | null>(null);
 
@@ -59,7 +62,7 @@ export class AdminFormComponent {
 
     request$.subscribe({
       next: () => this.router.navigate(['/admin/admins']),
-      error: error => console.error(error)
+      error: (err) => this.toast.error(extractErrorMessage(err, 'Erro ao salvar administrador.'))
     });
   }
 }

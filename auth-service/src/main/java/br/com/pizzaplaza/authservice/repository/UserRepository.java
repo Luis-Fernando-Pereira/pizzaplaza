@@ -47,4 +47,11 @@ public class UserRepository {
                 .getSingleResult();
         return count > 0;
     }
+
+    public boolean isCpfInUse(String cpf) {
+        Long count = em.createQuery("SELECT COUNT(u) FROM User u WHERE u.cpf = :cpf", Long.class)
+                .setParameter("cpf", cpf)
+                .getSingleResult();
+        return count > 0;
+    }
 }

@@ -8,6 +8,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.PersistenceException;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -35,9 +36,13 @@ public class AuthController {
             return Response.status(Response.Status.CONFLICT)
                     .entity(e.getMessage())
                     .build();
+        } catch (PersistenceException e) {
+            return Response.status(Response.Status.CONFLICT)
+                    .entity("CPF ou e-mail já cadastrado")
+                    .build();
         } catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(e.getMessage())
+                    .entity("Erro ao processar cadastro")
                     .build();
         }
     }
@@ -69,6 +74,7 @@ public class AuthController {
     @POST
     @Path("/refresh")
     @RolesAllowed({"admin", "seller", "client"})
+
     @Produces(MediaType.TEXT_PLAIN)
     public Response refresh() {
         try {
