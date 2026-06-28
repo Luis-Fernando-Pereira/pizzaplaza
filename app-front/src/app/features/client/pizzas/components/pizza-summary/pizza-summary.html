@@ -1,80 +1,37 @@
-<div class="pizza-summary">
-
-  <h2>Resumo da Pizza</h2>
-
-  <div class="summary-section">
-
-    <strong>Tamanho</strong>
-
-    <span>
-      {{ pizzaBuilder.pizza.size }}
-    </span>
-
+<div class="pizza-summary card">
+  <div class="summary-title">
+    <span>Sua pizza</span>
+    @if (pizzaBuilder.pizza.size) {
+      <span class="badge badge-brand">{{ sizeMeta(pizzaBuilder.pizza.size) }}</span>
+    }
   </div>
 
-  <div class="summary-section">
-
-    <strong>Sabores</strong>
-
-    @if(pizzaBuilder.pizza.flavors.length){
-
-      <ul>
-
-        @for(
-          flavor of pizzaBuilder.pizza.flavors;
-          track flavor.flavorOid
-          ){
-
-          <li>
-
-            <div>
-
-              <strong>
-                {{ flavor.name }}
-              </strong>
-
-              <small>
-                R$ {{ flavor.price | number:'1.2-2' }}
-              </small>
-
+  @if (!pizzaBuilder.pizza.size) {
+    <p class="summary-empty">Selecione um tamanho no passo anterior.</p>
+  } @else {
+    <div class="summary-flavors">
+      @if (pizzaBuilder.pizza.flavors.length === 0) {
+        <p class="summary-empty">Nenhum sabor adicionado ainda.</p>
+      } @else {
+        @for (flavor of pizzaBuilder.pizza.flavors; track flavor.flavorOid) {
+          <div class="summary-flavor-row">
+            <div class="summary-flavor-info">
+              <span class="summary-flavor-name">{{ flavor.name }}</span>
+              <span class="summary-flavor-price">R$ {{ flavor.price | number:'1.2-2' }}</span>
             </div>
-
             <button
               type="button"
-              (click)="removeFlavor(flavor.flavorOid)">
-
-              Remover
-
-            </button>
-
-          </li>
-
+              class="summary-remove"
+              aria-label="Remover sabor"
+              (click)="removeFlavor(flavor.flavorOid)">✕</button>
+          </div>
         }
+      }
+    </div>
 
-      </ul>
-
-    } @else {
-
-      <p>
-        Nenhum sabor selecionado
-      </p>
-
-    }
-
-  </div>
-
-  <div class="summary-section total">
-
-    <strong>Preço da Pizza</strong>
-
-    <span>
-      R$
-      {{
-        pizzaBuilder.pizza.unitPrice
-          | number:'1.2-2'
-      }}
-    </span>
-
-  </div>
-
+    <div class="summary-total">
+      <span>Total da pizza</span>
+      <strong>R$ {{ pizzaBuilder.pizza.unitPrice | number:'1.2-2' }}</strong>
+    </div>
+  }
 </div>

@@ -1,0 +1,42 @@
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Administradores</h1>
+    <p style="color:var(--color-text-muted);font-size:var(--text-sm);margin-top:var(--space-1)">Gerencie os usuários administradores do sistema</p>
+  </div>
+  <a class="btn btn-primary" routerLink="/admin/admins/new">+ Novo administrador</a>
+</div>
+
+<div class="table-wrapper animate-fade-in-up">
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>CPF</th>
+        <th style="text-align:right">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (admin of admins(); track admin.oid) {
+        <tr class="table-row-actions">
+          <td><strong>{{ admin.name }}</strong></td>
+          <td style="color:var(--color-text-muted)">{{ admin.email }}</td>
+          <td style="color:var(--color-text-muted)">{{ admin.cpf }}</td>
+          <td>
+            <div class="row-actions">
+              <a class="btn btn-ghost btn-sm" [routerLink]="['/admin/admins', admin.oid]">Editar</a>
+              <button class="btn btn-sm" style="background:#FDECEA;color:var(--color-brand);border:none;cursor:pointer" (click)="inactivate(admin.oid!)">Inativar</button>
+            </div>
+          </td>
+        </tr>
+      }
+      @if (!loading() && admins().length === 0) {
+        <tr>
+          <td colspan="4" style="text-align:center;padding:var(--space-10);color:var(--color-text-muted)">
+            Nenhum administrador cadastrado.
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

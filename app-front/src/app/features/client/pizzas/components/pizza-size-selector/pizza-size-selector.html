@@ -1,17 +1,27 @@
-<h2>Escolha o tamanho</h2>
+<div class="size-selector">
+  <div class="size-header">
+    <h2>Qual o tamanho da pizza?</h2>
+    <p>Escolha o tamanho perfeito para você</p>
+  </div>
 
-<div class="sizes">
-
-  @for(size of sizes; track size){
-
-    <button
-      type="button"
-      (click)="select(size)">
-
-      {{ size }}
-
-    </button>
-
-  }
-
+  <div class="sizes-grid">
+    @for (size of sizes; track size) {
+      <button type="button" class="size-card" (click)="select(size)">
+        <div class="size-visual">
+          <svg viewBox="0 0 100 100" class="size-pizza" [attr.width]="pizzaVisual(size).px" [attr.height]="pizzaVisual(size).px">
+            <circle cx="50" cy="50" r="46" fill="#F4A261" stroke="#E76F51" stroke-width="4"/>
+            <circle cx="50" cy="50" r="38" fill="#E9C46A"/>
+            <circle cx="50" cy="50" r="32" fill="#E76F51" opacity=".7"/>
+            <circle cx="50" cy="50" r="26" fill="#F4D03F" opacity=".85"/>
+          </svg>
+        </div>
+        <div class="size-info">
+          <span class="size-name">{{ sizeMeta(size).label }}</span>
+          <span class="size-desc">{{ sizeMeta(size).desc }}</span>
+          <span class="size-slices">{{ sizeMeta(size).slices }}</span>
+        </div>
+        <div class="size-cta">Escolher</div>
+      </button>
+    }
+  </div>
 </div>

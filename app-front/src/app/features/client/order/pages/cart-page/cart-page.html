@@ -1,88 +1,78 @@
-<div class="page-container">
+<div class="cart-page">
 
-  <div class="page-header">
-
-    <h1>Meu Pedido</h1>
-
-    <p>
-      Revise as pizzas antes de finalizar.
-    </p>
-
+  <!-- Header -->
+  <div class="cart-header">
+    <a routerLink="/pizzas" class="back-link">← Adicionar pizza</a>
+    <div>
+      <h1>Meu pedido</h1>
+      <p>Revise suas pizzas antes de finalizar</p>
+    </div>
   </div>
 
+  <!-- Empty state -->
   @if (orderBuilder.pizzas.length === 0) {
-
-    <div class="empty-state">
-
-      <h2>Nenhuma pizza adicionada</h2>
-
-      <button routerLink="/pizzas">
-        Montar Pizza
-      </button>
-
+    <div class="empty-state card animate-fade-in-up">
+      <div class="empty-icon">🍕</div>
+      <h2>Seu pedido está vazio</h2>
+      <p>Monte pizzas incríveis para começar</p>
+      <a routerLink="/pizzas" class="btn btn-primary">Montar minha pizza</a>
     </div>
-
   } @else {
+    <div class="cart-body">
 
-    <div class="pizza-list">
-
-      @for (
-        pizza of orderBuilder.pizzas;
-        track $index;
-        let i = $index
-        ) {
-
-        <div class="pizza-card">
-
-          <h3>Pizza {{ i + 1 }}</h3>
-
-          <p>Tamanho: {{ pizza.size }}</p>
-
-          <div class="flavor-list">
-
-            <strong>Sabores</strong>
-
-            <ul>
-
-              @for (
-                flavor of pizza.flavors;
-                track flavor.flavorOid
-                ) {
-
-                <li>{{ flavor.name }}</li>
-
+      <!-- Lista de pizzas -->
+      <div class="pizza-list">
+        @for (pizza of orderBuilder.pizzas; track $index; let i = $index) {
+          <div class="pizza-card card animate-fade-in-up">
+            <div class="pizza-card-header">
+              <div class="pizza-num">Pizza {{ i + 1 }}</div>
+              <span class="badge badge-brand">{{ sizeMeta(pizza.size) }}</span>
+              <button
+                type="button"
+                class="remove-btn"
+                (click)="removePizza(i)"
+                aria-label="Remover pizza">✕ Remover</button>
+            </div>
+            <div class="pizza-flavors">
+              @for (flavor of pizza.flavors; track flavor.flavorOid) {
+                <div class="pizza-flavor-row">
+                  <span>{{ flavor.name }}</span>
+                  <span class="flavor-price">R$ {{ flavor.price | number:'1.2-2' }}</span>
+                </div>
               }
-
-            </ul>
-
+            </div>
+            <div class="pizza-subtotal">
+              <span>Subtotal</span>
+              <strong>R$ {{ pizza.unitPrice | number:'1.2-2' }}</strong>
+            </div>
           </div>
+        }
+        <a routerLink="/pizzas" class="add-more-btn">
+          <span>+</span> Adicionar outra pizza
+        </a>
+      </div>
 
+      <!-- Resumo do pedido -->
+      <aside class="order-summary card">
+        <h2>Resumo do pedido</h2>
+        <div class="summary-rows">
+          @for (pizza of orderBuilder.pizzas; track $index; let i = $index) {
+            <div class="summary-row">
+              <span>Pizza {{ i + 1 }} ({{ sizeMeta(pizza.size) }})</span>
+              <span>R$ {{ pizza.unitPrice | number:'1.2-2' }}</span>
+            </div>
+          }
         </div>
-
-      }
-
-    </div>
-
-    <div class="order-footer">
-
-      <div class="order-total">
-        {{ orderBuilder.totalPrice | currency:'BRL' }}
-      </div>
-
-      <div class="actions">
-
-        <button routerLink="/pizzas">
-          Adicionar Pizza
-        </button>
-
-        <button (click)="finishOrder()">
-          Finalizar Pedido
-        </button>
-
-      </div>
+        <div class="summary-total">
+          <span>Total</span>
+          <strong>{{ orderBuilder.totalPrice | currency:'BRL' }}</strong>
+        </div>
+        <a routerLink="/orders/checkout" class="btn btn-primary btn-lg">
+          Finalizar pedido
+        </a>
+      </aside>
 
     </div>
-
   }
 
 </div>

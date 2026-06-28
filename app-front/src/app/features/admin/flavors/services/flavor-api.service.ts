@@ -9,8 +9,7 @@ export class FlavorApiService {
 
   private http = inject(HttpClient);
 
-  private readonly API =
-    'http://localhost:8083/flavors';
+  private readonly API = '/api/products/flavors';
 
   findAll(): Observable<Flavor[]> {
 

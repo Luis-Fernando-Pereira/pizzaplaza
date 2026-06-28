@@ -1,51 +1,43 @@
-<aside class="sidebar"
-       [class.collapsed]="layout.collapsed()">
+<aside class="sidebar" [class.collapsed]="layout.collapsed()">
 
-  <div class="top-area">
-
+  <div class="sidebar-top">
     @if (!layout.collapsed()) {
-      <div class="logo">
-        🍕 Pizza Plaza
-      </div>
+      <a routerLink="/admin" class="sidebar-logo">Pizza Plaza</a>
     }
-
-    <button class="toggle-btn"
-            (click)="layout.toggleMenu()">
-      ☰
+    <button class="sidebar-toggle" (click)="layout.toggleMenu()" title="Recolher menu">
+      @if (layout.collapsed()) { → } @else { ← }
     </button>
-
   </div>
 
-  <nav class="menu">
+  <nav class="sidebar-nav">
 
-    <a routerLink="/admin/flavors" routerLinkActive="active">
-      <span class="icon">🍕</span>
-      @if (!layout.collapsed()) {
-        <span>Sabores</span>
-      }
+    <a routerLink="/admin/flavors" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">🍕</span>
+      @if (!layout.collapsed()) { <span>Sabores</span> }
     </a>
 
-    <a routerLink="/admin/categories" routerLinkActive="active">
-
-      <span class="icon">🔥</span>
-
-      @if (!layout.collapsed()) {
-        <span>Categorias</span>
-      }
-
+    <a routerLink="/admin/categories" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">🏷️</span>
+      @if (!layout.collapsed()) { <span>Categorias</span> }
     </a>
 
-    <a routerLink="/admin/orders"
-       routerLinkActive="active">
+    <a routerLink="/admin/orders" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">📦</span>
+      @if (!layout.collapsed()) { <span>Pedidos</span> }
+    </a>
 
-      <span class="icon">📦</span>
-
-      @if (!layout.collapsed()) {
-        <span>Pedidos</span>
-      }
-
+    <a routerLink="/admin/admins" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">👤</span>
+      @if (!layout.collapsed()) { <span>Administradores</span> }
     </a>
 
   </nav>
+
+  <div class="sidebar-bottom">
+    <button class="nav-item logout-item" (click)="auth.logout()">
+      <span class="nav-icon">🚪</span>
+      @if (!layout.collapsed()) { <span>Sair</span> }
+    </button>
+  </div>
 
 </aside>

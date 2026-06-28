@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { PizzaSize } from '../../../pizzas/models/pizza-size.enum';
 
 import { OrderBuilderService } from '../../services/order-builder.service';
 import { OrderApiService } from '../../services/order-api.service';
@@ -11,6 +12,7 @@ import { Order } from '../../models/order.model';
   standalone: true,
   imports: [
     CurrencyPipe,
+    DecimalPipe,
     RouterLink
   ],
   templateUrl: './cart-page.html',
@@ -26,6 +28,13 @@ export class CartPage {
 
   removePizza(index: number): void {
     this.orderBuilder.removePizza(index);
+  }
+
+  sizeMeta(size: string): string {
+    const map: Record<string, string> = {
+      [PizzaSize.SMALL]: 'Broto', [PizzaSize.MEDIUM]: 'Média', [PizzaSize.LARGE]: 'Grande',
+    };
+    return map[size] ?? size;
   }
 
   finishOrder(): void {

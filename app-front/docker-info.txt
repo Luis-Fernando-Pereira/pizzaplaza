@@ -1,0 +1,220 @@
+===== PWD =====
+/home/fernando/studyspace/pizzaplaza/app-front
+===== NODE =====
+v22.15.0
+===== NPM =====
+10.9.2
+===== PACKAGE.JSON =====
+{
+  "name": "app-front",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "packageManager": "npm@10.9.2",
+  "dependencies": {
+    "@angular/common": "^21.2.0",
+    "@angular/compiler": "^21.2.0",
+    "@angular/core": "^21.2.0",
+    "@angular/forms": "^21.2.0",
+    "@angular/platform-browser": "^21.2.0",
+    "@angular/router": "^21.2.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "^0.16.2"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.2.12",
+    "@angular/cli": "^21.2.12",
+    "@angular/compiler-cli": "^21.2.0",
+    "jsdom": "^28.0.0",
+    "prettier": "^3.8.1",
+    "typescript": "~5.9.2",
+    "vitest": "^4.0.8"
+  }
+}
+===== ANGULAR.JSON =====
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "cli": {
+    "packageManager": "npm"
+  },
+  "newProjectRoot": "projects",
+  "projects": {
+    "app-front": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.ts",
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "src/styles.css"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "app-front:build:production"
+            },
+            "development": {
+              "buildTarget": "app-front:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        }
+      }
+    }
+  }
+}
+===== FILES =====
+total 368K
+drwxrwxr-x   7 fernando fernando 4,0K jun 11 20:45 .
+drwxrwxr-x  16 fernando fernando 4,0K jun 11 20:36 ..
+drwxrwxr-x   3 fernando fernando 4,0K mai 24 18:27 .angular
+-rw-rw-r--   1 fernando fernando 1,9K mai 24 18:17 angular.json
+-rw-rw-r--   1 fernando fernando  418 mai 24 18:17 app-front.iml
+-rw-rw-r--   1 fernando fernando 2,9K jun 11 20:45 docker-info.txt
+-rw-rw-r--   1 fernando fernando  314 mai 24 18:17 .editorconfig
+-rw-rw-r--   1 fernando fernando  622 mai 24 18:20 .gitignore
+drwxrwxr-x 338 fernando fernando  12K jun  1 20:34 node_modules
+-rw-rw-r--   1 fernando fernando  813 jun  1 20:34 package.json
+-rw-rw-r--   1 fernando fernando 288K jun  1 20:34 package-lock.json
+-rw-rw-r--   1 fernando fernando  161 mai 24 18:17 .prettierrc
+drwxrwxr-x   2 fernando fernando 4,0K mai 24 18:17 public
+-rw-rw-r--   1 fernando fernando 1,5K mai 24 18:17 README.md
+drwxrwxr-x   3 fernando fernando 4,0K mai 31 21:31 src
+-rw-rw-r--   1 fernando fernando  429 mai 24 18:17 tsconfig.app.json
+-rw-rw-r--   1 fernando fernando  957 mai 24 18:17 tsconfig.json
+-rw-rw-r--   1 fernando fernando  441 mai 24 18:17 tsconfig.spec.json
+drwxrwxr-x   2 fernando fernando 4,0K mai 24 18:17 .vscode
+===== SRC =====
+src/app/app.config.ts
+src/app/app.css
+src/app/app.html
+src/app/app.routes.ts
+src/app/app.spec.ts
+src/app/app.ts
+src/index.html
+src/main.ts
+src/styles.css
+===== BUILD =====
+
+> app-front@0.0.0 build
+> ng build
+
+❯ Building...
+✔ Building...
+Initial chunk files | Names              |  Raw size | Estimated transfer size
+chunk-UDUGZTNU.js   | -                  | 258.45 kB |                70.73 kB
+main-R6KPC4TA.js    | main               | 720 bytes |               720 bytes
+chunk-2NFLSA4Y.js   | -                  | 449 bytes |               449 bytes
+chunk-GIEBU4FC.js   | -                  | 252 bytes |               252 bytes
+styles-YVI5IDT3.css | styles             | 175 bytes |               175 bytes
+
+                    | Initial total      | 260.05 kB |                72.33 kB
+
+Lazy chunk files    | Names              |  Raw size | Estimated transfer size
+chunk-SPOVS3WE.js   | -                  |  38.82 kB |                 8.24 kB
+chunk-KPLVLHCU.js   | pizza-routes       |  11.14 kB |                 2.98 kB
+chunk-XQKMSBIY.js   | -                  |   5.58 kB |                 1.88 kB
+chunk-ZXNO443C.js   | order-routes       |   4.32 kB |                 1.53 kB
+chunk-BCT6BQIN.js   | admin-routes       |   3.45 kB |                 1.15 kB
+chunk-LWF7X3NS.js   | home-routes        |   3.25 kB |                 1.16 kB
+chunk-CG6RRWOS.js   | flavor-list-page   |   3.09 kB |                 1.24 kB
+chunk-PX6JWZR5.js   | category-list      |   3.00 kB |                 1.18 kB
+chunk-KWQXQEP2.js   | order-list-page    |   2.77 kB |                 1.10 kB
+chunk-VYV7JDND.js   | -                  |   2.55 kB |                 1.07 kB
+chunk-4AQCYHXJ.js   | flavor-edit-page   |   1.73 kB |               834 bytes
+chunk-6K4SKAT4.js   | category-edit      |   1.72 kB |               815 bytes
+chunk-FIB6BRHM.js   | not-found          |   1.43 kB |               634 bytes
+chunk-AO6RTMKF.js   | flavor-create-page |   1.22 kB |               585 bytes
+chunk-ER3YMPDC.js   | category-create    |   1.20 kB |               558 bytes
+...and 8 more lazy chunks files. Use "--verbose" to show all the files.
+
+Application bundle generation complete. [2.824 seconds] - 2026-06-11T23:45:22.810Z
+
+Output location: /home/fernando/studyspace/pizzaplaza/app-front/dist/app-front
+
+===== DIST FILES =====
+dist/app-front/browser/chunk-2UASV72N.js
+dist/app-front/browser/chunk-BCT6BQIN.js
+dist/app-front/browser/chunk-PX6JWZR5.js
+dist/app-front/browser/chunk-2NFLSA4Y.js
+dist/app-front/browser/favicon.ico
+dist/app-front/browser/chunk-EV4WVFW3.js
+dist/app-front/browser/chunk-VYV7JDND.js
+dist/app-front/browser/chunk-UDUGZTNU.js
+dist/app-front/browser/index.html
+dist/app-front/browser/chunk-LWF7X3NS.js
+dist/app-front/browser/chunk-B7WBFX6Z.js
+dist/app-front/browser/styles-YVI5IDT3.css
+dist/app-front/browser/chunk-6K4SKAT4.js
+dist/app-front/browser/chunk-AO6RTMKF.js
+dist/app-front/browser/chunk-FELE3SDQ.js
+dist/app-front/browser/chunk-KWQXQEP2.js
+dist/app-front/browser/chunk-55KPXLTW.js
+dist/app-front/browser/chunk-ZXNO443C.js
+dist/app-front/browser/chunk-4AQCYHXJ.js
+dist/app-front/browser/chunk-ER3YMPDC.js
+dist/app-front/browser/main-R6KPC4TA.js
+dist/app-front/browser/chunk-GIEBU4FC.js
+dist/app-front/browser/chunk-KPLVLHCU.js
+dist/app-front/browser/chunk-XQKMSBIY.js
+dist/app-front/browser/chunk-SMFAU5D7.js
+dist/app-front/browser/chunk-FIB6BRHM.js
+dist/app-front/browser/chunk-CG6RRWOS.js
+dist/app-front/browser/chunk-SPOVS3WE.js
+dist/app-front/browser/chunk-O3TCGEQI.js
+dist/app-front/browser/chunk-6MP43FO6.js
+dist/app-front/3rdpartylicenses.txt
+dist/app-front/prerendered-routes.json
+===== DIST DIRS =====
+dist
+dist/app-front
+dist/app-front/browser

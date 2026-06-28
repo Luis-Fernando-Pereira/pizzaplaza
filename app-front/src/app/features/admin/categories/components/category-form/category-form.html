@@ -1,40 +1,23 @@
-<form
-  class="form"
-  [formGroup]="form"
-  (ngSubmit)="save()">
+<form class="admin-form card" [formGroup]="form" (ngSubmit)="save()">
 
   <div class="form-group">
-
-    <label for="description">
-      Descrição
-    </label>
-
+    <label class="form-label" for="description">Nome da categoria</label>
     <input
       id="description"
       type="text"
+      class="form-input"
       formControlName="description"
-      placeholder="Digite a descrição da categoria"
+      placeholder="Ex: Salgada, Doce, Especial"
     />
-
-    @if(form.controls.description.invalid &&
-    form.controls.description.touched) {
-
-      <small>
-        Descrição obrigatória
-      </small>
-
+    @if (form.controls.description.invalid && form.controls.description.touched) {
+      <span class="form-error">Descrição obrigatória</span>
     }
-
   </div>
 
-  <button type="submit">
-
-    @if(form.value.oid) {
-      Atualizar
-    } @else {
-      Salvar
-    }
-
-  </button>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">
+      @if (form.value.oid) { Atualizar } @else { Salvar }
+    </button>
+  </div>
 
 </form>

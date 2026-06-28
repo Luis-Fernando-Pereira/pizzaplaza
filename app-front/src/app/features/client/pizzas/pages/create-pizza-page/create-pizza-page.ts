@@ -4,6 +4,7 @@ import {PizzaSummaryComponent} from '../../components/pizza-summary/pizza-summar
 import {PizzaFlavorSelectorComponent} from '../../components/pizza-flavor-selector/pizza-flavor-selector';
 import {PizzaSizeSelectorComponent} from '../../components/pizza-size-selector/pizza-size-selector';
 import {CommonModule} from '@angular/common';
+import {RouterLink} from '@angular/router';
 import {OrderBuilderService} from '../../../order/services/order-builder.service';
 import {Router} from '@angular/router';
 import {FlavorSnapshot} from '../../../order/models/flavor-snapshot.model';
@@ -15,7 +16,8 @@ import {FlavorSnapshot} from '../../../order/models/flavor-snapshot.model';
     PizzaSummaryComponent,
     PizzaFlavorSelectorComponent,
     PizzaSizeSelectorComponent,
-    CommonModule
+    CommonModule,
+    RouterLink
   ],
   templateUrl: './create-pizza-page.html',
   styleUrls: ['./create-pizza-page.css']

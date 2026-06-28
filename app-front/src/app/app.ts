@@ -1,19 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AdminMenu } from './features/admin/layout/components/admin-menu/admin-menu';
-import { AdminLayoutService } from './features/admin/layout/services/admin-layout.service';
+import { ToastComponent } from './shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterOutlet,
-  ],
+  imports: [RouterOutlet, ToastComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-
-  layout = inject(AdminLayoutService);
-
-}
+export class App {}

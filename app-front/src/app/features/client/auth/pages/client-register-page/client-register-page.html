@@ -1,0 +1,122 @@
+<div class="register-layout">
+
+  <!-- Lado esquerdo: marca -->
+  <div class="register-brand">
+    <div class="brand-inner">
+      <div class="brand-logo">Pizza Plaza</div>
+      <h1 class="brand-headline">Faça parte da família Pizza Plaza</h1>
+      <p class="brand-sub">Crie sua conta e monte pizzas exclusivas com até 4 sabores diferentes.</p>
+      <div class="brand-badges">
+        <span class="badge badge-accent">Grátis para criar</span>
+        <span class="badge" style="background:rgba(255,255,255,.2);color:#fff">Entrega rápida</span>
+      </div>
+    </div>
+    <div class="brand-pizza">🍕</div>
+  </div>
+
+  <!-- Lado direito: formulário -->
+  <div class="register-form-area">
+    <div class="register-form-inner">
+
+      <div class="form-header">
+        <h2>Criar conta</h2>
+        <p>Preencha seus dados para começar</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="register()" class="register-form">
+
+        <div class="form-group">
+          <label class="form-label" for="name">Nome completo</label>
+          <input
+            id="name"
+            type="text"
+            class="form-input"
+            formControlName="name"
+            placeholder="Seu nome completo"
+            autocomplete="name"
+          />
+          @if (form.controls.name.invalid && form.controls.name.touched) {
+            <span class="form-error">Nome deve ter ao menos 3 caracteres</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cpf">CPF</label>
+          <input
+            id="cpf"
+            type="text"
+            class="form-input"
+            formControlName="cpf"
+            placeholder="000.000.000-00"
+            autocomplete="off"
+          />
+          @if (form.controls.cpf.invalid && form.controls.cpf.touched) {
+            <span class="form-error">CPF é obrigatório</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            class="form-input"
+            formControlName="email"
+            placeholder="seu@email.com"
+            autocomplete="email"
+          />
+          @if (form.controls.email.invalid && form.controls.email.touched) {
+            <span class="form-error">Email inválido</span>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="password">Senha</label>
+            <input
+              id="password"
+              type="password"
+              class="form-input"
+              formControlName="password"
+              placeholder="Mínimo 8 caracteres"
+              autocomplete="new-password"
+            />
+            @if (form.controls.password.invalid && form.controls.password.touched) {
+              <span class="form-error">Mínimo 8 caracteres</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="confirmPassword">Confirmar senha</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              class="form-input"
+              formControlName="confirmPassword"
+              placeholder="Repita a senha"
+              autocomplete="new-password"
+            />
+            @if (form.hasError('passwordMismatch') && form.controls.confirmPassword.touched) {
+              <span class="form-error">Senhas não conferem</span>
+            }
+          </div>
+        </div>
+
+        @if (error()) {
+          <div class="register-error">{{ error() }}</div>
+        }
+
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="loading()">
+          @if (loading()) { Criando conta... } @else { Criar conta }
+        </button>
+
+      </form>
+
+      <p class="register-login-link">
+        Já tem conta? <a routerLink="/login">Entrar</a>
+      </p>
+
+    </div>
+  </div>
+
+</div>

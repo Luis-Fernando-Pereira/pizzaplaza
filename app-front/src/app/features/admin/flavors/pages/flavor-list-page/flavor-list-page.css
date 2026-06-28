@@ -1,101 +1,17 @@
-.page-header {
+.price-badge {
+  display: inline-block;
+  font-weight: 700;
+  color: var(--color-brand);
+}
+
+.row-actions {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  margin-bottom: 32px;
+  gap: var(--space-2);
+  justify-content: flex-end;
+  opacity: 0;
+  transition: opacity var(--transition-base);
 }
 
-.page-header h1 {
-  margin: 0;
-  font-size: 32px;
-  color: #111827;
-}
-
-.page-header p {
-  margin-top: 8px;
-  color: #6b7280;
-}
-
-.new-button {
-  background: #2563eb;
-  color: white;
-
-  text-decoration: none;
-
-  padding: 14px 20px;
-
-  border-radius: 10px;
-
-  font-weight: 600;
-
-  transition: background 0.2s;
-}
-
-.new-button:hover {
-  background: #b91c1c;
-}
-
-.table-container {
-  background: white;
-
-  border-radius: 16px;
-
-  overflow: hidden;
-
-  box-shadow:
-    0 4px 10px rgba(0,0,0,0.08);
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-thead {
-  background: #f3f4f6;
-}
-
-th {
-  text-align: left;
-  padding: 18px;
-  color: #374151;
-}
-
-td {
-  padding: 18px;
-  border-top: 1px solid #e5e7eb;
-}
-
-.actions {
-  display: flex;
-  gap: 12px;
-}
-
-.edit-button {
-  background: #f59e0b;
-  color: white;
-
-  text-decoration: none;
-
-  padding: 10px 14px;
-
-  border-radius: 8px;
-
-  font-size: 14px;
-}
-
-.delete-button {
-  background: #dc2626;
-  color: white;
-
-  border: none;
-
-  padding: 10px 14px;
-
-  border-radius: 8px;
-
-  cursor: pointer;
-
-  font-size: 14px;
+.table-row-actions:hover .row-actions {
+  opacity: 1;
 }

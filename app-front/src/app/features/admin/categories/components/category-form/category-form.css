@@ -1,66 +1,14 @@
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-
+.admin-form {
+  padding: var(--space-8);
   max-width: 500px;
-}
-
-.form-group {
   display: flex;
   flex-direction: column;
-
-  gap: 8px;
+  gap: var(--space-5);
 }
 
-label {
-  font-weight: 600;
-
-  color: #111827;
-}
-
-input {
-  border: 1px solid #d1d5db;
-
-  border-radius: 10px;
-
-  padding: 14px 16px;
-
-  font-size: 14px;
-
-  transition: border-color 0.2s;
-}
-
-input:focus {
-  outline: none;
-
-  border-color: #2563eb;
-}
-
-button {
-  border: none;
-
-  border-radius: 10px;
-
-  padding: 14px 18px;
-
-  background: #2563eb;
-
-  color: white;
-
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: background 0.2s;
-}
-
-button:hover {
-  background: #1d4ed8;
-}
-
-small {
-  color: #dc2626;
-
-  font-size: 13px;
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-soft);
 }

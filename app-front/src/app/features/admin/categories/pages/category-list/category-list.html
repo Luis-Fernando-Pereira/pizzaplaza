@@ -1,66 +1,31 @@
 <div class="page-header">
-
   <div>
-    <h1>Categorias</h1>
-    <p>Gerencie as categorias da pizzaria</p>
+    <h1 class="page-title">Categorias</h1>
+    <p style="color:var(--color-text-muted);font-size:var(--text-sm);margin-top:var(--space-1)">Gerencie as categorias da pizzaria</p>
   </div>
-
-  <a class="new-button" routerLink="/admin/categories/new">
-    Nova Categoria
-  </a>
-
+  <a class="btn btn-primary" routerLink="/admin/categories/new">+ Nova categoria</a>
 </div>
 
-<div class="table-container">
-
+<div class="table-wrapper animate-fade-in-up">
   <table>
-
     <thead>
-
-    <tr>
-      <th>Nome</th>
-      <th>Ações</th>
-    </tr>
-
+      <tr>
+        <th>Nome</th>
+        <th style="text-align:right">Ações</th>
+      </tr>
     </thead>
-
     <tbody>
-
       @for (category of categories(); track category.oid) {
-
-        <tr>
-
+        <tr class="table-row-actions">
+          <td><strong>{{ category.description }}</strong></td>
           <td>
-            {{ category.description }}
+            <div class="row-actions">
+              <a class="btn btn-ghost btn-sm" [routerLink]="['/admin/categories', category.oid]">Editar</a>
+              <button class="btn btn-sm" style="background:#FDECEA;color:var(--color-brand);border:none;cursor:pointer" (click)="deleteCategory(category.oid!)">Excluir</button>
+            </div>
           </td>
-
-          <td class="actions">
-
-            <a
-              class="edit-button"
-              [routerLink]="['/admin/categories', category.oid]">
-
-              Editar
-
-            </a>
-
-            <button
-              class="delete-button"
-              (click)="deleteCategory(category.oid!)">
-
-              Excluir
-
-            </button>
-
-          </td>
-
         </tr>
-
       }
-
     </tbody>
-
   </table>
-
 </div>
-

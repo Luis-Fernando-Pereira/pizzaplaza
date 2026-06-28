@@ -1,125 +1,39 @@
-.form {
-  background: white;
-
-  padding: 32px;
-
-  border-radius: 16px;
-
-  box-shadow:
-    0 4px 10px rgba(0,0,0,0.08);
-
-  display: flex;
-  flex-direction: column;
-
-  gap: 24px;
-
+.admin-form {
+  padding: var(--space-8);
   max-width: 700px;
-}
-
-.field {
   display: flex;
   flex-direction: column;
-
-  gap: 8px;
+  gap: var(--space-5);
 }
 
-.field label {
-  font-weight: 600;
-
-  color: #374151;
-}
-
-.field input,
-.field textarea {
-  width: 100%;
-
-  padding: 14px;
-
-  border: 1px solid #d1d5db;
-
-  border-radius: 10px;
-
-  font-size: 15px;
-
-  outline: none;
-
-  box-sizing: border-box;
-
-  transition: border-color 0.2s;
-}
-
-.field input:focus,
-.field textarea:focus {
-  border-color: #dc2626;
-}
-
-.field small {
-  color: #dc2626;
-
-  font-size: 13px;
-}
-
-.actions {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.actions button {
-  background: #dc2626;
-  color: white;
-
-  border: none;
-
-  padding: 14px 24px;
-
-  border-radius: 10px;
-
-  font-size: 15px;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: background 0.2s;
-}
-
-.actions button:hover {
-  background: #b91c1c;
+.form-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-5);
 }
 
 .categories-select {
-  width: 100%;
-
-  min-height: 50px;
-
-  padding: 12px;
-
-  border: 1px solid #d1d5db;
-
-  border-radius: 12px;
-
-  background: white;
-
-  font-size: 14px;
-
-  color: #111827;
-
-  transition: border-color 0.2s;
-}
-
-.categories-select:focus {
-  outline: none;
-
-  border-color: #2563eb;
+  min-height: 120px;
+  padding: var(--space-2);
 }
 
 .categories-select option {
-  padding: 10px;
-
-  border-radius: 6px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-xs);
 }
 
 .categories-select option:checked {
-  background: #2563eb linear-gradient(0deg, #2563eb 0%, #2563eb 100%);
+  background: var(--color-brand);
+  color: #fff;
+}
 
-  color: white;
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-soft);
+}
+
+@media (max-width: 500px) {
+  .form-row { grid-template-columns: 1fr; }
 }

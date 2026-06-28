@@ -1,122 +1,162 @@
-.flavor-selector {
-  width: 100%;
-}
+.flavor-selector { width: 100%; }
 
-.header {
+.flavor-header {
   display: flex;
-  flex-direction: column;
-  gap: .5rem;
-
-  margin-bottom: 2rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
 }
 
-.header h2 {
-  margin: 0;
+.flavor-header h2 {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-1);
 }
 
-.header span {
+.flavor-header p {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.flavor-counter {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
   font-weight: 700;
-  color: #dc2626;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all var(--transition-base);
 }
 
+.flavor-counter.full {
+  border-color: var(--color-accent);
+  background: #E8F8F0;
+  color: var(--color-accent);
+}
+
+.counter-num {
+  font-size: var(--text-xl);
+  color: var(--color-brand);
+}
+
+.flavor-counter.full .counter-num {
+  color: var(--color-accent);
+}
+
+.counter-sep { margin: 0 1px; }
+
+.counter-label {
+  margin-left: var(--space-2);
+  font-weight: 600;
+  font-size: var(--text-xs);
+}
+
+/* Grid */
 .flavor-grid {
   display: grid;
-
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(280px, 1fr)
-  );
-
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-4);
 }
 
+/* Cards */
 .flavor-card {
   display: flex;
   flex-direction: column;
-
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-
-  padding: 1rem;
-
-  background: white;
-
-  transition: all .2s ease;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-xs);
 }
 
 .flavor-card:hover {
+  border-color: var(--color-brand);
   transform: translateY(-3px);
-
-  box-shadow:
-    0 8px 24px rgba(0,0,0,.08);
+  box-shadow: var(--shadow-md);
 }
 
 .flavor-card.selected {
-  border-color: #dc2626;
-
-  background: #fef2f2;
+  border-color: var(--color-accent);
+  background: #F0FBF5;
 }
 
-.card-header {
+.skeleton-card {
+  padding: var(--space-5);
+}
+
+.flavor-card-top {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-
-  margin-bottom: 1rem;
+  align-items: flex-start;
+  gap: var(--space-3);
 }
 
-.card-header h3 {
-  margin: 0;
-}
+.flavor-card-info { flex: 1; min-width: 0; }
 
-.price {
+.flavor-card-info h3 {
+  font-size: var(--text-base);
   font-weight: 700;
-  color: #dc2626;
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
 }
 
-.description {
-  flex: 1;
-
-  color: #6b7280;
-
-  margin-bottom: 1rem;
+.flavor-desc {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  line-height: 1.5;
 }
 
-.categories {
+.flavor-price {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-brand);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.flavor-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: .5rem;
-
-  margin-bottom: 1rem;
+  gap: var(--space-1);
 }
 
-.category-tag {
-  background: #f3f4f6;
-
-  border-radius: 999px;
-
-  padding: .25rem .75rem;
-
-  font-size: .8rem;
-}
-
-.flavor-card button {
+.flavor-btn {
   width: 100%;
-
-  border: none;
-  border-radius: 8px;
-
-  padding: .8rem;
-
+  margin-top: auto;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-brand);
+  background: transparent;
+  color: var(--color-brand);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 700;
   cursor: pointer;
-
-  font-weight: 600;
-
-  background: #dc2626;
-  color: white;
+  transition: all var(--transition-base);
 }
 
-.flavor-card button:disabled {
-  background: #d1d5db;
+.flavor-btn:hover:not(:disabled) {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+.flavor-btn.selected {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+.flavor-btn:disabled {
+  opacity: .4;
   cursor: not-allowed;
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
 }

@@ -1,34 +1,146 @@
+<!-- ── Navbar ────────────────────────────────────────────── -->
+<header class="navbar">
+  <div class="navbar-inner">
+    <a routerLink="/" class="navbar-logo">Pizza Plaza</a>
+    <nav class="navbar-links">
+      <a routerLink="/pizzas">Montar pizza</a>
+      <a routerLink="/orders/cart">Meu pedido</a>
+    </nav>
+    <a routerLink="/login" class="btn btn-primary btn-sm">Entrar</a>
+  </div>
+</header>
+
+<!-- ── Hero ─────────────────────────────────────────────── -->
 <section class="hero">
-  <div class="hero-content">
-    <h1>Pizza Plaza</h1>
-    <p>Monte sua pizza com até 4 sabores diferentes e receba em casa.</p>
-    <div class="actions">
-      <a routerLink="/pedido/criar" class="btn-primary">Montar Pizza</a>
-      <a routerLink="/sabores" class="btn-secondary">Ver Cardápio</a>
+  <div class="hero-text animate-fade-in-up">
+    <span class="hero-eyebrow">Artesanal · Fresquinha · Sua</span>
+    <h1>A pizza perfeita,<br>montada <em>por você</em></h1>
+    <p class="hero-sub">
+      Escolha o tamanho, combine até 4 sabores e receba no conforto da sua casa.
+    </p>
+    <div class="hero-actions">
+      <a routerLink="/pizzas" class="btn btn-primary btn-lg">Montar minha pizza</a>
+      <a routerLink="/login" class="btn btn-ghost btn-lg">Fazer login</a>
+    </div>
+    <div class="hero-badges">
+      <span class="badge badge-accent">Até 4 sabores</span>
+      <span class="badge badge-muted">Ingredientes frescos</span>
+      <span class="badge badge-muted">Entrega rápida</span>
     </div>
   </div>
-  <div class="hero-image">
-    <img src="assets/images/pizza-hero.png" alt="Pizza Artesanal">
+  <div class="hero-visual">
+    <div class="hero-pizza-ring"></div>
+    <div class="hero-pizza-circle">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="pizza-svg">
+        <circle cx="100" cy="100" r="96" fill="#F4A261" stroke="#E76F51" stroke-width="4"/>
+        <circle cx="100" cy="100" r="80" fill="#E9C46A"/>
+        <circle cx="100" cy="100" r="72" fill="#F4A261" opacity=".6"/>
+        <!-- sauce -->
+        <circle cx="100" cy="100" r="68" fill="#E76F51" opacity=".7"/>
+        <!-- cheese -->
+        <circle cx="100" cy="100" r="60" fill="#F4D03F" opacity=".85"/>
+        <!-- toppings decorative -->
+        <circle cx="80"  cy="75"  r="7" fill="#922B21" opacity=".8"/>
+        <circle cx="115" cy="85"  r="6" fill="#922B21" opacity=".8"/>
+        <circle cx="95"  cy="115" r="7" fill="#922B21" opacity=".8"/>
+        <circle cx="120" cy="115" r="5" fill="#27AE60" opacity=".9"/>
+        <circle cx="75"  cy="110" r="5" fill="#27AE60" opacity=".9"/>
+        <circle cx="105" cy="70"  r="4" fill="#27AE60" opacity=".9"/>
+        <!-- crust -->
+        <circle cx="100" cy="100" r="96" fill="none" stroke="#C0392B" stroke-width="8" stroke-dasharray="8 4" opacity=".3"/>
+      </svg>
+    </div>
   </div>
 </section>
 
-<section class="features">
-  <div class="feature">🍕 Até 4 sabores</div>
-  <div class="feature">🚚 Entrega rápida</div>
-  <div class="feature">🧀 Ingredientes premium</div>
-  <div class="feature">📱 Pedido online</div>
+<!-- ── Features strip ───────────────────────────────────── -->
+<section class="features-strip">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-icon">🍕</div>
+        <div>
+          <strong>Até 4 sabores</strong>
+          <span>Em uma única pizza</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🧀</div>
+        <div>
+          <strong>Ingredientes frescos</strong>
+          <span>Selecionados todo dia</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🚴</div>
+        <div>
+          <strong>Entrega rápida</strong>
+          <span>Quente na sua porta</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">📱</div>
+        <div>
+          <strong>Pedido online</strong>
+          <span>Simples e seguro</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- ── Como funciona ────────────────────────────────────── -->
 <section class="how-it-works">
-  <h2>Como funciona</h2>
-  <div class="steps">
-    <div class="step"><h3>1</h3><p>Escolha o tamanho</p></div>
-    <div class="step"><h3>2</h3><p>Selecione os sabores</p></div>
-    <div class="step"><h3>3</h3><p>Finalize seu pedido</p></div>
+  <div class="container">
+    <div class="section-header">
+      <h2>Como funciona</h2>
+      <p>Três passos simples para a pizza dos seus sonhos</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-connector"></div>
+        <div class="step-body">
+          <div class="step-icon">📏</div>
+          <h3>Escolha o tamanho</h3>
+          <p>Broto, média, grande ou família — do tamanho do seu apetite.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-connector"></div>
+        <div class="step-body">
+          <div class="step-icon">🎨</div>
+          <h3>Selecione os sabores</h3>
+          <p>Combine até 4 sabores. Salgadas, doces ou especiais — você decide.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-connector last"></div>
+        <div class="step-body">
+          <div class="step-icon">✅</div>
+          <h3>Confirme o pedido</h3>
+          <p>Revise, finalize e aguarde. Sua pizza está a caminho.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="cta">
-  <h2>Pronto para pedir?</h2>
-  <a routerLink="/pizzas" class="btn-primary">Começar Agora</a>
+<!-- ── CTA Final ─────────────────────────────────────────── -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2>Com fome agora?</h2>
+    <p>Monte a pizza perfeita em menos de 2 minutos.</p>
+    <a routerLink="/pizzas" class="btn btn-primary btn-lg">Montar minha pizza</a>
+  </div>
 </section>
+
+<!-- ── Footer ────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <span class="footer-logo">Pizza Plaza</span>
+    <span class="footer-copy">© 2026 Pizza Plaza. Feito com 🍕</span>
+  </div>
+</footer>

@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AdminLayoutService } from '../../services/admin-layout.service';
+import { AuthService } from '../../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-admin-menu',
@@ -15,5 +16,6 @@ import { AdminLayoutService } from '../../services/admin-layout.service';
 export class AdminMenu {
 
   layout = inject(AdminLayoutService);
+  auth = inject(AuthService);
 
 }

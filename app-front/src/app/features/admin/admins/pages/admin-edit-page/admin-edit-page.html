@@ -1,0 +1,11 @@
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Editar Administrador</h1>
+    <p style="color:var(--color-text-muted);font-size:var(--text-sm);margin-top:var(--space-1)">Atualize os dados do administrador</p>
+  </div>
+  <a class="btn btn-ghost" routerLink="/admin/admins">← Voltar</a>
+</div>
+
+@if (admin()) {
+  <app-admin-form [admin]="admin()"></app-admin-form>
+}

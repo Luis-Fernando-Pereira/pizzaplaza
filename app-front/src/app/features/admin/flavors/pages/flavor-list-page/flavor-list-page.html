@@ -1,66 +1,35 @@
 <div class="page-header">
-
   <div>
-
-    <h1>Sabores</h1>
-
-    <p>
-      Gerencie os sabores cadastrados
-    </p>
-
+    <h1 class="page-title">Sabores</h1>
+    <p style="color:var(--color-text-muted);font-size:var(--text-sm);margin-top:var(--space-1)">Gerencie os sabores cadastrados</p>
   </div>
-
-  <a class="new-button" routerLink="/admin/flavors/new">Novo sabor</a>
-
+  <a class="btn btn-primary" routerLink="/admin/flavors/new">+ Novo sabor</a>
 </div>
 
-<div class="table-container">
-
+<div class="table-wrapper animate-fade-in-up">
   <table>
-
     <thead>
-
-    <tr>
-      <th>Nome</th>
-      <th>Descrição</th>
-      <th>Preço</th>
-      <th>Ações</th>
-    </tr>
-
+      <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Preço</th>
+        <th style="text-align:right">Ações</th>
+      </tr>
     </thead>
-
     <tbody>
-
       @for (flavor of flavors(); track flavor.oid) {
-
-        <tr>
-
+        <tr class="table-row-actions">
+          <td><strong>{{ flavor.name }}</strong></td>
+          <td style="color:var(--color-text-muted);max-width:300px">{{ flavor.description }}</td>
+          <td><span class="price-badge">R$ {{ flavor.price.toFixed(2) }}</span></td>
           <td>
-            {{ flavor.name }}
+            <div class="row-actions">
+              <a class="btn btn-ghost btn-sm" [routerLink]="['/admin/flavors', flavor.oid]">Editar</a>
+              <button class="btn btn-sm" style="background:#FDECEA;color:var(--color-brand);border:none;cursor:pointer" (click)="deleteFlavor(flavor.oid!)">Excluir</button>
+            </div>
           </td>
-
-          <td>
-            {{ flavor.description }}
-          </td>
-
-          <td>
-            R$ {{ flavor.price.toFixed(2) }}
-          </td>
-
-          <td class="actions">
-
-            <a class="edit-button" [routerLink]="['/admin/flavors', flavor.oid]">Editar</a>
-
-            <button class="delete-button" (click)="deleteFlavor(flavor.oid!)">Excluir</button>
-
-          </td>
-
         </tr>
-
       }
-
     </tbody>
-
   </table>
-
 </div>

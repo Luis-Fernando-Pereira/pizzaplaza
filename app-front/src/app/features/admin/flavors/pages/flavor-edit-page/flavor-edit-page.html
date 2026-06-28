@@ -1,29 +1,13 @@
-  <div class="page-header">
-
-    <div>
-
-      <h1>Editar sabor</h1>
-
-      <p>
-        Atualize os dados do sabor
-      </p>
-
-    </div>
-
-
-    <a class="back-button" routerLink="/admin/flavors">Voltar</a>
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Editar Sabor</h1>
+    <p style="color:var(--color-text-muted);font-size:var(--text-sm);margin-top:var(--space-1)">Atualize os dados do sabor</p>
   </div>
+  <a class="btn btn-ghost" routerLink="/admin/flavors">← Voltar</a>
+</div>
 
-  @if (loading()) {
-
-    <p>
-      Carregando...
-    </p>
-
-  } @else {
-
-    <app-flavor-form
-      [flavor]="flavor()">
-    </app-flavor-form>
-
-  }
+@if (loading()) {
+  <p style="color:var(--color-text-muted)">Carregando...</p>
+} @else {
+  <app-flavor-form [flavor]="flavor()"></app-flavor-form>
+}

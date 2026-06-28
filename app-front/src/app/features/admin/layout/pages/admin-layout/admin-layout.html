@@ -1,11 +1,29 @@
-<div class="container">
+<div class="admin-shell">
 
   <app-admin-menu></app-admin-menu>
 
-  <main class="content" [class.collapsed]="layout.collapsed()">
+  <div class="admin-main" [class.collapsed]="layout.collapsed()">
 
-    <router-outlet></router-outlet>
+    <header class="admin-topbar">
+      <nav class="breadcrumb">
+        <a routerLink="/admin">Painel</a>
+        <span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">{{ pageTitle }}</span>
+      </nav>
+      <div class="topbar-right">
+        @if (user) {
+          <div class="topbar-user">
+            <div class="user-avatar">{{ initials }}</div>
+            <span class="user-name">{{ user.name }}</span>
+          </div>
+        }
+      </div>
+    </header>
 
-  </main>
+    <main class="admin-content">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
 
 </div>

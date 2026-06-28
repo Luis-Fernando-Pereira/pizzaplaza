@@ -1,0 +1,75 @@
+<div class="login-layout">
+
+  <!-- Lado esquerdo: marca -->
+  <div class="login-brand">
+    <div class="brand-inner">
+      <div class="brand-logo">Pizza Plaza</div>
+      <h1 class="brand-headline">A pizza perfeita começa aqui</h1>
+      <p class="brand-sub">Monte sua pizza com até 4 sabores e receba onde você estiver.</p>
+      <div class="brand-badges">
+        <span class="badge badge-accent">Até 4 sabores</span>
+        <span class="badge" style="background:rgba(255,255,255,.2);color:#fff">Entrega rápida</span>
+      </div>
+    </div>
+    <div class="brand-pizza">🍕</div>
+  </div>
+
+  <!-- Lado direito: formulário -->
+  <div class="login-form-area">
+    <div class="login-form-inner">
+
+      <div class="form-header">
+        <h2>Bem-vindo de volta</h2>
+        <p>Entre para montar seu pedido</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="login()" class="login-form">
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            class="form-input"
+            formControlName="email"
+            placeholder="seu@email.com"
+          />
+          @if (form.controls.email.invalid && form.controls.email.touched) {
+            <span class="form-error">Email inválido</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Senha</label>
+          <input
+            id="password"
+            type="password"
+            class="form-input"
+            formControlName="password"
+            placeholder="Mínimo 8 caracteres"
+          />
+          @if (form.controls.password.invalid && form.controls.password.touched) {
+            <span class="form-error">Senha deve ter ao menos 8 caracteres</span>
+          }
+        </div>
+
+        @if (error()) {
+          <div class="login-error">{{ error() }}</div>
+        }
+
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="loading()">
+          @if (loading()) { Entrando... } @else { Entrar }
+        </button>
+
+      </form>
+
+      <p class="login-register-link">
+        Ainda não tem conta? <a routerLink="/register">Cadastre-se</a>
+      </p>
+
+      <a routerLink="/" class="login-back">← Voltar para a Home</a>
+
+    </div>
+  </div>
+
+</div>

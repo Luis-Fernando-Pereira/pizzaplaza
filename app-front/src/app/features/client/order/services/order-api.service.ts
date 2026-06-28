@@ -10,7 +10,7 @@ export class OrderApiService {
 
   private http = inject(HttpClient);
 
-  private readonly API = 'http://localhost:8084/orders';
+  private readonly API = '/api/orders';
 
   create(order: Order) {
     return this.http.post<Order>(

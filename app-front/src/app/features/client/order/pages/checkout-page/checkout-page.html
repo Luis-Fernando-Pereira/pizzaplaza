@@ -1,23 +1,60 @@
-<div class="actions">
+<div class="checkout-page">
 
-  <h1>Finalizar Pedido</h1>
+  <div class="checkout-header">
+    <a routerLink="/orders/cart" class="back-link">← Voltar ao pedido</a>
+    <h1>Confirmar pedido</h1>
+    <p>Revise tudo antes de finalizar</p>
+  </div>
 
-  <button
-    type="button"
-    routerLink="/montar-pizza">
-    Adicionar Pizza
-  </button>
-  <p>
-    Total:
-    {{ orderBuilder.totalPrice | currency:'BRL' }}
-  </p>
+  <div class="checkout-body">
 
-  <button
-    type="button"
-    (click)="finishOrder()">
+    <!-- Resumo das pizzas -->
+    <div class="checkout-pizzas card">
+      <h2>Suas pizzas</h2>
+      @for (pizza of orderBuilder.pizzas; track $index; let i = $index) {
+        <div class="checkout-pizza">
+          <div class="checkout-pizza-header">
+            <span class="checkout-pizza-label">Pizza {{ i + 1 }}</span>
+            <span class="badge badge-brand">{{ sizeMeta(pizza.size) }}</span>
+            <span class="checkout-pizza-price">R$ {{ pizza.unitPrice | number:'1.2-2' }}</span>
+          </div>
+          <div class="checkout-pizza-flavors">
+            @for (flavor of pizza.flavors; track flavor.flavorOid) {
+              <span class="checkout-flavor-chip">{{ flavor.name }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
 
-    Confirmar Pedido
+    <!-- Painel de confirmação -->
+    <aside class="checkout-panel card">
+      <h2>Total do pedido</h2>
 
-  </button>
+      <div class="checkout-total">
+        {{ orderBuilder.totalPrice | currency:'BRL' }}
+      </div>
+
+      @if (user) {
+        <div class="checkout-user">
+          <span class="checkout-user-label">Pedido para</span>
+          <strong>{{ user.name }}</strong>
+        </div>
+      }
+
+      <button
+        type="button"
+        class="btn btn-primary btn-lg"
+        [disabled]="loading"
+        (click)="finishOrder()">
+        @if (loading) { Confirmando... } @else { Confirmar pedido }
+      </button>
+
+      <a routerLink="/orders/cart" class="btn btn-ghost">
+        Editar pedido
+      </a>
+    </aside>
+
+  </div>
 
 </div>

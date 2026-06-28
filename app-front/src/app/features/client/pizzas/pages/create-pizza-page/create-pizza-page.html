@@ -1,41 +1,46 @@
-<div class="pizza-builder">
-
-  @if(step === 1){
-
-    <app-pizza-size-selector
-      (next)="nextStep()">
-    </app-pizza-size-selector>
-
-  }
-
-  @if(step === 2){
-
-    <app-pizza-flavor-selector>
-    </app-pizza-flavor-selector>
-
-    <app-pizza-summary>
-    </app-pizza-summary>
-
-    <div class="actions">
-
-      <button
-        type="button"
-        (click)="previousStep()">
-
-        Voltar
-
-      </button>
-
-      <button
-        type="button"
-        (click)="finish()">
-
-        Adicionar ao Pedido
-
-      </button>
-
+<!-- ── Header da página ───────────────────────────────────── -->
+<div class="builder-header">
+  <a routerLink="/" class="builder-back">← Voltar</a>
+  <div class="builder-progress">
+    <div class="progress-step" [class.active]="step >= 1" [class.done]="step > 1">
+      <div class="progress-dot">1</div>
+      <span>Tamanho</span>
     </div>
-
-  }
-
+    <div class="progress-line" [class.done]="step > 1"></div>
+    <div class="progress-step" [class.active]="step >= 2">
+      <div class="progress-dot">2</div>
+      <span>Sabores</span>
+    </div>
+  </div>
 </div>
+
+<!-- ── Passo 1: Tamanho ───────────────────────────────────── -->
+@if (step === 1) {
+  <div class="builder-body animate-fade-in-up">
+    <app-pizza-size-selector (next)="nextStep()"></app-pizza-size-selector>
+  </div>
+}
+
+<!-- ── Passo 2: Sabores + Resumo ─────────────────────────── -->
+@if (step === 2) {
+  <div class="builder-body builder-step2 animate-fade-in-up">
+    <div class="flavor-area">
+      <app-pizza-flavor-selector></app-pizza-flavor-selector>
+    </div>
+    <aside class="summary-area">
+      <app-pizza-summary></app-pizza-summary>
+      <div class="step2-actions">
+        <button type="button" class="btn btn-ghost" (click)="previousStep()">
+          ← Voltar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="pizzaBuilder.pizza.flavors.length === 0"
+          (click)="finish()">
+          Adicionar ao pedido
+        </button>
+      </div>
+    </aside>
+  </div>
+}

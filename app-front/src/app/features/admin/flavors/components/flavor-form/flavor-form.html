@@ -1,125 +1,48 @@
-<form class="form"
-      [formGroup]="form"
-      (ngSubmit)="save()">
+<form class="admin-form card" [formGroup]="form" (ngSubmit)="save()">
 
-  <div class="field">
-
-    <label for="name">
-      Nome
-    </label>
-
-    <input id="name"
-           type="text"
-           formControlName="name">
-
-    @if (
-      form.controls.name.touched &&
-      form.controls.name.invalid
-      ) {
-
-      <small>
-
-        @if (form.controls.name.errors?.['required']) {
-          Nome é obrigatório
-        }
-
-        @if (form.controls.name.errors?.['maxlength']) {
-          Nome deve possuir no máximo 50 caracteres
-        }
-
-      </small>
-
-    }
-
-  </div>
-
-  <div class="field">
-
-    <label for="description">
-      Descrição
-    </label>
-
-    <textarea id="description"
-              rows="5"
-              formControlName="description">
-    </textarea>
-
-  </div>
-
-  <div class="field">
-
-    <label for="price">
-      Preço
-    </label>
-
-    <input id="price"
-           type="number"
-           step="0.01"
-           formControlName="price">
-
-    @if (
-      form.controls.price.touched &&
-      form.controls.price.invalid
-      ) {
-
-      <small>
-
-        @if (form.controls.price.errors?.['required']) {
-          Preço é obrigatório
-        }
-
-        @if (form.controls.price.errors?.['min']) {
-          Preço deve ser maior que zero
-        }
-
-      </small>
-
-    }
-
-  </div>
-
-  <div class="actions">
-
-    <button type="submit">
-
-      @if (flavor()) {
-        Atualizar sabor
-      } @else {
-        Salvar sabor
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label" for="name">Nome</label>
+      <input id="name" type="text" class="form-input" formControlName="name" placeholder="Ex: Margherita">
+      @if (form.controls.name.touched && form.controls.name.invalid) {
+        <span class="form-error">
+          @if (form.controls.name.errors?.['required']) { Nome é obrigatório }
+          @if (form.controls.name.errors?.['maxlength']) { Máximo 50 caracteres }
+        </span>
       }
+    </div>
 
-    </button>
-
+    <div class="form-group">
+      <label class="form-label" for="price">Preço (R$)</label>
+      <input id="price" type="number" step="0.01" class="form-input" formControlName="price" placeholder="0,00">
+      @if (form.controls.price.touched && form.controls.price.invalid) {
+        <span class="form-error">
+          @if (form.controls.price.errors?.['required']) { Preço é obrigatório }
+          @if (form.controls.price.errors?.['min']) { Deve ser maior que zero }
+        </span>
+      }
+    </div>
   </div>
 
-  <div class="field">
+  <div class="form-group">
+    <label class="form-label" for="description">Descrição</label>
+    <textarea id="description" rows="4" class="form-input" formControlName="description" placeholder="Descreva os ingredientes do sabor"></textarea>
+  </div>
 
-    <label for="categories">
-      Categorias
-    </label>
-
-    <select
-      id="categories"
-      multiple
-      formControlName="categories"
-      class="categories-select">
-
+  <div class="form-group">
+    <label class="form-label" for="categories">Categorias</label>
+    <select id="categories" multiple class="form-input categories-select" formControlName="categories">
       @for (category of categories(); track category.oid) {
-
-        <option [value]="category.oid">
-
-          {{ category.description }}
-
-        </option>
-
+        <option [value]="category.oid">{{ category.description }}</option>
       }
-
     </select>
+    <span style="font-size:var(--text-xs);color:var(--color-text-muted)">Segure Ctrl para selecionar múltiplas categorias</span>
+  </div>
 
-    <small>
-      Segure CTRL para selecionar múltiplas categorias
-    </small>
-
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">
+      @if (flavor()) { Atualizar sabor } @else { Salvar sabor }
+    </button>
   </div>
 
 </form>
