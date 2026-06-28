@@ -12,6 +12,44 @@ services:
     volumes:
       - ./docker/init:/docker-entrypoint-initdb.d
 
+  auth-service:
+    build:
+      context: .
+      dockerfile: auth-service/Dockerfile
+    container_name: auth-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - postgres
+    volumes:
+      - ./auth/privateKey.pem:/privateKey.pem
+      - ./auth/publicKey.pem:/publicKey.pem
+
+  user-service:
+    build:
+      context: .
+      dockerfile: user-service/Dockerfile
+    container_name: user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+    volumes:
+      - ./auth/publicKey.pem:/publicKey.pem
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth-service
+      - product-service
+      - order-service
+      - user-service
+
   product-service:
     build:
       context: .
@@ -44,4 +82,24 @@ services:
     ports:
       - "4200:80"
     depends_on:
+      - api-gateway
+
+  seeder:
+    image: postgres:17
+    container_name: pizzaplaza-seeder
+    depends_on:
+      - auth-service
+      - user-service
       - product-service
+    environment:
+      PGPASSWORD: fernando
+    volumes:
+      - ./docker/seed.sql:/seed.sql
+    entrypoint: >
+      sh -c "
+        echo 'Aguardando serviços inicializarem...' &&
+        sleep 20 &&
+        psql -h postgres -U fernando -d pizzaplaza_db -f /seed.sql &&
+        echo 'Seed concluído.'
+      "
+    restart: "no"
