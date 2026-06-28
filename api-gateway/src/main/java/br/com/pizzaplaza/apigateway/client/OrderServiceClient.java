@@ -21,6 +21,11 @@ public interface OrderServiceClient {
     Response getOrder(@PathParam("oid") String oid, @HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader);
 
     @GET
+    @Path("/my")
+    @Produces(MediaType.APPLICATION_JSON)
+    Response findMyOrders(@HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader);
+
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     Response findAllOrders(@HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader);
 }

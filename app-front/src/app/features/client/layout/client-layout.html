@@ -13,6 +13,9 @@
             <span class="cart-badge">{{ orderBuilder.pizzas.length }}</span>
           }
         </a>
+        @if (auth.isLoggedIn()) {
+          <a routerLink="/orders/history">Meus pedidos</a>
+        }
       </nav>
 
       @if (auth.isLoggedIn()) {

@@ -34,6 +34,13 @@ public class OrderGatewayController {
     }
 
     @GET
+    @Path("/my")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findMyOrders(@HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader) {
+        return orderServiceClient.findMyOrders(authHeader);
+    }
+
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAllOrders(@HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader) {
         return orderServiceClient.findAllOrders(authHeader);

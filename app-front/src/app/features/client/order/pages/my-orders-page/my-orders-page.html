@@ -1,0 +1,93 @@
+<div class="my-orders-page">
+
+  <!-- Cabeçalho -->
+  <div class="page-header">
+    <div>
+      <h1>Meus pedidos</h1>
+      <p>Histórico de todos os pedidos que você fez</p>
+    </div>
+    <a routerLink="/pizzas" class="btn btn-primary">Fazer novo pedido</a>
+  </div>
+
+  <!-- Carregando -->
+  @if (loading()) {
+    <div class="loading-state">
+      @for (i of [1,2,3]; track i) {
+        <div class="order-skeleton card"></div>
+      }
+    </div>
+  }
+
+  <!-- Erro -->
+  @else if (error()) {
+    <div class="feedback-state card">
+      <p class="feedback-msg">{{ error() }}</p>
+      <button class="btn btn-ghost" (click)="load()">Tentar novamente</button>
+    </div>
+  }
+
+  <!-- Vazio -->
+  @else if (orders().length === 0) {
+    <div class="feedback-state card animate-fade-in-up">
+      <div class="empty-icon">🍕</div>
+      <h2>Nenhum pedido ainda</h2>
+      <p>Monte uma pizza incrível e ela aparece aqui.</p>
+      <a routerLink="/pizzas" class="btn btn-primary">Montar minha pizza</a>
+    </div>
+  }
+
+  <!-- Lista de pedidos -->
+  @else {
+    <div class="orders-list animate-fade-in-up">
+      @for (order of orders(); track order.oid) {
+
+        <div class="order-card card">
+
+          <!-- Cabeçalho do card -->
+          <div class="order-card-header">
+            <div class="order-meta">
+              <span class="order-id">#{{ order.oid?.slice(0, 8).toUpperCase() }}</span>
+              @if (order.createdAt) {
+                <span class="order-date">
+                  {{ order.createdAt | date:"dd/MM/yyyy 'às' HH:mm" }}
+                </span>
+              }
+            </div>
+            <span [class]="'status-badge ' + statusClass(order.status)">
+              {{ statusLabel(order.status) }}
+            </span>
+          </div>
+
+          <!-- Pizzas -->
+          <div class="order-pizzas">
+            @for (pizza of order.pizzaList; track $index; let i = $index) {
+              <div class="order-pizza">
+                <div class="pizza-header">
+                  <span class="pizza-label">Pizza {{ i + 1 }}</span>
+                  <span class="badge badge-brand">{{ sizeMeta(pizza.size) }}</span>
+                  <span class="pizza-price">R$ {{ pizza.unitPrice | number:'1.2-2' }}</span>
+                </div>
+                <div class="pizza-flavors">
+                  @for (flavor of pizza.flavors; track flavor.flavorOid) {
+                    <span class="flavor-chip">{{ flavor.name }}</span>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- Rodapé do card -->
+          <div class="order-card-footer">
+            <span class="order-count">
+              {{ order.pizzaList.length }} pizza{{ order.pizzaList.length !== 1 ? 's' : '' }}
+            </span>
+            <span class="order-total">{{ order.totalPrice | currency:'BRL' }}</span>
+          </div>
+
+        </div>
+
+      }
+    </div>
+  }
+
+</div>

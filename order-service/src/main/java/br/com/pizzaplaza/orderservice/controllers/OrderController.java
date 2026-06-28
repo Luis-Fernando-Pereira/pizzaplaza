@@ -2,6 +2,7 @@ package br.com.pizzaplaza.orderservice.controllers;
 
 import br.com.pizzaplaza.orderservice.dtos.OrderDto;
 import br.com.pizzaplaza.orderservice.services.OrderService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
@@ -22,9 +23,7 @@ public class OrderController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response post(@Valid OrderDto dto) {
         try {
-
             OrderDto created = orderService.createOrder(dto);
-
             return Response.created(new URI("")).entity(created).build();
         } catch (Exception e) {
             return Response.serverError().entity(e.getMessage()).build();
@@ -34,7 +33,7 @@ public class OrderController {
     @GET
     @Path("/{oid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response post(@PathParam("oid") String oid) {
+    public Response getByOid(@PathParam("oid") String oid) {
         try {
             OrderDto dto = orderService.find(oid);
             return Response.ok(dto).build();
@@ -46,14 +45,24 @@ public class OrderController {
     }
 
     @GET
+    @Path("/my")
+    @RolesAllowed("client")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findMyOrders() {
+        try {
+            List<OrderDto> dtoList = orderService.findByCurrentUser();
+            return Response.ok(dtoList).build();
+        } catch (Exception e) {
+            return Response.serverError().entity(e.getMessage()).build();
+        }
+    }
+
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
         try {
-
             List<OrderDto> dtoList = orderService.findAll();
-
             return Response.ok(dtoList).build();
-
         } catch (Exception e) {
             return Response.serverError().entity(e.getMessage()).build();
         }

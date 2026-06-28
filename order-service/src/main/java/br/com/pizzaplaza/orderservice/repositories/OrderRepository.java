@@ -28,4 +28,12 @@ public class OrderRepository {
     public List<Order> listAll() {
         return em.createQuery("SELECT o from Order o", Order.class).getResultList();
     }
+
+    public List<Order> findByUserOid(String userOid) {
+        return em.createQuery(
+                "SELECT o FROM Order o WHERE o.custumer.userOid = :userOid ORDER BY o.createdAt DESC",
+                Order.class)
+                .setParameter("userOid", userOid)
+                .getResultList();
+    }
 }
