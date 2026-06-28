@@ -1,23 +1,22 @@
 package br.com.pizzaplaza.userservice.factory;
 
-//import br.com.pizzaplaza.entity.dtos.UserDto;
-//import br.com.pizzaplaza.entity.actors.User;
-import br.com.pizzaplaza.util.PasswordUtil;
+import br.com.pizzaplaza.userservice.dtos.UserDto;
+import br.com.pizzaplaza.userservice.entities.User;
+import br.com.pizzaplaza.userservice.util.PasswordUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 
-//@ApplicationScoped
+@ApplicationScoped
 public class UserFactory {
-//
-//    public User create(UserDto userDto) {
-//        User user = new User();
-//
-//        user.setEmail(userDto.email);
-//        user.setPassword(PasswordUtil.hash(userDto.password));
-//        user.setAuthenticated(false);
-//        user.setName(userDto.getName());
-//        user.setCpf(userDto.getCpf());
-//
-//        return user;
-//    }
 
+    public User create(UserDto userDto) {
+        User user = new User();
+        if (userDto.getOid() != null && !userDto.getOid().isBlank()) {
+            user.setOid(userDto.getOid());
+        }
+        user.setEmail(userDto.getEmail());
+        user.setPassword(PasswordUtil.hash(userDto.getPassword()));
+        user.setName(userDto.getName());
+        user.setCpf(userDto.getCpf());
+        return user;
+    }
 }

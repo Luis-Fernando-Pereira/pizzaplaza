@@ -1,83 +1,78 @@
 package br.com.pizzaplaza.userservice.strategies;
 
-//import br.com.pizzaplaza.entity.dtos.UserDto;
-//import br.com.pizzaplaza.entity.enums.UserType;
-//import br.com.pizzaplaza.entity.actors.Seller;
-//import br.com.pizzaplaza.entity.actors.User;
+import br.com.pizzaplaza.userservice.dtos.UserDto;
+import br.com.pizzaplaza.userservice.entities.Seller;
+import br.com.pizzaplaza.userservice.entities.User;
+import br.com.pizzaplaza.userservice.enums.UserType;
 import br.com.pizzaplaza.userservice.interfaces.ActorStrategy;
 import br.com.pizzaplaza.userservice.repository.SellerRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
+@ApplicationScoped
 public class SellerStrategy implements ActorStrategy {
-//
-//    @Inject
-//    SellerRepository sellerRepository;
-//
-//    @Override
-//    public UserDto save(UserDto userDto, User user) {
-//        Seller seller = new Seller();
-//
-//        seller.setUser(user);
-//
-//        sellerRepository.save(seller);
-//
-//        userDto.setOid(user.getOid());
-//
-//        return userDto;
-//    }
-//
-//    @Override
-//    public UserDto update(UserDto userDto, User user) {
-//        Seller seller = sellerRepository.findByUserOid(user.getOid())
-//                .orElseThrow(() -> new IllegalArgumentException("Admin não encontrado: " + userDto.getOid()));
-//
-//        seller = sellerRepository.update(seller);
-//
-//        return convertSellerToUserDto(seller);
-//    }
-//
-//    @Override
-//    public void delete(String oid) {
-//        Seller seller = sellerRepository.findByOid(oid)
-//                .orElseThrow(() -> new IllegalArgumentException("Admin não encontrado: " + oid));
-//
-//        sellerRepository.delete(seller);
-//    }
-//
-//    @Override
-//    public UserType getType() {
-//        return UserType.SELLER;
-//    }
-//
-//    @Override
-//    public List<UserDto> findAll() {
-//
-//        List<Seller> results = sellerRepository.findAll();
-//
-//        return results.stream()
-//                .map(this::convertSellerToUserDto)
-//                .toList();
-//    }
-//
-//    @Override
-//    public UserDto findByOid(String oid) {
-//        return sellerRepository.findByOid(oid)
-//                .map(this::convertSellerToUserDto)
-//                .orElse(null);
-//    }
-//
-//    private UserDto convertSellerToUserDto(Seller seller) {
-//        User user = seller.getUser();
-//        UserDto dto = new UserDto();
-//
-//        dto.setOid(user.getOid());
-//        dto.setEmail(user.getEmail());
-//        dto.setCpf(user.getCpf());
-//        dto.setName(user.getName());
-//        dto.setUserType(UserDto.Type.ADMIN);
-//
-//        return dto;
-//    }
+
+    @Inject
+    SellerRepository sellerRepository;
+
+    @Override
+    @Transactional
+    public UserDto save(UserDto userDto, User user) {
+        Seller seller = new Seller();
+        seller.setUser(user);
+        sellerRepository.save(seller);
+        userDto.setOid(user.getOid());
+        return userDto;
+    }
+
+    @Override
+    @Transactional
+    public UserDto update(UserDto userDto, User user) {
+        Seller seller = sellerRepository.findByUserOid(user.getOid())
+                .orElseThrow(() -> new IllegalArgumentException("Vendedor não encontrado para o usuário: " + user.getOid()));
+        sellerRepository.update(seller);
+        return convertToDto(seller);
+    }
+
+    @Override
+    @Transactional
+    public void delete(String oid) {
+        Seller seller = sellerRepository.findByOid(oid)
+                .orElseThrow(() -> new IllegalArgumentException("Vendedor não encontrado: " + oid));
+        sellerRepository.delete(seller);
+    }
+
+    @Override
+    public UserType getType() {
+        return UserType.SELLER;
+    }
+
+    @Override
+    public List<UserDto> findAll() {
+        return sellerRepository.findAll().stream()
+                .map(this::convertToDto)
+                .toList();
+    }
+
+    @Override
+    public UserDto findByOid(String oid) {
+        return sellerRepository.findByOid(oid)
+                .map(this::convertToDto)
+                .orElse(null);
+    }
+
+    private UserDto convertToDto(Seller seller) {
+        User user = seller.getUser();
+        UserDto dto = new UserDto();
+        dto.setOid(user.getOid());
+        dto.setCreatedAt(user.getCreatedAt());
+        dto.setName(user.getName());
+        dto.setCpf(user.getCpf());
+        dto.setEmail(user.getEmail());
+        dto.setUserType(UserDto.Type.SELLER);
+        return dto;
+    }
 }
