@@ -1,6 +1,8 @@
 package br.com.pizzaplaza.apigateway.controller;
 
+import br.com.pizzaplaza.apigateway.annotation.PublicEndpoint;
 import br.com.pizzaplaza.apigateway.client.OrderServiceClient;
+import io.smallrye.mutiny.Multi;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -44,5 +46,21 @@ public class OrderGatewayController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAllOrders(@HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader) {
         return orderServiceClient.findAllOrders(authHeader);
+    }
+
+    @PATCH
+    @Path("/{oid}/advance-status")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response advanceStatus(@PathParam("oid") String oid,
+                                  @HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader) {
+        return orderServiceClient.advanceStatus(oid, authHeader);
+    }
+
+    @GET
+    @Path("/events")
+    @PublicEndpoint
+    @Produces(MediaType.SERVER_SENT_EVENTS)
+    public Multi<String> subscribeToEvents(@QueryParam("token") String token) {
+        return orderServiceClient.subscribeToEvents(token);
     }
 }

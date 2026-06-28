@@ -3,43 +3,41 @@
 
 title Pizza Plaza - Order Service (Component Diagram)
 
+Person(admin, "Admin / Vendedor", "Avança o status dos pedidos")
+Person(cliente, "Cliente", "Acompanha status em tempo real via SSE")
 Container(api_gateway, "API Gateway", "Gateway", "Ponto de entrada das APIs")
 
 Container_Boundary(order, "Order Service - Quarkus") {
 
-    Component(order_controller, "OrderController", "REST Controller (Quarkus)","Expõe endpoints REST para criação, consulta e atualização de pedidos")
+    Component(order_controller, "OrderController", "REST Controller (Quarkus)",
+        "Expõe endpoints: POST /orders, GET /orders, GET /orders/my,\nPATCH /orders/{oid}/advance-status, GET /orders/events (SSE)")
 
-    Component(order_service, "OrderService", "Business Service", "Implementa regras de negócio de pedidos")
+    Component(order_service_bean, "OrderService", "Business Service",
+        "Regras de negócio: criação de pedido e avanço de status\n(RECEIVED → PREPARING → LEFT_FOR_DELIVERY → DELIVERED)")
 
-    Component(order_validator, "OrderValidator", "Domain Validator","Valida regras de negócio como status, cancelamento e itens mínimos")
+    Component(order_status_notifier, "OrderStatusNotifier", "CDI Bean / SSE Publisher",
+        "Mantém um BroadcastProcessor<OrderStatusEventDto>.\nEmite eventos de mudança de status para todos os clientes conectados via SSE")
 
-    Component(order_repository, "OrderRepository", "JPA Repository","Acesso a dados da entidade Pedido")
+    Component(order_repository, "OrderRepository", "JPA Repository",
+        "Acesso a dados da entidade Pedido")
 
-    Component(pizza_repository, "PizzaRepository", "JPA Repository","Acesso a dados da entidade Pizza")
-
-    Component(pizza_service, "PizzaService", "Business Service","Implementa regras de negócio de pizzas")
-}
-
-System_Boundary(product_service, "Product Microservice") {
-    Container(flavor_api, "Flavor API", "Quarkus", "Responsável pelos sabores")
+    Component(jwt_parser, "JWTParser (SmallRye)", "Security",
+        "Valida o token JWT recebido como query param (?token=) no endpoint SSE")
 }
 
 ContainerDb(database, "PostgreSQL", "PostgreSQL 18", "Banco de dados do sistema")
 
-Rel(api_gateway, order_controller, "Chama endpoints REST", "HTTPS/JSON")
+Rel(api_gateway, order_controller, "Chama endpoints REST e SSE", "HTTPS/JSON + SSE")
+Rel(admin, api_gateway, "PATCH /advance-status", "REST")
+Rel(cliente, api_gateway, "GET /events?token=", "SSE")
 
-Rel(order_controller, order_service, "Invoca operações")
+Rel(order_controller, order_service_bean, "Delega operações de negócio")
+Rel(order_controller, order_status_notifier, "Subscreve ao stream SSE")
+Rel(order_controller, jwt_parser, "Valida JWT do query param para endpoint SSE")
 
-Rel(order_service, order_validator, "Valida regras")
-
-Rel(order_service, order_repository, "Gerencia pedidos")
-
-Rel(pizza_service, pizza_repository, "Mapeia entidade")
-Rel(order_service, pizza_service, "Mapeia entidade")
-
-Rel(pizza_service, flavor_api, "Consulta sabores", "HTTP/REST")
+Rel(order_service_bean, order_repository, "Persiste e consulta pedidos")
+Rel(order_service_bean, order_status_notifier, "Emite evento após avançar status")
 
 Rel(order_repository, database, "Lê/Escreve", "JPA/Hibernate")
-Rel(pizza_repository, database, "Lê/Escreve", "JPA/Hibernate")
 
 @enduml

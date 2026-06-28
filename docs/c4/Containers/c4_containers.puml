@@ -3,9 +3,9 @@
 
 title Pizza Plaza - Container Diagram com API Gateway
 
-Person(cliente, "Cliente", "Realiza pedidos online")
-Person(vendedor, "Vendedor", "Registra pedidos presenciais e atualiza status")
-Person(admin, "Administrador", "Gerencia pizzas, vendedores e relatórios")
+Person(cliente, "Cliente", "Realiza pedidos online e acompanha status em tempo real")
+Person(vendedor, "Vendedor", "Registra pedidos presenciais e avança status")
+Person(admin, "Administrador", "Gerencia pizzas, vendedores e pedidos")
 
 System_Boundary(system, "Pizza Plaza Platform") {
 
@@ -17,9 +17,7 @@ System_Boundary(system, "Pizza Plaza Platform") {
 
     Container(product_service, "Product Service", "Quarkus REST API","Gerenciamento de pizzas e cardápio")
 
-    Container(order_service, "Order Service", "Quarkus REST API","Criação e gerenciamento de pedidos")
-
-    Container(sales_service, "Sales Service", "Quarkus REST API","Registro de vendas e geração de relatórios")
+    Container(order_service, "Order Service", "Quarkus REST API","Criação, gerenciamento e notificação em tempo real de pedidos via SSE")
 
     ContainerDb(database, "PostgreSQL Database", "PostgreSQL 18","Persistência de dados do sistema")
 }
@@ -28,18 +26,15 @@ Rel(cliente, frontend, "Usa via navegador")
 Rel(vendedor, frontend, "Usa via navegador")
 Rel(admin, frontend, "Usa via navegador")
 
-Rel(frontend, api_gateway, "Chama APIs", "HTTPS/JSON")
+Rel(frontend, api_gateway, "Chama APIs REST", "HTTPS/JSON")
+Rel(frontend, api_gateway, "Subscreve notificações de status", "SSE (?token=jwt)")
 
-Rel(api_gateway, auth_service, "Encaminha autenticação", "REST")
+Rel(api_gateway, auth_service, "Encaminha autenticação e validação JWT", "REST")
 Rel(api_gateway, product_service, "Encaminha requisições de produtos", "REST")
-Rel(api_gateway, order_service, "Encaminha requisições de pedidos", "REST")
-Rel(api_gateway, sales_service, "Encaminha requisições de vendas", "REST")
+Rel(api_gateway, order_service, "Encaminha requisições de pedidos e stream SSE", "REST / SSE")
 
 Rel(auth_service, database, "Lê/Escreve usuários", "JPA/Hibernate")
 Rel(product_service, database, "Lê/Escreve pizzas", "JPA/Hibernate")
 Rel(order_service, database, "Lê/Escreve pedidos", "JPA/Hibernate")
-Rel(sales_service, database, "Lê/Escreve vendas", "JPA/Hibernate")
-
-Rel(order_service, sales_service, "Notifica venda após entrega", "REST")
 
 @enduml

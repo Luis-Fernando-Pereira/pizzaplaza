@@ -1,5 +1,13 @@
 <div class="my-orders-page">
 
+  <!-- Toast de notificação de status -->
+  @if (showToast()) {
+    <div class="status-toast animate-fade-in-up">
+      <span class="toast-icon">🍕</span>
+      <span class="toast-msg">{{ toastMsg() }}</span>
+    </div>
+  }
+
   <!-- Cabeçalho -->
   <div class="page-header">
     <div>

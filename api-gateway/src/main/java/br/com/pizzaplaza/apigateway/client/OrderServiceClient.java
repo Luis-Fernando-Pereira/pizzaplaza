@@ -1,5 +1,6 @@
 package br.com.pizzaplaza.apigateway.client;
 
+import io.smallrye.mutiny.Multi;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
@@ -28,4 +29,14 @@ public interface OrderServiceClient {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     Response findAllOrders(@HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader);
+
+    @PATCH
+    @Path("/{oid}/advance-status")
+    @Produces(MediaType.APPLICATION_JSON)
+    Response advanceStatus(@PathParam("oid") String oid, @HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader);
+
+    @GET
+    @Path("/events")
+    @Produces(MediaType.SERVER_SENT_EVENTS)
+    Multi<String> subscribeToEvents(@QueryParam("token") String token);
 }

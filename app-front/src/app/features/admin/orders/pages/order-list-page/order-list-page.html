@@ -1,70 +1,87 @@
 <div class="page-header">
-
   <div>
-
     <h1>Pedidos</h1>
-
-    <p>
-      Histórico de pedidos
-    </p>
-
+    <p>Gerencie e avance o status dos pedidos em aberto</p>
   </div>
-
-
+  <button class="btn-refresh" (click)="loadOrders()" [disabled]="loading()">
+    Atualizar
+  </button>
 </div>
 
-<div class="table-container">
+@if (error()) {
+  <div class="alert-error">{{ error() }}</div>
+}
 
-  <table>
-
-    <thead>
-
-    <tr>
-      <th>Status</th>
-      <th>Cliente</th>
-      <th>Número de Pizzas</th>
-      <th>Valor Total</th>
-      <th>Ações</th>
-    </tr>
-
-    </thead>
-
-    <tbody>
-
-      @for (order of orders(); track order.oid) {
-
+@if (loading()) {
+  <div class="loading-state">
+    @for (i of [1,2,3,4]; track i) {
+      <div class="row-skeleton"></div>
+    }
+  </div>
+} @else if (orders().length === 0) {
+  <div class="empty-state">
+    <p>Nenhum pedido encontrado.</p>
+  </div>
+} @else {
+  <div class="table-container">
+    <table>
+      <thead>
         <tr>
-
-          <td>
-            {{ order.status }}
-          </td>
-
-          <td>
-            {{ order.custumer.name }}
-          </td>
-
-          <td>
-            {{ order.pizzaList.length }}
-          </td>
-
-          <td>
-            R$ {{ order.totalPrice.toFixed(2) }}
-          </td>
-
-          <td class="actions">
-
-            <a class="edit-button" [routerLink]="['/admin/flavors', order.oid]">Editar</a>
-
-            <button class="delete-button">Excluir</button>
-
-          </td>
-
+          <th>Pedido</th>
+          <th>Status</th>
+          <th>Cliente</th>
+          <th>Pizzas</th>
+          <th>Total</th>
+          <th>Data</th>
+          <th>Ação</th>
         </tr>
+      </thead>
+      <tbody>
+        @for (order of orders(); track order.oid) {
+          <tr [class.row-delivered]="isDelivered(order)">
 
-      }
+            <td class="col-id">
+              <span class="order-id">#{{ order.oid?.slice(0, 8)?.toUpperCase() }}</span>
+            </td>
 
-    </tbody>
+            <td>
+              <span [class]="'status-badge ' + statusClass(order.status)">
+                {{ statusLabel(order.status) }}
+              </span>
+            </td>
 
-  </table>
+            <td>{{ order.custumer.name }}</td>
 
-</div>
+            <td class="col-center">{{ order.pizzaList.length }}</td>
+
+            <td>{{ order.totalPrice | currency:'BRL' }}</td>
+
+            <td class="col-date">
+              @if (order.createdAt) {
+                {{ order.createdAt | date:"dd/MM/yy HH:mm" }}
+              }
+            </td>
+
+            <td class="col-action">
+              @if (!isDelivered(order)) {
+                <button
+                  class="btn-advance"
+                  (click)="advance(order)"
+                  [disabled]="isAdvancing(order)">
+                  @if (isAdvancing(order)) {
+                    <span class="spinner"></span>
+                  } @else {
+                    {{ advanceLabel(order.status) }}
+                  }
+                </button>
+              } @else {
+                <span class="delivered-label">Concluído</span>
+              }
+            </td>
+
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
