@@ -39,7 +39,7 @@ export class AuthService {
     if (token) {
       this.http.post('/api/auth/logout', null).subscribe();
     }
-    localStorage.removeItem(this.TOKEN_KEY);
+    sessionStorage.removeItem(this.TOKEN_KEY);
     this.currentUser.set(null);
     if (role === 'admin' || role === 'seller') {
       this.router.navigate(['/admin/login']);
@@ -49,21 +49,21 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+    return sessionStorage.getItem(this.TOKEN_KEY);
   }
 
   private saveToken(token: string): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
+    sessionStorage.setItem(this.TOKEN_KEY, token);
     this.currentUser.set(this.parseToken());
   }
 
   private parseToken(): UserSession | null {
-    const token = localStorage.getItem(this.TOKEN_KEY);
+    const token = sessionStorage.getItem(this.TOKEN_KEY);
     if (!token) return null;
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
       if (payload.exp && payload.exp * 1000 < Date.now()) {
-        localStorage.removeItem(this.TOKEN_KEY);
+        sessionStorage.removeItem(this.TOKEN_KEY);
         return null;
       }
       const groups: string[] = payload.groups ?? [];
