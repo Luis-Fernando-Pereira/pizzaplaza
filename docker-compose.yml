@@ -11,68 +11,115 @@ services:
       - "5433:5432"
     volumes:
       - ./docker/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fernando -d pizzaplaza_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   auth-service:
     build:
       context: .
       dockerfile: auth-service/Dockerfile
     container_name: auth-service
+    environment:
+      QUARKUS_PROFILE: prod
     ports:
       - "8082:8082"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     volumes:
       - ./auth/privateKey.pem:/privateKey.pem
       - ./auth/publicKey.pem:/publicKey.pem
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8082/q/health/ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
 
   user-service:
     build:
       context: .
       dockerfile: user-service/Dockerfile
     container_name: user-service
+    environment:
+      QUARKUS_PROFILE: prod
     ports:
       - "8081:8081"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     volumes:
       - ./auth/publicKey.pem:/publicKey.pem
-
-  api-gateway:
-    build:
-      context: .
-      dockerfile: api-gateway/Dockerfile
-    container_name: api-gateway
-    ports:
-      - "8080:8080"
-    depends_on:
-      - auth-service
-      - product-service
-      - order-service
-      - user-service
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8081/q/health/ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
 
   product-service:
     build:
       context: .
       dockerfile: product-service/Dockerfile
     container_name: product-service
+    environment:
+      QUARKUS_PROFILE: prod
     ports:
       - "8083:8083"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     volumes:
       - ./auth/publicKey.pem:/publicKey.pem
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8083/q/health/ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
 
   order-service:
     build:
       context: .
       dockerfile: order-service/Dockerfile
     container_name: order-service
+    environment:
+      QUARKUS_PROFILE: prod
     ports:
       - "8084:8084"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     volumes:
       - ./auth/publicKey.pem:/publicKey.pem
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8084/q/health/ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    container_name: api-gateway
+    environment:
+      QUARKUS_PROFILE: prod
+    ports:
+      - "8080:8080"
+    depends_on:
+      auth-service:
+        condition: service_healthy
+      user-service:
+        condition: service_healthy
+      product-service:
+        condition: service_healthy
+      order-service:
+        condition: service_healthy
 
   app-front:
     build:
@@ -88,17 +135,18 @@ services:
     image: postgres:17
     container_name: pizzaplaza-seeder
     depends_on:
-      - auth-service
-      - user-service
-      - product-service
+      auth-service:
+        condition: service_healthy
+      user-service:
+        condition: service_healthy
+      product-service:
+        condition: service_healthy
     environment:
       PGPASSWORD: fernando
     volumes:
       - ./docker/seed.sql:/seed.sql
     entrypoint: >
       sh -c "
-        echo 'Aguardando serviços inicializarem...' &&
-        sleep 20 &&
         psql -h postgres -U fernando -d pizzaplaza_db -f /seed.sql &&
         echo 'Seed concluído.'
       "
