@@ -11,10 +11,10 @@
         <span class="breadcrumb-current">{{ pageTitle }}</span>
       </nav>
       <div class="topbar-right">
-        @if (user) {
+        @if (auth.currentUser()) {
           <div class="topbar-user">
             <div class="user-avatar">{{ initials }}</div>
-            <span class="user-name">{{ user.name }}</span>
+            <span class="user-name">{{ auth.currentUser()!.name }}</span>
           </div>
         }
       </div>

@@ -35,10 +35,10 @@
         {{ orderBuilder.totalPrice | currency:'BRL' }}
       </div>
 
-      @if (user) {
+      @if (auth.currentUser()) {
         <div class="checkout-user">
           <span class="checkout-user-label">Pedido para</span>
-          <strong>{{ user.name }}</strong>
+          <strong>{{ auth.currentUser()!.name }}</strong>
         </div>
       }
 

@@ -67,9 +67,9 @@
           <span>Total</span>
           <strong>{{ orderBuilder.totalPrice | currency:'BRL' }}</strong>
         </div>
-        <a routerLink="/orders/checkout" class="btn btn-primary btn-lg">
+        <button type="button" class="btn btn-primary btn-lg" (click)="goToCheckout()">
           Finalizar pedido
-        </a>
+        </button>
       </aside>
 
     </div>

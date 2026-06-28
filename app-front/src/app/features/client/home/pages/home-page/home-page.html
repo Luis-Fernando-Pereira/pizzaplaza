@@ -1,15 +1,3 @@
-<!-- ── Navbar ────────────────────────────────────────────── -->
-<header class="navbar">
-  <div class="navbar-inner">
-    <a routerLink="/" class="navbar-logo">Pizza Plaza</a>
-    <nav class="navbar-links">
-      <a routerLink="/pizzas">Montar pizza</a>
-      <a routerLink="/orders/cart">Meu pedido</a>
-    </nav>
-    <a routerLink="/login" class="btn btn-primary btn-sm">Entrar</a>
-  </div>
-</header>
-
 <!-- ── Hero ─────────────────────────────────────────────── -->
 <section class="hero">
   <div class="hero-text animate-fade-in-up">
@@ -20,7 +8,9 @@
     </p>
     <div class="hero-actions">
       <a routerLink="/pizzas" class="btn btn-primary btn-lg">Montar minha pizza</a>
-      <a routerLink="/login" class="btn btn-ghost btn-lg">Fazer login</a>
+      @if (!auth.isLoggedIn()) {
+        <a routerLink="/login" class="btn btn-ghost btn-lg">Fazer login</a>
+      }
     </div>
     <div class="hero-badges">
       <span class="badge badge-accent">Até 4 sabores</span>

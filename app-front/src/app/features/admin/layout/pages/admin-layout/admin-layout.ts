@@ -16,13 +16,13 @@ import { AuthService } from '../../../../../core/services/auth.service';
 export class AdminLayout {
 
   layout = inject(AdminLayoutService);
-  private auth   = inject(AuthService);
+  auth   = inject(AuthService);
+
   private router = inject(Router);
 
-  user = this.auth.getUserFromToken();
-
   get initials(): string {
-    return (this.user?.name ?? 'A').split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    const name = this.auth.currentUser()?.name ?? 'A';
+    return name.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase();
   }
 
   private titleMap: Record<string, string> = {

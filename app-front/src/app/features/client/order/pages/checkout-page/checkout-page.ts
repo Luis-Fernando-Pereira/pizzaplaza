@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { OrderBuilderService } from '../../services/order-builder.service';
@@ -17,13 +17,13 @@ import { PizzaSize } from '../../../pizzas/models/pizza-size.enum';
 })
 export class CheckoutPage {
 
-  private auth    = inject(AuthService);
-  private toast   = inject(ToastService);
+  auth         = inject(AuthService);
+  orderBuilder = inject(OrderBuilderService);
+
+  private toast    = inject(ToastService);
   private orderApi = inject(OrderApiService);
   private router   = inject(Router);
 
-  orderBuilder = inject(OrderBuilderService);
-  user = this.auth.getUserFromToken();
   loading = false;
 
   sizeMeta(size: string): string {
@@ -37,11 +37,13 @@ export class CheckoutPage {
     if (this.loading) return;
     this.loading = true;
 
+    const user = this.auth.currentUser();
+
     const request: Order = {
       status: 'RECEIVED',
       custumer: {
-        userOid: this.user?.oid ?? '',
-        name: this.user?.name ?? ''
+        userOid: user?.oid ?? '',
+        name: user?.name ?? ''
       },
       pizzaList: this.orderBuilder.pizzas,
       totalPrice: this.orderBuilder.totalPrice

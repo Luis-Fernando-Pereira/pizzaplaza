@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { clientAuthGuard } from '../guards/client-auth.guard';
+import { ClientLayout } from '../layout/client-layout';
 
 export const CLIENT_ROUTES: Routes = [
   {
@@ -15,23 +16,28 @@ export const CLIENT_ROUTES: Routes = [
         .then(c => c.ClientRegisterPage)
   },
   {
-    path: 'pizzas',
-    loadChildren: () =>
-      import('../pizzas/routes/pizza.routes')
-        .then(c => c.PIZZA_ROUTES)
-  },
-  {
-    path: 'orders',
-    canActivate: [clientAuthGuard],
-    loadChildren: () =>
-      import('../order/routes/order.routes')
-        .then(c => c.ORDER_ROUTES)
-  },
-  {
     path: '',
-    loadChildren: () =>
-      import('../home/routes/home.routes')
-        .then(c => c.HOME_ROUTES)
+    component: ClientLayout,
+    children: [
+      {
+        path: 'pizzas',
+        loadChildren: () =>
+          import('../pizzas/routes/pizza.routes')
+            .then(c => c.PIZZA_ROUTES)
+      },
+      {
+        path: 'orders',
+        canActivate: [clientAuthGuard],
+        loadChildren: () =>
+          import('../order/routes/order.routes')
+            .then(c => c.ORDER_ROUTES)
+      },
+      {
+        path: '',
+        loadChildren: () =>
+          import('../home/routes/home.routes')
+            .then(c => c.HOME_ROUTES)
+      }
+    ]
   }
 ];
-

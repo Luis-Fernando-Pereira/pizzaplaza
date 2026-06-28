@@ -1,0 +1,35 @@
+<div class="client-shell">
+
+  <header class="client-navbar">
+    <div class="navbar-inner">
+
+      <a routerLink="/" class="navbar-logo">Pizza Plaza</a>
+
+      <nav class="navbar-links">
+        <a routerLink="/pizzas">Montar pizza</a>
+        <a routerLink="/orders/cart" class="nav-cart-link">
+          Meu pedido
+          @if (orderBuilder.pizzas.length > 0) {
+            <span class="cart-badge">{{ orderBuilder.pizzas.length }}</span>
+          }
+        </a>
+      </nav>
+
+      @if (auth.isLoggedIn()) {
+        <div class="navbar-user">
+          <div class="user-avatar-sm">{{ auth.initials }}</div>
+          <span class="user-display-name">{{ auth.currentUser()?.name }}</span>
+          <button class="btn-logout" (click)="auth.logout()">Sair</button>
+        </div>
+      } @else {
+        <a routerLink="/login" class="btn btn-primary btn-sm">Entrar</a>
+      }
+
+    </div>
+  </header>
+
+  <main class="client-content">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>
