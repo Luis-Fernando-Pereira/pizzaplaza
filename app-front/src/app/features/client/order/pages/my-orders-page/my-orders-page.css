@@ -115,6 +115,66 @@
   flex-direction: column;
   gap: var(--space-4);
   padding: var(--space-5);
+  transition: box-shadow 0.3s ease;
+}
+
+.order-card--updated {
+  animation: pulse-border 2s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0); }
+  50%       { box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.45); }
+}
+
+/* ── Badge de atualização ────────────────── */
+.update-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: #FFF7ED;
+  border: 1px solid #FED7AA;
+  border-radius: var(--radius-md, 8px);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: #9A3412;
+}
+
+.update-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #EA580C;
+  flex-shrink: 0;
+  animation: pulse-dot 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+
+.update-label {
+  flex: 1;
+}
+
+.update-dismiss {
+  background: none;
+  border: none;
+  color: #9A3412;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 var(--space-1);
+  opacity: 0.6;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+
+.update-dismiss:hover {
+  opacity: 1;
 }
 
 .order-card-header {

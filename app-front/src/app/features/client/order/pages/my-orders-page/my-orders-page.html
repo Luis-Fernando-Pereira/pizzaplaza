@@ -49,7 +49,16 @@
     <div class="orders-list animate-fade-in-up">
       @for (order of orders(); track order.oid) {
 
-        <div class="order-card card">
+        <div class="order-card card" [class.order-card--updated]="isUpdated(order)">
+
+          <!-- Badge de atualização -->
+          @if (isUpdated(order)) {
+            <div class="update-badge animate-fade-in-up">
+              <span class="update-dot"></span>
+              <span class="update-label">{{ updatedLabel(order) }}</span>
+              <button class="update-dismiss" (click)="dismissUpdate(order.oid!)">×</button>
+            </div>
+          }
 
           <!-- Cabeçalho do card -->
           <div class="order-card-header">

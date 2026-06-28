@@ -24,14 +24,17 @@ export class MyOrdersPage implements OnInit, OnDestroy {
   private api  = inject(OrderApiService);
   private auth = inject(AuthService);
 
-  orders   = signal<Order[]>([]);
-  loading  = signal(true);
-  error    = signal('');
-  toastMsg = signal('');
-  showToast = signal(false);
+  orders        = signal<Order[]>([]);
+  loading       = signal(true);
+  error         = signal('');
+  toastMsg      = signal('');
+  showToast     = signal(false);
+  updatedOids   = signal<Set<string>>(new Set());
+  updatedLabels = signal<Map<string, string>>(new Map());
 
   private eventSource?: EventSource;
   private toastTimer?: ReturnType<typeof setTimeout>;
+  private dismissTimers = new Map<string, ReturnType<typeof setTimeout>>();
 
   ngOnInit(): void {
     this.load();
@@ -41,6 +44,7 @@ export class MyOrdersPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.eventSource?.close();
     if (this.toastTimer) clearTimeout(this.toastTimer);
+    this.dismissTimers.forEach(t => clearTimeout(t));
   }
 
   load(): void {
@@ -67,15 +71,37 @@ export class MyOrdersPage implements OnInit, OnDestroy {
     this.eventSource.onmessage = (ev) => {
       try {
         const event: OrderStatusEvent = JSON.parse(ev.data);
+
         this.orders.update(list =>
           list.map(o => o.oid === event.orderOid
             ? { ...o, status: event.newStatus as OrderStatus }
             : o
           )
         );
+
+        this.markUpdated(event.orderOid, event.statusLabel);
         this.triggerToast(event.statusLabel);
       } catch { /* ignore parse errors */ }
     };
+  }
+
+  private markUpdated(oid: string, label: string): void {
+    this.updatedOids.update(s => new Set([...s, oid]));
+    this.updatedLabels.update(m => new Map([...m, [oid, label]]));
+
+    if (this.dismissTimers.has(oid)) clearTimeout(this.dismissTimers.get(oid));
+
+    const timer = setTimeout(() => this.dismissUpdate(oid), 60_000);
+    this.dismissTimers.set(oid, timer);
+  }
+
+  dismissUpdate(oid: string): void {
+    if (this.dismissTimers.has(oid)) {
+      clearTimeout(this.dismissTimers.get(oid));
+      this.dismissTimers.delete(oid);
+    }
+    this.updatedOids.update(s => { const n = new Set(s); n.delete(oid); return n; });
+    this.updatedLabels.update(m => { const n = new Map(m); n.delete(oid); return n; });
   }
 
   private triggerToast(msg: string): void {
@@ -83,6 +109,14 @@ export class MyOrdersPage implements OnInit, OnDestroy {
     this.toastMsg.set(msg);
     this.showToast.set(true);
     this.toastTimer = setTimeout(() => this.showToast.set(false), 5000);
+  }
+
+  isUpdated(order: Order): boolean {
+    return this.updatedOids().has(order.oid ?? '');
+  }
+
+  updatedLabel(order: Order): string {
+    return this.updatedLabels().get(order.oid ?? '') ?? '';
   }
 
   statusLabel(status: string): string {
