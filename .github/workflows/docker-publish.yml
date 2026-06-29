@@ -115,15 +115,17 @@ jobs:
             type=raw,value=latest
 
       - name: Build e push app-front
-        uses: docker/build-push-action@v6
-        with:
-          context: ./app-front
-          file: ./app-front/Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha,scope=app-front
-          cache-to: type=gha,mode=max,scope=app-front
+        env:
+          TAGS: ${{ steps.meta.outputs.tags }}
+        run: |
+          TAG_ARGS=$(echo "$TAGS" | sed 's/^/--tag /' | tr '\n' ' ')
+          docker buildx build \
+            --cache-from "type=gha,scope=app-front" \
+            --cache-to "type=gha,mode=max,scope=app-front" \
+            --file app-front/Dockerfile \
+            $TAG_ARGS \
+            --push \
+            ./app-front
 
   deploy:
     needs: [publish-java, publish-front]
