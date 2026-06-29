@@ -10,13 +10,13 @@ jobs:
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
-      services: ${{ steps.filter.outputs.changes }}
-      app-front: ${{ steps.filter.outputs.app-front }}
+      services: ${{ steps.filter-java.outputs.changes }}
+      app-front: ${{ steps.filter-front.outputs.app-front }}
     steps:
       - uses: actions/checkout@v4
 
       - uses: dorny/paths-filter@v3
-        id: filter
+        id: filter-java
         with:
           filters: |
             auth-service:
@@ -38,6 +38,11 @@ jobs:
             api-gateway:
               - 'api-gateway/**'
               - 'pom.xml'
+
+      - uses: dorny/paths-filter@v3
+        id: filter-front
+        with:
+          filters: |
             app-front:
               - 'app-front/**'
 
