@@ -1,0 +1,75 @@
+name: Java Services CI
+
+on:
+  push:
+    paths:
+      - 'auth-service/**'
+      - 'user-service/**'
+      - 'product-service/**'
+      - 'order-service/**'
+      - 'api-gateway/**'
+      - 'libraries/**'
+      - 'pom.xml'
+  pull_request:
+    paths:
+      - 'auth-service/**'
+      - 'user-service/**'
+      - 'product-service/**'
+      - 'order-service/**'
+      - 'api-gateway/**'
+      - 'libraries/**'
+      - 'pom.xml'
+
+jobs:
+
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      services: ${{ steps.filter.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            auth-service:
+              - 'auth-service/**'
+              - 'libraries/**'
+              - 'pom.xml'
+            user-service:
+              - 'user-service/**'
+              - 'libraries/**'
+              - 'pom.xml'
+            product-service:
+              - 'product-service/**'
+              - 'libraries/**'
+              - 'pom.xml'
+            order-service:
+              - 'order-service/**'
+              - 'libraries/**'
+              - 'pom.xml'
+            api-gateway:
+              - 'api-gateway/**'
+              - 'pom.xml'
+
+  build:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.services != '[]' && needs.detect-changes.outputs.services != ''
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service: ${{ fromJSON(needs.detect-changes.outputs.services) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Compilar ${{ matrix.service }}
+        run: mvn clean verify -pl ${{ matrix.service }} -am -DskipTests

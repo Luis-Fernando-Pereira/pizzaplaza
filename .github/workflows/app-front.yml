@@ -1,25 +1,30 @@
-name: app-front
+name: Frontend CI
 
 on:
   push:
+    paths:
+      - 'app-front/**'
+  pull_request:
     paths:
       - 'app-front/**'
 
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+          cache-dependency-path: app-front/package-lock.json
 
-      - run: |
-          cd app-front
-          npm ci
-          npm run build
+      - name: Instalar dependências
+        run: npm ci
+        working-directory: app-front
+
+      - name: Build
+        run: npm run build
+        working-directory: app-front
