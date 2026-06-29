@@ -1,0 +1,28 @@
+{
+  "name": "Pizza Plaza",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+
+  "forwardPorts": [4200, 8080],
+  "portsAttributes": {
+    "4200": {
+      "label": "Frontend",
+      "onAutoForward": "openBrowserOnce"
+    },
+    "8080": {
+      "label": "API Gateway",
+      "onAutoForward": "silent"
+    }
+  },
+
+  "postStartCommand": "echo '✅ Codespace pronto. Execute: docker compose up' && echo '⚠️  Primeira execução pode levar 20-30 min (build das imagens Java)'",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "angular.ng-template",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  }
+}
