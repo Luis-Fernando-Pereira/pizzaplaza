@@ -124,8 +124,8 @@ services:
 
   app-front:
     build:
-      context: ./app-front
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: app-front/Dockerfile
     container_name: pizzaplaza-front
     ports:
       - "4200:80"
