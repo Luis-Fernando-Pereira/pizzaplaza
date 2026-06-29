@@ -4,7 +4,8 @@ WORKDIR /workspace
 
 COPY . .
 
-RUN mvn clean package \
+RUN --mount=type=cache,target=/root/.m2 \
+    mvn clean package \
     -pl product-service \
     -am \
     -DskipTests
