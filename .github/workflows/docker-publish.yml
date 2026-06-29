@@ -1,4 +1,4 @@
-name: Docker Publish
+name: Docker Publish & Deploy
 
 on:
   push:
@@ -123,3 +123,37 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha,scope=app-front
           cache-to: type=gha,mode=max,scope=app-front
+
+  deploy:
+    needs: [publish-java, publish-front]
+    # Roda se pelo menos um publish teve sucesso e nenhum falhou
+    # (skipped é aceitável — acontece quando só Java ou só front mudou)
+    if: >-
+      always() &&
+      !cancelled() &&
+      !contains(needs.*.result, 'failure') &&
+      (needs.publish-java.result == 'success' || needs.publish-front.result == 'success')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Copiar arquivos de composição para o servidor
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          source: docker-compose.yml,docker-compose.prod.yml
+          target: ${{ vars.DEPLOY_PATH }}
+
+      - name: Atualizar imagens e reiniciar serviços
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            cd ${{ vars.DEPLOY_PATH }}
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --remove-orphans
+            docker image prune -f

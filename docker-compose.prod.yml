@@ -1,0 +1,32 @@
+# Sobrepõe docker-compose.yml para ambientes de produção:
+# substitui build por imagens pré-construídas no GHCR.
+#
+# Uso no servidor:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+services:
+
+  auth-service:
+    image: ghcr.io/luis-fernando-pereira/pizzaplaza-auth-service:latest
+    build: !reset null
+
+  user-service:
+    image: ghcr.io/luis-fernando-pereira/pizzaplaza-user-service:latest
+    build: !reset null
+
+  product-service:
+    image: ghcr.io/luis-fernando-pereira/pizzaplaza-product-service:latest
+    build: !reset null
+
+  order-service:
+    image: ghcr.io/luis-fernando-pereira/pizzaplaza-order-service:latest
+    build: !reset null
+
+  api-gateway:
+    image: ghcr.io/luis-fernando-pereira/pizzaplaza-api-gateway:latest
+    build: !reset null
+
+  app-front:
+    image: ghcr.io/luis-fernando-pereira/pizzaplaza-app-front:latest
+    build: !reset null
