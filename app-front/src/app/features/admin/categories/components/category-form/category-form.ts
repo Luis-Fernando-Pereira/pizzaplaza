@@ -1,6 +1,8 @@
 import { Component, effect, inject, input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Category } from '../../models/category.model';
 import { CategoryService } from '../../services/category.service';
 import { ToastService } from '../../../../../shared/services/toast.service';
@@ -46,13 +48,13 @@ export class CategoryFormComponent {
       description: this.form.value.description!
     };
 
-    const request$ = payload.oid
+    const request$: Observable<unknown> = payload.oid
       ? this.service.update(payload)
       : this.service.save(payload);
 
     request$.subscribe({
       next: () => this.router.navigate(['/admin/categories']),
-      error: (err) => this.toast.error(extractErrorMessage(err, 'Erro ao salvar categoria.'))
+      error: (err: HttpErrorResponse) => this.toast.error(extractErrorMessage(err, 'Erro ao salvar categoria.'))
     });
   }
 }

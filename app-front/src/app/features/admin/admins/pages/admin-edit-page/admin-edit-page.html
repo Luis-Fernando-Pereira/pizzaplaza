@@ -6,6 +6,14 @@
   <a class="btn btn-ghost" routerLink="/admin/admins">← Voltar</a>
 </div>
 
-@if (admin()) {
-  <app-admin-form [admin]="admin()"></app-admin-form>
+@if (loading()) {
+  <div class="card" style="padding:var(--space-10);text-align:center;color:var(--color-text-muted)">
+    Carregando...
+  </div>
+} @else if (admin()) {
+  <app-admin-form [admin]="admin()" />
+} @else {
+  <div class="card" style="padding:var(--space-10);text-align:center;color:var(--color-text-muted)">
+    Administrador não encontrado.
+  </div>
 }

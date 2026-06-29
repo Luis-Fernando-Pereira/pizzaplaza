@@ -28,9 +28,16 @@
     </div>
 
     <div class="form-group">
-      <label class="form-label" for="password">Senha</label>
-      <input id="password" type="password" class="form-input" formControlName="password" placeholder="Mínimo 8 caracteres">
-      @if (form.controls.password.invalid && form.controls.password.touched) {
+      <label class="form-label" for="password">
+        Senha
+        @if (isEdit()) {
+          <span style="font-weight:400;color:var(--color-text-muted);margin-left:var(--space-2)">(deixe em branco para manter)</span>
+        }
+      </label>
+      <input id="password" type="password" class="form-input" formControlName="password"
+             [placeholder]="isEdit() ? 'Nova senha (opcional)' : 'Mínimo 8 caracteres'">
+      @if (form.controls.password.invalid && form.controls.password.touched
+           && (!isEdit() || (form.controls.password.value ?? '') !== '')) {
         <span class="form-error">Mínimo 8 caracteres</span>
       }
     </div>
@@ -38,7 +45,7 @@
 
   <div class="form-actions">
     <button type="submit" class="btn btn-primary">
-      @if (form.value.oid) { Atualizar } @else { Salvar }
+      @if (isEdit()) { Atualizar } @else { Salvar }
     </button>
   </div>
 

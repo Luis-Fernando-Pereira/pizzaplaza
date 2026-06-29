@@ -1,6 +1,8 @@
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { AdminApiService } from '../../services/admin-api.service';
 import { AdminUser } from '../../models/admin-user.model';
 import { ToastService } from '../../../../../shared/services/toast.service';
@@ -22,11 +24,13 @@ export class AdminFormComponent {
 
   admin = input<AdminUser | null>(null);
 
+  readonly isEdit = computed(() => !!this.admin()?.oid);
+
   form = this.fb.group({
-    oid: [''],
-    name: ['', [Validators.required, Validators.maxLength(100)]],
-    cpf: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
+    oid:      [''],
+    name:     ['', [Validators.required, Validators.maxLength(100)]],
+    cpf:      ['', [Validators.required]],
+    email:    ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(8)]]
   });
 
@@ -36,6 +40,11 @@ export class AdminFormComponent {
       if (!admin) return;
 
       this.form.patchValue({ oid: admin.oid, name: admin.name, cpf: admin.cpf, email: admin.email });
+
+      const pwCtrl = this.form.controls.password;
+      pwCtrl.clearValidators();
+      pwCtrl.addValidators(Validators.minLength(8));
+      pwCtrl.updateValueAndValidity();
     });
   }
 
@@ -48,21 +57,21 @@ export class AdminFormComponent {
     const { oid, name, cpf, email, password } = this.form.value;
 
     const payload: AdminUser = {
-      oid: oid ?? undefined,
-      name: name!,
-      cpf: cpf!,
-      email: email!,
-      password: password!,
+      oid:      oid ?? undefined,
+      name:     name!,
+      cpf:      cpf!,
+      email:    email!,
+      password: password?.trim() || undefined,
       userType: 'ADMIN'
     };
 
-    const request$ = payload.oid
+    const request$: Observable<unknown> = payload.oid
       ? this.service.update(payload)
       : this.service.create(payload);
 
     request$.subscribe({
-      next: () => this.router.navigate(['/admin/admins']),
-      error: (err) => this.toast.error(extractErrorMessage(err, 'Erro ao salvar administrador.'))
+      next:  () => this.router.navigate(['/admin/admins']),
+      error: (err: HttpErrorResponse) => this.toast.error(extractErrorMessage(err, 'Erro ao salvar administrador.'))
     });
   }
 }

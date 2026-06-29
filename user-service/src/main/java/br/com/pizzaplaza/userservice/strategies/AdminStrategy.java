@@ -40,7 +40,7 @@ public class AdminStrategy implements ActorStrategy {
     @Override
     @Transactional
     public void delete(String oid) {
-        Admin admin = adminRepository.findByOid(oid)
+        Admin admin = adminRepository.findByUserOid(oid)
                 .orElseThrow(() -> new IllegalArgumentException("Admin não encontrado: " + oid));
         adminRepository.delete(admin);
     }
@@ -59,7 +59,7 @@ public class AdminStrategy implements ActorStrategy {
 
     @Override
     public UserDto findByOid(String oid) {
-        return adminRepository.findByOid(oid)
+        return adminRepository.findByUserOid(oid)
                 .map(this::convertToDto)
                 .orElse(null);
     }

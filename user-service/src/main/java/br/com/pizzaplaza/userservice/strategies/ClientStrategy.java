@@ -40,7 +40,7 @@ public class ClientStrategy implements ActorStrategy {
     @Override
     @Transactional
     public void delete(String oid) {
-        Client client = clientRepository.findByOid(oid)
+        Client client = clientRepository.findByUserOid(oid)
                 .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + oid));
         clientRepository.delete(client);
     }
@@ -59,7 +59,7 @@ public class ClientStrategy implements ActorStrategy {
 
     @Override
     public UserDto findByOid(String oid) {
-        return clientRepository.findByOid(oid)
+        return clientRepository.findByUserOid(oid)
                 .map(this::convertToDto)
                 .orElse(null);
     }

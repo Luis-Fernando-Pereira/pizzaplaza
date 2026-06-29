@@ -40,7 +40,7 @@ public class SellerStrategy implements ActorStrategy {
     @Override
     @Transactional
     public void delete(String oid) {
-        Seller seller = sellerRepository.findByOid(oid)
+        Seller seller = sellerRepository.findByUserOid(oid)
                 .orElseThrow(() -> new IllegalArgumentException("Vendedor não encontrado: " + oid));
         sellerRepository.delete(seller);
     }
@@ -59,7 +59,7 @@ public class SellerStrategy implements ActorStrategy {
 
     @Override
     public UserDto findByOid(String oid) {
-        return sellerRepository.findByOid(oid)
+        return sellerRepository.findByUserOid(oid)
                 .map(this::convertToDto)
                 .orElse(null);
     }

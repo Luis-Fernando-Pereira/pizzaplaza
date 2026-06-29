@@ -19,14 +19,16 @@ export class AdminEditPage implements OnInit {
   private route = inject(ActivatedRoute);
   private toast = inject(ToastService);
 
-  admin = signal<AdminUser | null>(null);
+  admin   = signal<AdminUser | null>(null);
+  loading = signal(true);
 
   ngOnInit(): void {
     const oid = this.route.snapshot.paramMap.get('oid')!;
 
     this.api.findByOid(oid).subscribe({
-      next: admin => this.admin.set(admin),
-      error: (err) => this.toast.error(extractErrorMessage(err, 'Erro ao carregar administrador.'))
+      next:     admin => this.admin.set(admin),
+      error:    (err) => this.toast.error(extractErrorMessage(err, 'Erro ao carregar administrador.')),
+      complete: () => this.loading.set(false)
     });
   }
 }

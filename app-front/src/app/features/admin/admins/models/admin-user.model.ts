@@ -3,6 +3,6 @@ export interface AdminUser {
   name: string;
   cpf: string;
   email: string;
-  password: string;
+  password?: string;
   userType: 'ADMIN';
 }
