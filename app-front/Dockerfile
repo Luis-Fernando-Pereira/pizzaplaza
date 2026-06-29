@@ -3,18 +3,18 @@ FROM node:22-alpine AS build
 
 WORKDIR /app
 
-COPY app-front/package*.json ./
+COPY package*.json ./
 
 RUN npm ci
 
-COPY app-front/ .
+COPY . .
 
 RUN npm run build
 
 # Etapa de execução
 FROM nginx:alpine
 
-COPY app-front/nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build /app/dist/app-front/browser /usr/share/nginx/html
 
