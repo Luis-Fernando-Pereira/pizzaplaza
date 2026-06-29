@@ -109,6 +109,7 @@ services:
     container_name: api-gateway
     environment:
       QUARKUS_PROFILE: prod
+      QUARKUS_HTTP_CORS_ENABLED: "false"
     ports:
       - "8080:8080"
     depends_on:
