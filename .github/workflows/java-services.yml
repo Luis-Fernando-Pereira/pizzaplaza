@@ -72,5 +72,5 @@ jobs:
           java-version: '21'
           cache: maven
 
-      - name: Compilar ${{ matrix.service }}
-        run: mvn clean verify -pl ${{ matrix.service }} -am -DskipTests
+      - name: Compilar e testar ${{ matrix.service }}
+        run: mvn clean verify -pl ${{ matrix.service }} -am
