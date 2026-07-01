@@ -1,0 +1,49 @@
+# SonarQube self-hosted para análise local de qualidade/cobertura.
+# Uso:
+#   sudo sysctl -w vm.max_map_count=262144   (pré-requisito do Elasticsearch interno)
+#   docker compose -f docker-compose.sonar.yml up -d
+#   Acesse http://localhost:9000  (login inicial: admin/admin)
+# Separado do docker-compose.yml por ser pesado e exclusivo de desenvolvimento.
+services:
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: pizzaplaza-sonar
+    depends_on:
+      sonar-db:
+        condition: service_healthy
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://sonar-db:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+    ports:
+      - "9000:9000"
+    volumes:
+      - sonar_data:/opt/sonarqube/data
+      - sonar_extensions:/opt/sonarqube/extensions
+      - sonar_logs:/opt/sonarqube/logs
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+  sonar-db:
+    image: postgres:17
+    container_name: pizzaplaza-sonar-db
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+      POSTGRES_DB: sonar
+    volumes:
+      - sonar_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sonar -d sonar"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  sonar_data:
+  sonar_extensions:
+  sonar_logs:
+  sonar_pgdata:

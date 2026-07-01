@@ -15,3 +15,8 @@
 
 /api-gateway/target/
 /user-service/target/
+
+# SonarQube / cobertura
+/.scannerwork/
+.sonar/
+/app-front/coverage/

@@ -1,0 +1,76 @@
+name: SonarQube Analysis
+
+# Análise de qualidade/cobertura do projeto inteiro (backend + frontend) como
+# um único projeto SonarQube.
+#
+# Requisitos (Settings > Secrets and variables > Actions):
+#   SONAR_TOKEN     -> token de análise gerado no SonarQube
+#   SONAR_HOST_URL  -> URL do servidor SonarQube acessível pelo runner
+#
+# Observação: um servidor self-hosted em localhost NÃO é acessível pelos runners
+# hospedados na nuvem do GitHub. Use um runner self-hosted na mesma rede do
+# servidor, ou exponha o SonarQube publicamente, ou aponte para um SonarCloud.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  sonar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # histórico completo para o cálculo de "new code"
+
+      - name: Configurar Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Configurar Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app-front/package-lock.json
+
+      - name: Cache do SonarQube
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Build e testes Java (gera cobertura JaCoCo)
+        run: ./mvnw -B clean verify
+
+      - name: Instalar dependências do frontend
+        run: npm ci
+        working-directory: app-front
+
+      - name: Testes do frontend (gera cobertura LCOV)
+        run: npm test -- --watch=false
+        working-directory: app-front
+
+      - name: Ajustar caminhos do LCOV para a raiz do repositório
+        run: sed -i 's|^SF:|SF:app-front/|' app-front/coverage/app-front/lcov.info
+
+      - name: Análise SonarQube
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      # Falha o job se o Quality Gate não passar (requer SonarQube >= servidor configurado).
+      - name: Verificar Quality Gate
+        uses: SonarSource/sonarqube-quality-gate-action@v1
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}

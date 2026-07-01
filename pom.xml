@@ -30,6 +30,7 @@
         <quarkus.platform.version>3.37.0</quarkus.platform.version>
 
         <surefire-plugin.version>3.5.4</surefire-plugin.version>
+        <jacoco-plugin.version>0.8.13</jacoco-plugin.version>
     </properties>
 
     <!-- BOM do Quarkus -->
@@ -86,8 +87,39 @@
                     <version>${surefire-plugin.version}</version>
                 </plugin>
 
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco-plugin.version}</version>
+                </plugin>
+
             </plugins>
         </pluginManagement>
+
+        <!-- Plugins ativos herdados por todos os módulos: cobertura JaCoCo -->
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <!-- Injeta o agente JaCoCo no argLine usado pelo Surefire -->
+                    <execution>
+                        <id>jacoco-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- Gera o relatório XML (consumido pelo SonarQube) ao final dos testes -->
+                    <execution>
+                        <id>jacoco-report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
     <profiles>
