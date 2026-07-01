@@ -1,4 +1,4 @@
-name: Docker Publish & Deploy
+name: Docker Publish
 
 on:
   workflow_dispatch:
@@ -46,8 +46,50 @@ jobs:
             app-front:
               - 'app-front/**'
 
-  publish-java:
+  test-java:
     needs: detect-changes
+    if: needs.detect-changes.outputs.services != '[]' && needs.detect-changes.outputs.services != ''
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service: ${{ fromJSON(needs.detect-changes.outputs.services) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Compilar e testar ${{ matrix.service }}
+        run: mvn clean verify -pl ${{ matrix.service }} -am
+
+  test-front:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.app-front == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app-front/package-lock.json
+
+      - name: Instalar dependências
+        run: npm ci
+        working-directory: app-front
+
+      - name: Testar
+        run: npm test -- --watch=false
+        working-directory: app-front
+
+  publish-java:
+    needs: [detect-changes, test-java]
     if: needs.detect-changes.outputs.services != '[]' && needs.detect-changes.outputs.services != ''
     runs-on: ubuntu-latest
     permissions:
@@ -91,7 +133,7 @@ jobs:
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
 
   publish-front:
-    needs: detect-changes
+    needs: [detect-changes, test-front]
     if: needs.detect-changes.outputs.app-front == 'true'
     runs-on: ubuntu-latest
     permissions:
@@ -131,37 +173,3 @@ jobs:
             $TAG_ARGS \
             --push \
             ./app-front
-
-  deploy:
-    needs: [publish-java, publish-front]
-    # Roda se pelo menos um publish teve sucesso e nenhum falhou
-    # (skipped é aceitável — acontece quando só Java ou só front mudou)
-    if: >-
-      always() &&
-      !cancelled() &&
-      !contains(needs.*.result, 'failure') &&
-      (needs.publish-java.result == 'success' || needs.publish-front.result == 'success')
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Copiar arquivos de composição para o servidor
-        uses: appleboy/scp-action@v1
-        with:
-          host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
-          source: docker-compose.yml,docker-compose.prod.yml
-          target: ${{ vars.DEPLOY_PATH }}
-
-      - name: Atualizar imagens e reiniciar serviços
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
-          script: |
-            cd ${{ vars.DEPLOY_PATH }}
-            docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
-            docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --remove-orphans
-            docker image prune -f

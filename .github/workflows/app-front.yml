@@ -27,7 +27,7 @@ jobs:
         working-directory: app-front
 
       - name: Testar
-        run: npm test
+        run: npm test -- --watch=false
         working-directory: app-front
 
       - name: Build
